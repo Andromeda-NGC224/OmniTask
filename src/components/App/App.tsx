@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import { Route, Routes } from 'react-router';
 import Sidebar from '../Sidebar/Sidebar';
 import { Box, Toolbar } from '@mui/material';
+import Header from '../Header/Header';
 
 import './App.css';
 
@@ -9,8 +10,9 @@ const TasksPage = lazy(() => import('../../pages/TasksPage/TasksPage'));
 
 export default function App() {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', backgroundColor: 'background.default' }}>
       <Sidebar />
+      <Header />
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
         <Routes>

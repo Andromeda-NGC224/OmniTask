@@ -7,6 +7,8 @@ import {
   ListItemButton,
   Box,
   Button,
+  useTheme,
+  useColorScheme,
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
@@ -16,108 +18,61 @@ import { BsFillKanbanFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { BiLogOut } from 'react-icons/bi';
 
-const drawerWidth = 240;
+const drawerWidth = 280;
 
 export default function Sidebar() {
+  const theme = useTheme();
+  const { mode } = useColorScheme();
+
+  console.log('mode', mode);
+
   return (
     <Drawer
       variant='permanent'
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
+        '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
+          borderRight: mode === 'dark' ? 'none' : '1px solid #eaeaea',
         },
       }}
     >
-      <Box sx={{ paddingBottom: '60px', paddingTop: '60px' }}>
+      <Box sx={{ paddingBottom: 8, paddingTop: 5 }}>
         <Logo />
       </Box>
-      <List>
-        <ListItem>
-          <NavLink to='/' style={{ width: '100%' }}>
-            <ListItemButton sx={{ backgroundColor: 'primary.light' }}>
-              <ListItemIcon>
-                <FaTasks size={24} />
-              </ListItemIcon>
-              <ListItemText
-                primary='Tasks'
-                slotProps={{
-                  primary: {
-                    sx: { fontWeight: 'bold', color: 'primary.main' },
-                  },
-                }}
-              />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink
-            to='/dashboard'
-            style={{
-              width: '100%',
-            }}
-          >
-            <ListItemButton sx={{ backgroundColor: 'primary.light' }}>
-              <ListItemIcon>
-                <LuLayoutDashboard size={24} />
-              </ListItemIcon>
-              <ListItemText
-                primary='Dashboard'
-                slotProps={{
-                  primary: {
-                    sx: { fontWeight: 'bold', color: 'primary.main' },
-                  },
-                }}
-              />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink
-            to='/kanban'
-            style={{
-              width: '100%',
-            }}
-          >
-            <ListItemButton sx={{ backgroundColor: 'primary.light' }}>
-              <ListItemIcon>
-                <BsFillKanbanFill size={24} />
-              </ListItemIcon>
-              <ListItemText
-                primary='Kanban'
-                slotProps={{
-                  primary: {
-                    sx: { fontWeight: 'bold', color: 'primary.main' },
-                  },
-                }}
-              />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
-        <ListItem>
-          <NavLink
-            to='/profile'
-            style={{
-              width: '100%',
-            }}
-          >
-            <ListItemButton sx={{ backgroundColor: 'primary.light' }}>
-              <ListItemIcon>
-                <CgProfile size={24} />
-              </ListItemIcon>
-              <ListItemText
-                primary='Profile'
-                slotProps={{
-                  primary: {
-                    sx: { fontWeight: 'bold', color: 'primary.main' },
-                  },
-                }}
-              />
-            </ListItemButton>
-          </NavLink>
-        </ListItem>
+      <List sx={{ py: 0 }}>
+        {[
+          { to: '/', label: 'Tasks', icon: <FaTasks size={24} /> },
+          {
+            to: '/dashboard',
+            label: 'Dashboard',
+            icon: <LuLayoutDashboard size={24} />,
+          },
+          {
+            to: '/kanban',
+            label: 'Kanban',
+            icon: <BsFillKanbanFill size={24} />,
+          },
+          { to: '/profile', label: 'Profile', icon: <CgProfile size={24} /> },
+        ].map(({ to, label, icon }) => (
+          <ListItem key={label}>
+            <NavLink to={to} style={{ width: '100%' }}>
+              <ListItemButton sx={{ backgroundColor: 'primary.light' }}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText
+                  primary={label}
+                  slotProps={{
+                    primary: {
+                      sx: { fontWeight: 'bold', color: 'primary.main' },
+                    },
+                  }}
+                />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+        ))}
       </List>
       <Box sx={{ mt: 'auto', mb: '40px', p: 2 }}>
         <Button
@@ -125,9 +80,7 @@ export default function Sidebar() {
           startIcon={<BiLogOut size={24} />}
           variant='outlined'
           color='error'
-          sx={{
-            fontWeight: 'bold',
-          }}
+          sx={{ fontWeight: 'bold' }}
         >
           Log out
         </Button>

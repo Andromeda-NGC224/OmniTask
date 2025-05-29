@@ -13,7 +13,7 @@ const Logo = () => (
       gap: 1,
       color: 'inherit',
       textDecoration: 'none',
-      p: 2,
+      px: 2,
     }}
   >
     <GiNotebook size={24} color='#2563DC' />
