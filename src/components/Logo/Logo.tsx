@@ -9,14 +9,14 @@ const Logo = () => (
     sx={{
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'start',
       gap: 1,
-      color: 'inherit',
+      color: 'primary.main',
       textDecoration: 'none',
       px: 2,
     }}
   >
-    <GiNotebook size={24} color='#2563DC' />
+    <GiNotebook size={24} color='inherit' />
     <Typography variant='h6' sx={{ fontWeight: 700 }}>
       OmniTask.
     </Typography>

@@ -1,4 +1,4 @@
-import { Card, Typography, Box, Chip } from '@mui/material';
+import { Card, Typography, Box, Chip, useColorScheme } from '@mui/material';
 import type { Task } from '../../../../types/tasks';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
@@ -8,6 +8,7 @@ interface TaskCardProps {
 }
 
 export default function TaskCard({ task }: TaskCardProps) {
+  const { mode } = useColorScheme();
   const isCompleted = task.completed;
 
   return (
@@ -21,6 +22,8 @@ export default function TaskCard({ task }: TaskCardProps) {
         flexWrap: 'wrap',
         gap: 2,
         borderRadius: 3,
+        border: mode === 'light' ? '1px solid' : 'none',
+        borderColor: 'divider',
       }}
     >
       <Box sx={{ textAlign: 'left' }}>
@@ -37,12 +40,11 @@ export default function TaskCard({ task }: TaskCardProps) {
         icon={isCompleted ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />}
         label={isCompleted ? 'Completed' : 'Pending'}
         sx={{
-          bgcolor: isCompleted ? '#E6F4EA' : '#FFF4E5',
-          color: isCompleted ? '#2E7D32' : '#ED6C02',
-          border: '1px solid',
-          borderColor: isCompleted ? '#A5D6A7' : '#FFCC80',
+          padding: '12px 4px',
+          bgcolor: isCompleted ? 'success.main' : 'warning.main',
+          color: 'text.main',
           '.MuiChip-icon': {
-            color: isCompleted ? '#66BB6A' : '#FFA726',
+            color: 'text.main',
             ml: '4px',
           },
         }}

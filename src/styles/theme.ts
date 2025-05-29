@@ -78,7 +78,7 @@ const theme = extendTheme({
     MuiListItemIcon: {
       styleOverrides: {
         root: ({ theme }) => ({
-          color: theme.palette.primary.main,
+          color: theme.palette.text.secondary,
         }),
       },
     },
