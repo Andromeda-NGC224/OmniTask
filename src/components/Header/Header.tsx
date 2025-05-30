@@ -1,11 +1,11 @@
 import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
-
-import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
-import UserMenu from '../UserMenu/UserMenu';
-import ThemeSwitcher from './ThemeSwitcher/ThemeSwitcher';
-import Logo from 'components/Logo/Logo';
 import { BiMenu } from 'react-icons/bi';
+
+import ThemeSwitcher from './ThemeSwitcher/ThemeSwitcher';
+import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher';
+import { Logo } from 'components/Logo';
+import { UserMenu } from 'components/UserMenu';
 
 interface HeaderProps {
   onMenuToggle: () => void;
