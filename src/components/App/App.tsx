@@ -6,9 +6,8 @@ import { Box, Toolbar } from '@mui/material';
 import { Sidebar } from 'components/Sidebar';
 import { Header } from 'components/Header';
 
-import './App.css';
-
 const TasksPage = lazy(() => import('../../pages/TasksPage/TasksPage'));
+const TestPage = lazy(() => import('../../pages/TestPage/TestPage'));
 
 export default function App() {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -23,6 +22,7 @@ export default function App() {
         <Toolbar />
         <Routes>
           <Route path='/' element={<TasksPage />} />
+          <Route path='/test' element={<TestPage />} />
         </Routes>
       </Box>
     </Box>
