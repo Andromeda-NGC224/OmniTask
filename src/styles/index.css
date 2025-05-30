@@ -1,4 +1,50 @@
 :root {
+  --primary-color-brand: #5429ff; /* Primary color-brand */
+  --background: #f1f2f6; /* Background */
+  --sec-background: #ffffff; /* Secondary background */
+  --inputfield-background: #f7f8fd; /* Input field background */
+  --border-color: #eaeaea; /* Border color */
+
+  --main-text: #1b1a17; /* Main text */
+  --sec-text: #7a797d; /* Secondary text */
+
+  --active-icon: #1b1a17; /* Active icon */
+  --deactive-icon: #bdbdbd; /* Deactive icon */
+
+  --notification: #f2994a; /* Notification */
+  --high-priority-task: #eb5757; /* High priority task */
+  --medium-priority-task: #f2994a; /* Medium priority task */
+  --low-priority-task: #c8d9cf; /* Low priority task */
+
+  --high-warning: #eb5757; /* High warning */
+  --medium-warning: #f2994a; /* Medium warning */
+  --success: #219653; /* Success */
+  --info: #2f80ed; /* Info */
+}
+
+/* Переменные для тёмной темы */
+[data-theme='dark'] {
+  --primary-color-brand: #bfb2ff; /* Primary color-brand */
+  --background: #333333; /* Background */
+  --sec-background: #2c2c2c; /* Secondary background */
+  --inputfield-background: #1b1a17; /* Input field background */
+  --border-color: #a8a8a8; /* Border color */
+
+  --main-text: #ffffff; /* Main text */
+  --sec-text: #9e9e9e; /* Secondary text */
+
+  --active-icon: #ffffff; /* Active icon */
+  --deactive-icon: #9e9e9e; /* Deactive icon */
+
+  --notification: #f2994a; /* Notification */
+  --high-priority-task: #eb5757; /* High priority task */
+  --medium-priority-task: #f2994a; /* Medium priority task */
+  --low-priority-task: #c8d9cf; /* Low priority task */
+
+  --high-warning: #eb5757; /* High warning */
+  --medium-warning: #f2994a; /* Medium warning */
+  --success: #219653; /* Success */
+  --info: #bfb2ff; /* Info */
 }
 h1,
 h2,
