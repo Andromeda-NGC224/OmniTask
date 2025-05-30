@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './components/App/App';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme';
+import './config/i18n';
 import './styles/index.css';
 
 createRoot(document.getElementById('root')!).render(

@@ -18,6 +18,7 @@ import { LuLayoutDashboard } from 'react-icons/lu';
 import { BsFillKanbanFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { BiLogOut } from 'react-icons/bi';
+import { GrBug } from 'react-icons/gr';
 
 const drawerWidth = 265;
 const collapsedWidth = 80;
@@ -35,6 +36,7 @@ export default function Sidebar({ open }: { open: boolean }) {
     },
     { to: '/kanban', label: 'Kanban', icon: <BsFillKanbanFill size={24} /> },
     { to: '/profile', label: 'Profile', icon: <CgProfile size={24} /> },
+    { to: '/test', label: 'Test', icon: <GrBug size={24} /> },
   ];
 
   return (
