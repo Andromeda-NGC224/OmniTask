@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter } from 'react-router-dom';
-import App from './components/App/App';
+import { App } from 'components';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './styles/theme';
 import './config/i18n';

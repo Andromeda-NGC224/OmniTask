@@ -1,12 +1,8 @@
 import { Card, Typography, Box, Chip, useColorScheme } from '@mui/material';
-import type { Task } from '../../../../types/tasks';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import { useTranslation } from 'react-i18next';
-
-interface TaskCardProps {
-  task: Task;
-}
+import type { TaskCardProps } from './types';
 
 export default function TaskCard({ task }: TaskCardProps) {
   const { mode } = useColorScheme();
@@ -30,10 +26,10 @@ export default function TaskCard({ task }: TaskCardProps) {
     >
       <Box sx={{ textAlign: 'left' }}>
         <Typography variant='h6' fontWeight='bold' gutterBottom>
-          {t(`tasks.${task.id}.title`)}
+          {task.title}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {t(`tasks.${task.id}.description`)}
+          {task.description}
         </Typography>
       </Box>
 

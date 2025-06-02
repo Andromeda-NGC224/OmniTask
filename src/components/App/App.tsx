@@ -2,7 +2,6 @@ import { lazy, useState } from 'react';
 import { Route, Routes } from 'react-router';
 
 import { Box, Toolbar } from '@mui/material';
-
 import { Sidebar } from 'components/Sidebar';
 import { Header } from 'components/Header';
 

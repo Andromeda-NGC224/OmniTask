@@ -1,29 +1,52 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { type TranslationResources } from './types';
 
-import enTasksPage from '../locales/en/tasks_page.json';
-import uaTasksPage from '../locales/ua/tasks_page.json';
-import enTestPage from '../locales/en/test_page.json';
-import uaTestPage from '../locales/ua/test_page.json';
+const loadTranslations = async (): Promise<TranslationResources> => {
+  const resources: TranslationResources = {};
 
-i18n.use(initReactI18next).init({
-  lng: localStorage.getItem('language') || 'en',
-  fallbackLng: 'en',
-  debug: true,
-  // debug: false - что бы не было logs в консоли,
-  resources: {
-    en: {
-      tasks_page: enTasksPage,
-      test_page: enTestPage,
+  const translationFiles = import.meta.glob('../locales/**/*.json', {
+    eager: true,
+  });
+
+  for (const path in translationFiles) {
+    const match = path.match(/\.\.\/locales\/(en|ua)\/(.*?)\.json/);
+    if (!match) continue;
+
+    const [, language, namespace] = match;
+    const translation = (
+      translationFiles[path] as { default: Record<string, unknown> }
+    ).default;
+
+    if (!resources[language]) {
+      resources[language] = {};
+    }
+
+    resources[language][namespace] = translation;
+  }
+
+  return resources;
+};
+
+const initializeI18n = async () => {
+  const resources = await loadTranslations();
+  const defaultLanguage = localStorage.getItem('language') || 'en';
+
+  i18n.use(initReactI18next).init({
+    lng: defaultLanguage,
+    fallbackLng: 'en',
+    debug: true,
+    resources,
+    interpolation: {
+      escapeValue: false,
     },
-    ua: {
-      tasks_page: uaTasksPage,
-      test_page: uaTestPage,
-    },
-  },
-  interpolation: {
-    escapeValue: false,
-  },
+  });
+};
+
+initializeI18n().catch((error) => {
+  console.error('Failed to initialize i18n:', error);
 });
 
 export default i18n;
+
+// debug: false - что бы не было logs в консоли

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:ts": "tsc --noEmit --watch --project tsconfig.app.json & vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -23,6 +24,7 @@
     "react-i18next": "^15.5.2",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.6.1",
+    "react-spinners": "^0.17.0",
     "vite-tsconfig-paths": "^5.1.4",
     "zod": "^3.25.42"
   },

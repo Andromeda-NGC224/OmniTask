@@ -9,58 +9,24 @@
     "pending": "Pending",
     "completed": "Completed"
   },
-  "tasks": {
-    "1": {
-      "title": "Write documentation",
-      "description": "Describe the API and project architecture"
+  "toolbar": {
+    "addNewTask": "Add New Task",
+    "search": "Search",
+    "filter": {
+      "filter": "Filter",
+      "all": "All",
+      "pending": "Only Pending",
+      "completed": "Only Completed"
     },
-    "2": {
-      "title": "Fix login bug",
-      "description": "Users can't log in after resetting their password"
+    "sort": {
+      "sort": "Sort",
+      "title": "By name (A-Z)",
+      "created_at_asc": "Created At (Oldest First)",
+      "created_at_desc": "Created At (Newest First)",
+      "completed_asc": "Completed first",
+      "completed_desc": "Pending first"
     },
-    "3": {
-      "title": "Add tag filtering",
-      "description": "Allow users to filter tasks by tags"
-    },
-    "4": {
-      "title": "Integrate Firebase",
-      "description": "Configure authentication and database using Firebase"
-    },
-    "5": {
-      "title": "Make layout responsive",
-      "description": "Ensure correct display on mobile devices"
-    },
-    "6": {
-      "title": "Add dark mode",
-      "description": "Implement theme switching between light and dark"
-    },
-    "7": {
-      "title": "Check CI/CD pipeline",
-      "description": "Make sure the deployment pipeline works correctly"
-    },
-    "8": {
-      "title": "Refactor Redux slices",
-      "description": "Simplify and restructure Redux logic"
-    },
-    "9": {
-      "title": "Write component tests",
-      "description": "Add unit tests for core components"
-    },
-    "10": {
-      "title": "Setup ESLint and Prettier",
-      "description": "Enforce consistent code style"
-    },
-    "11": {
-      "title": "Implement drag and drop",
-      "description": "Enable task drag and drop between columns"
-    },
-    "12": {
-      "title": "Add task export",
-      "description": "Allow exporting tasks as CSV or JSON"
-    },
-    "13": {
-      "title": "Add localization",
-      "description": "Translate UI into English and Ukrainian"
-    }
+    "list": "List",
+    "grid": "Cards"
   }
 }

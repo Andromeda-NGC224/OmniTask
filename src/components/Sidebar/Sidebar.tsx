@@ -19,12 +19,10 @@ import { BsFillKanbanFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { BiLogOut } from 'react-icons/bi';
 import { GrBug } from 'react-icons/gr';
-
-const drawerWidth = 265;
-const collapsedWidth = 80;
+import { DRAWER_WIDTH, COLLAPSED_WIDTH } from './constants';
+import { getDrawerSx } from './config';
 
 export default function Sidebar({ open }: { open: boolean }) {
-  const theme = useTheme();
   const { mode } = useColorScheme();
 
   const menuItems = [
@@ -42,22 +40,13 @@ export default function Sidebar({ open }: { open: boolean }) {
   return (
     <Drawer
       variant='permanent'
-      sx={{
-        width: open ? drawerWidth : collapsedWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        '& .MuiDrawer-paper': {
-          width: open ? drawerWidth : collapsedWidth,
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          overflowX: 'hidden',
-          boxSizing: 'border-box',
-          borderRight:
-            mode === 'dark' ? 'none' : `1px solid ${theme.palette.divider}`,
-        },
-      }}
+      sx={getDrawerSx(
+        open,
+        DRAWER_WIDTH,
+        COLLAPSED_WIDTH,
+        mode === 'dark' ? 'dark' : 'light',
+        useTheme(),
+      )}
     >
       <Box
         sx={{
