@@ -1,11 +1,8 @@
-export interface TaskListProps {
-  viewMode: 'grid' | 'list';
-  filter: 'all' | 'completed' | 'pending';
-  sort:
-    | 'completed-asc'
-    | 'completed-desc'
-    | 'createdAt-desc'
-    | 'createdAt-asc'
-    | 'title-asc';
+import type { TaskFilter, TaskSort, ViewMode } from 'pages/TasksPage/types';
+
+export type TaskListProps = {
+  viewMode: ViewMode;
+  filter: TaskFilter;
+  sort: TaskSort;
   searchQuery: string;
-}
+};

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Box } from '@mui/material';
-import type { Task } from 'types/tasks';
 import { getTasks } from 'api/services/taskService';
-import { TaskCard } from '../../components';
-import type { TaskListProps } from './types';
 import { Loader } from 'components/Loader';
+import { TaskCard } from '../../components';
+import type { Task } from 'types/tasks';
+import type { TaskListProps } from './types';
+import { filterTasks, searchTasks, sortTasks } from './utils';
 
 export default function TaskList({
   viewMode,
@@ -27,50 +28,14 @@ export default function TaskList({
       });
   }, []);
 
+  const filteredTasks = useMemo(() => {
+    let result = filterTasks(tasks, filter);
+    result = searchTasks(result, searchQuery);
+    result = sortTasks(result, sort);
+    return result;
+  }, [tasks, filter, searchQuery, sort]);
+
   if (loading) return <Loader />;
-
-  let filteredTasks = tasks;
-  if (filter === 'completed') {
-    filteredTasks = tasks.filter((task) => task.completed);
-  } else if (filter === 'pending') {
-    filteredTasks = tasks.filter((task) => !task.completed);
-  }
-
-  if (searchQuery) {
-    filteredTasks = filteredTasks.filter(
-      (task) =>
-        task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        task.description.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-  }
-
-  if (sort === 'completed-asc') {
-    filteredTasks = [...filteredTasks].sort((a, b) => {
-      if (a.completed && !b.completed) return -1;
-      if (!a.completed && b.completed) return 1;
-      return 0;
-    });
-  } else if (sort === 'completed-desc') {
-    filteredTasks = [...filteredTasks].sort((a, b) => {
-      if (!a.completed && b.completed) return -1;
-      if (a.completed && !b.completed) return 1;
-      return 0;
-    });
-  } else if (sort === 'createdAt-desc') {
-    filteredTasks = [...filteredTasks].sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-    );
-  } else if (sort === 'createdAt-asc') {
-    filteredTasks = [...filteredTasks].sort(
-      (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-    );
-  } else if (sort === 'title-asc') {
-    filteredTasks = [...filteredTasks].sort((a, b) =>
-      a.title.localeCompare(b.title),
-    );
-  }
 
   return (
     <Box

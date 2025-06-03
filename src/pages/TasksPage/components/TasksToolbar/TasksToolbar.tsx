@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, type MouseEvent } from 'react';
 import {
   Box,
   IconButton,
@@ -16,6 +16,8 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import SortIcon from '@mui/icons-material/Sort';
 import type { TasksToolbarProps } from './types';
 import { useTranslation } from 'react-i18next';
+import FilterSortPopover from './FilterSortPopover';
+import { ViewMode } from '../../types';
 
 export default function TasksToolbar({
   viewMode,
@@ -48,7 +50,7 @@ export default function TasksToolbar({
   };
 
   const handlePopoverOpen = (
-    event: React.MouseEvent<HTMLElement>,
+    event: MouseEvent<HTMLElement>,
     type: 'filter' | 'sort',
   ) => {
     setAnchorEl(event.currentTarget);
@@ -79,17 +81,19 @@ export default function TasksToolbar({
 
       <Box display='flex'>
         <Box
-          sx={{
+          sx={(theme) => ({
             transition: 'width 0.3s ease',
             width: searchOpen ? '200px' : '40px',
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
-            border: searchOpen ? '1px solid #7a797d' : 'none',
+            border: searchOpen
+              ? `1px solid ${theme.palette.text.secondary}`
+              : 'none',
             borderRadius: 3,
             px: searchOpen ? 1 : 0,
             bgcolor: searchOpen ? 'background.paper' : 'transparent',
-          }}
+          })}
         >
           <Tooltip title={t('toolbar.search')}>
             <IconButton size='small' onClick={handleSearchClick}>
@@ -134,7 +138,7 @@ export default function TasksToolbar({
           <IconButton
             size='medium'
             color={viewMode === 'list' ? 'primary' : 'default'}
-            onClick={() => onChangeViewMode('list')}
+            onClick={() => onChangeViewMode(ViewMode.List)}
           >
             <ViewListIcon />
           </IconButton>
@@ -143,7 +147,7 @@ export default function TasksToolbar({
           <IconButton
             size='medium'
             color={viewMode === 'grid' ? 'primary' : 'default'}
-            onClick={() => onChangeViewMode('grid')}
+            onClick={() => onChangeViewMode(ViewMode.Grid)}
           >
             <ViewModuleIcon />
           </IconButton>
@@ -155,80 +159,12 @@ export default function TasksToolbar({
           onClose={handlePopoverClose}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
-          <Box p={2} minWidth={200}>
-            {popoverType === 'filter' && (
-              <Box display='flex' flexDirection='column' gap={1}>
-                <Button
-                  onClick={() => {
-                    onFilterChange('all');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.filter.all')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    onFilterChange('completed');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.filter.completed')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    onFilterChange('pending');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.filter.pending')}
-                </Button>
-              </Box>
-            )}
-            {popoverType === 'sort' && (
-              <Box display='flex' flexDirection='column' gap={1}>
-                <Button
-                  onClick={() => {
-                    onSortChange('completed-asc');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.sort.completed_asc')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    onSortChange('completed-desc');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.sort.completed_desc')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    onSortChange('createdAt-desc');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.sort.created_at_desc')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    onSortChange('createdAt-asc');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.sort.created_at_asc')}
-                </Button>
-                <Button
-                  onClick={() => {
-                    onSortChange('title-asc');
-                    handlePopoverClose();
-                  }}
-                >
-                  {t('toolbar.sort.title')}
-                </Button>
-              </Box>
-            )}
-          </Box>
+          <FilterSortPopover
+            popoverType={popoverType}
+            onFilterChange={onFilterChange}
+            onSortChange={onSortChange}
+            handlePopoverClose={handlePopoverClose}
+          />
         </Popover>
       </Box>
     </Box>

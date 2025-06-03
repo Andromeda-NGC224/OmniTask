@@ -1,0 +1,39 @@
+import { createBrowserRouter, type RouteObject } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import { EAppRoutes } from './config';
+import { MainLayout } from 'components/MainLayout';
+import { Loader } from 'components/Loader';
+import NotFound from 'pages/NotFoundPage/NotFoundPage';
+
+const TasksPage = lazy(() => import('pages/TasksPage/TasksPage'));
+const TestPage = lazy(() => import('pages/TestPage/TestPage'));
+
+const APP_ROUTES: RouteObject[] = [
+  {
+    element: <MainLayout />,
+    children: [
+      {
+        path: EAppRoutes.TASKS,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TasksPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: EAppRoutes.TEST_PAGE,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TestPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
+    ],
+  },
+];
+
+export const appRouter = createBrowserRouter(APP_ROUTES);
