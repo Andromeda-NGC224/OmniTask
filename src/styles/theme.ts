@@ -101,6 +101,24 @@ const theme = extendTheme({
         }),
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& input:-webkit-autofill': {
+            WebkitBoxShadow: '0 0 0 1000px transparent inset !important',
+            WebkitTextFillColor: 'inherit',
+          },
+          '& input:-webkit-autofill:focus': {
+            WebkitBoxShadow: '0 0 0 1000px transparent inset !important',
+          },
+          '& input:-internal-autofill-selected': {
+            appearance: 'none !important',
+            background: 'none !important',
+            backgroundColor: 'transparent !important',
+          },
+        },
+      },
+    },
   },
 });
 

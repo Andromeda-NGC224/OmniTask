@@ -7,6 +7,8 @@ import NotFound from 'pages/NotFoundPage/NotFoundPage';
 
 const TasksPage = lazy(() => import('pages/TasksPage/TasksPage'));
 const TestPage = lazy(() => import('pages/TestPage/TestPage'));
+const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
+const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
 
 const APP_ROUTES: RouteObject[] = [
   {
@@ -28,11 +30,27 @@ const APP_ROUTES: RouteObject[] = [
           </Suspense>
         ),
       },
-      {
-        path: '*',
-        element: <NotFound />,
-      },
     ],
+  },
+  {
+    path: EAppRoutes.LOGIN,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: EAppRoutes.REGISTER,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <RegisterPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ];
 
