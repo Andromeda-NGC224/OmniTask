@@ -13,29 +13,12 @@ import {
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
-import { FaTasks } from 'react-icons/fa';
-import { LuLayoutDashboard } from 'react-icons/lu';
-import { BsFillKanbanFill } from 'react-icons/bs';
-import { CgProfile } from 'react-icons/cg';
 import { BiLogOut } from 'react-icons/bi';
-import { GrBug } from 'react-icons/gr';
 import { DRAWER_WIDTH, COLLAPSED_WIDTH } from './constants';
-import { getDrawerSx } from './config';
+import { getDrawerSx, menuItems } from './config';
 
 export default function Sidebar({ open }: { open: boolean }) {
   const { mode } = useColorScheme();
-
-  const menuItems = [
-    { to: '/', label: 'Tasks', icon: <FaTasks size={24} /> },
-    {
-      to: '/dashboard',
-      label: 'Dashboard',
-      icon: <LuLayoutDashboard size={24} />,
-    },
-    { to: '/kanban', label: 'Kanban', icon: <BsFillKanbanFill size={24} /> },
-    { to: '/profile', label: 'Profile', icon: <CgProfile size={24} /> },
-    { to: '/test', label: 'Test', icon: <GrBug size={24} /> },
-  ];
 
   return (
     <Drawer
