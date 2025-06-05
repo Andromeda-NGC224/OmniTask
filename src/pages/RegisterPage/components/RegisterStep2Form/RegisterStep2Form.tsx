@@ -2,11 +2,7 @@ import { useFormContext } from 'react-hook-form';
 import type { RegisterFormInputs } from '../../types';
 import { Button, Stack } from '@mui/material';
 import { RegisterField } from '../../components';
-
-interface RegisterStep2FormProps {
-  onBack: () => void;
-  isSubmitting: boolean;
-}
+import type { RegisterStep2FormProps } from './types';
 
 export default function RegisterStep2Form({
   onBack,

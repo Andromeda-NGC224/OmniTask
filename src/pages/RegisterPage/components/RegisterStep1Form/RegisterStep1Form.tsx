@@ -2,11 +2,7 @@ import { useFormContext } from 'react-hook-form';
 import type { RegisterFormInputs } from '../../types';
 import { Button, Stack } from '@mui/material';
 import { RegisterField } from '../../components';
-
-interface RegisterStep1FormProps {
-  onNext: () => Promise<void>;
-  isSubmitting: boolean;
-}
+import type { RegisterStep1FormProps } from './types';
 
 export default function RegisterStep1Form({
   onNext,

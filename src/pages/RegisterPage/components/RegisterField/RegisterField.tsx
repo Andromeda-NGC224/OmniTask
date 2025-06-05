@@ -1,14 +1,6 @@
-import { Controller } from 'react-hook-form';
+import { Controller, type FieldValues } from 'react-hook-form';
 import { TextField } from '@mui/material';
-import type { Path, Control, FieldValues } from 'react-hook-form';
-
-export interface RegisterFieldProps<T extends FieldValues> {
-  name: Path<T>;
-  label: string;
-  type?: string;
-  control: Control<T>;
-  errorMessage?: string;
-}
+import type { RegisterFieldProps } from './types';
 
 export default function RegisterField<T extends FieldValues>({
   name,
