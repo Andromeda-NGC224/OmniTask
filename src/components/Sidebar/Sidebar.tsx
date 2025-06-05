@@ -13,49 +13,23 @@ import {
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
-import { FaTasks } from 'react-icons/fa';
-import { LuLayoutDashboard } from 'react-icons/lu';
-import { BsFillKanbanFill } from 'react-icons/bs';
-import { CgProfile } from 'react-icons/cg';
 import { BiLogOut } from 'react-icons/bi';
-
-const drawerWidth = 265;
-const collapsedWidth = 80;
+import { DRAWER_WIDTH, COLLAPSED_WIDTH } from './constants';
+import { getDrawerSx, menuItems } from './config';
 
 export default function Sidebar({ open }: { open: boolean }) {
-  const theme = useTheme();
   const { mode } = useColorScheme();
-
-  const menuItems = [
-    { to: '/', label: 'Tasks', icon: <FaTasks size={24} /> },
-    {
-      to: '/dashboard',
-      label: 'Dashboard',
-      icon: <LuLayoutDashboard size={24} />,
-    },
-    { to: '/kanban', label: 'Kanban', icon: <BsFillKanbanFill size={24} /> },
-    { to: '/profile', label: 'Profile', icon: <CgProfile size={24} /> },
-  ];
 
   return (
     <Drawer
       variant='permanent'
-      sx={{
-        width: open ? drawerWidth : collapsedWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        '& .MuiDrawer-paper': {
-          width: open ? drawerWidth : collapsedWidth,
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-          overflowX: 'hidden',
-          boxSizing: 'border-box',
-          borderRight:
-            mode === 'dark' ? 'none' : `1px solid ${theme.palette.divider}`,
-        },
-      }}
+      sx={getDrawerSx(
+        open,
+        DRAWER_WIDTH,
+        COLLAPSED_WIDTH,
+        mode === 'dark' ? 'dark' : 'light',
+        useTheme(),
+      )}
     >
       <Box
         sx={{

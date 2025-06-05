@@ -1,0 +1,1 @@
+export { shakeAnimation } from './animations';

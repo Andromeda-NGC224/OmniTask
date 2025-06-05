@@ -6,6 +6,12 @@ const theme = extendTheme({
     light: {
       palette: {
         mode: 'light',
+        sea: {
+          main: '#030bfc',
+          light: '#5760ff',
+          dark: '#000677',
+          contrastText: '#ffffff',
+        },
         primary: {
           main: '#5429ff',
         },
@@ -20,13 +26,22 @@ const theme = extendTheme({
         divider: '#eaeaea',
         info: { main: '#2f80ed' },
         success: { main: '#219653' },
-        warning: { main: '#f2994a' },
+        warning: {
+          main: '#f2994a',
+          contrastText: '#ffffff',
+        },
         error: { main: '#eb5757' },
       },
     },
     dark: {
       palette: {
         mode: 'dark',
+        sea: {
+          main: '#03f4fc',
+          light: '#5efcff',
+          dark: '#02c4d0',
+          contrastText: '#000000',
+        },
         primary: {
           main: '#bfb2ff',
         },
@@ -41,7 +56,10 @@ const theme = extendTheme({
         divider: '#a8a8a8',
         info: { main: '#bfb2ff' },
         success: { main: '#219653' },
-        warning: { main: '#f2994a' },
+        warning: {
+          main: '#f2994a',
+          contrastText: '#ffffff',
+        },
         error: { main: '#eb5757' },
       },
     },
@@ -81,6 +99,24 @@ const theme = extendTheme({
         root: ({ theme }) => ({
           color: theme.palette.text.secondary,
         }),
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& input:-webkit-autofill': {
+            WebkitBoxShadow: '0 0 0 1000px transparent inset !important',
+            WebkitTextFillColor: 'inherit',
+          },
+          '& input:-webkit-autofill:focus': {
+            WebkitBoxShadow: '0 0 0 1000px transparent inset !important',
+          },
+          '& input:-internal-autofill-selected': {
+            appearance: 'none !important',
+            background: 'none !important',
+            backgroundColor: 'transparent !important',
+          },
+        },
       },
     },
   },

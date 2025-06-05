@@ -1,0 +1,32 @@
+{
+  "title": "Tasks",
+  "description": "Manage your tasks easily and efficiently.",
+  "add_task": "Add New Task",
+  "edit_task": "Edit Task",
+  "delete_task": "Delete Task",
+  "no_tasks": "No tasks available.",
+  "chips": {
+    "pending": "Pending",
+    "completed": "Completed"
+  },
+  "toolbar": {
+    "addNewTask": "Add New Task",
+    "search": "Search",
+    "filter": {
+      "filter": "Filter",
+      "all": "All",
+      "pending": "Only Pending",
+      "completed": "Only Completed"
+    },
+    "sort": {
+      "sort": "Sort",
+      "title": "By name (A-Z)",
+      "created_at_asc": "Created At (Oldest First)",
+      "created_at_desc": "Created At (Newest First)",
+      "completed_asc": "Completed first",
+      "completed_desc": "Pending first"
+    },
+    "list": "List",
+    "grid": "Cards"
+  }
+}

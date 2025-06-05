@@ -1,10 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Box } from '@mui/material';
-import type { Task } from 'types/tasks';
 import { getTasks } from 'api/services/taskService';
-import TaskCard from '../TaskCard/TaskCard';
+import { Loader } from 'components/Loader';
+import { TaskCard } from '../../components';
+import type { Task } from 'types/tasks';
+import type { TaskListProps } from './types';
+import { filterTasks, searchTasks, sortTasks } from './utils';
 
-export default function TaskList() {
+export default function TaskList({
+  viewMode,
+  filter,
+  sort,
+  searchQuery,
+}: TaskListProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,15 +28,27 @@ export default function TaskList() {
       });
   }, []);
 
-  if (loading) return <p>Loading tasks...</p>;
+  const filteredTasks = useMemo(() => {
+    let result = filterTasks(tasks, filter);
+    result = searchTasks(result, searchQuery);
+    result = sortTasks(result, sort);
+    return result;
+  }, [tasks, filter, searchQuery, sort]);
+
+  if (loading) return <Loader />;
 
   return (
     <Box
-      display='grid'
-      gridTemplateColumns='repeat(auto-fill, minmax(280px, 1fr))'
+      display={viewMode === 'grid' ? 'grid' : 'flex'}
+      gridTemplateColumns={
+        viewMode === 'grid'
+          ? 'repeat(auto-fill, minmax(280px, 1fr))'
+          : undefined
+      }
+      flexDirection={viewMode === 'list' ? 'column' : undefined}
       gap={2}
     >
-      {tasks.map((task) => (
+      {filteredTasks.map((task) => (
         <TaskCard key={task.id} task={task} />
       ))}
     </Box>
