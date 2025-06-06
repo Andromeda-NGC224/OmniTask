@@ -1,0 +1,8 @@
+{
+  "title": "Вхід",
+  "email_placeholder": "Електронна пошта",
+  "password_placeholder": "Пароль",
+  "button": "Увійти",
+  "helper_text": "Не маєте облікового запису?",
+  "register_link": "Зареєструватися"
+}

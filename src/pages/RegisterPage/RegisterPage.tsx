@@ -1,7 +1,9 @@
 import { Container, Box, Paper, Typography } from '@mui/material';
 import { RegisterForm } from './components';
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterPage() {
+  const { t } = useTranslation('register_page');
   return (
     <Container maxWidth='sm'>
       <Box
@@ -12,7 +14,7 @@ export default function RegisterPage() {
       >
         <Paper elevation={5} sx={{ p: 4, width: '100%', borderRadius: 3 }}>
           <Typography variant='h5' align='center' gutterBottom>
-            Реєстрація
+            {t('title')}
           </Typography>
           <RegisterForm />
         </Paper>

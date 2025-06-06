@@ -1,0 +1,14 @@
+{
+  "title": "Register",
+  "email_placeholder": "Email",
+  "password_placeholder": "Password",
+  "password_confirmation_placeholder": "Confirm password",
+  "button_next_step": "Next step",
+  "helper_text": "Already have an account?",
+  "login_link": "Login",
+  "name_placeholder": "Name",
+  "surname_placeholder": "Surname",
+  "avatar_placeholder": "Avatar (link)",
+  "button_finish": "Finish registration",
+  "button_back": "Back"
+}

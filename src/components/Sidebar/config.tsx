@@ -3,20 +3,24 @@ import { FaTasks } from 'react-icons/fa';
 import { LuLayoutDashboard } from 'react-icons/lu';
 import { BsFillKanbanFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
-
 import { type Theme } from '@mui/material/styles';
 import { type DrawerProps } from '@mui/material/Drawer';
+import { EAppRoutes } from 'routes/config';
 
 export const menuItems = [
-  { to: '/', label: 'Tasks', icon: <FaTasks size={24} /> },
+  { to: EAppRoutes.TASKS, label: 'Tasks', icon: <FaTasks size={24} /> },
   {
-    to: '/dashboard',
+    to: EAppRoutes.DASHBOARD,
     label: 'Dashboard',
     icon: <LuLayoutDashboard size={24} />,
   },
-  { to: '/kanban', label: 'Kanban', icon: <BsFillKanbanFill size={24} /> },
-  { to: '/profile', label: 'Profile', icon: <CgProfile size={24} /> },
-  { to: '/test', label: 'Test', icon: <GrBug size={24} /> },
+  {
+    to: EAppRoutes.KANBAN,
+    label: 'Kanban',
+    icon: <BsFillKanbanFill size={24} />,
+  },
+  { to: EAppRoutes.PROFILE, label: 'Profile', icon: <CgProfile size={24} /> },
+  { to: EAppRoutes.TEST_PAGE, label: 'Test', icon: <GrBug size={24} /> },
 ];
 
 export const getDrawerSx = (

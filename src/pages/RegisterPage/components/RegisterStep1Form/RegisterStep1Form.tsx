@@ -3,6 +3,7 @@ import type { RegisterFormInputs } from '../../types';
 import { Button, Stack } from '@mui/material';
 import { RegisterField } from '../../components';
 import type { RegisterStep1FormProps } from './types';
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterStep1Form({
   onNext,
@@ -13,25 +14,27 @@ export default function RegisterStep1Form({
     formState: { errors },
   } = useFormContext<RegisterFormInputs>();
 
+  const { t } = useTranslation('register_page');
+
   return (
     <Stack spacing={2}>
       <RegisterField
         name='email'
-        label='Електронна пошта'
+        label={t('email_placeholder')}
         type='email'
         control={control}
         errorMessage={errors.email?.message}
       />
       <RegisterField
         name='password'
-        label='Пароль'
+        label={t('password_placeholder')}
         type='password'
         control={control}
         errorMessage={errors.password?.message}
       />
       <RegisterField
         name='confirmPassword'
-        label='Підтвердіть пароль'
+        label={t('password_confirmation_placeholder')}
         type='password'
         control={control}
         errorMessage={errors.confirmPassword?.message}
@@ -44,7 +47,7 @@ export default function RegisterStep1Form({
         color='primary'
         fullWidth
       >
-        Наступний крок
+        {t('button_next_step')}
       </Button>
     </Stack>
   );

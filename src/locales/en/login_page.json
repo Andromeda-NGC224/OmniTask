@@ -1,0 +1,8 @@
+{
+  "title": "Login",
+  "email_placeholder": "Email",
+  "password_placeholder": "Password",
+  "button": "Login",
+  "helper_text": "Don't have an account?",
+  "register_link": "Register"
+}

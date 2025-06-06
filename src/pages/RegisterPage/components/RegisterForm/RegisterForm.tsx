@@ -7,8 +7,10 @@ import { registerFormSchema } from '../../config';
 import type { RegisterFormInputs } from '../../types';
 import { RegisterStep1Form, RegisterStep2Form } from '..';
 import { step1Fields, step2Fields } from './config';
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterForm() {
+  const { t } = useTranslation('register_page');
   const [step, setStep] = useState(1);
   const methods = useForm<RegisterFormInputs>({
     resolver: zodResolver(registerFormSchema),
@@ -68,9 +70,9 @@ export default function RegisterForm() {
         </Stack>
       </Box>
       <Typography variant='body2' align='center' mt={2}>
-        Вже маєте обліковий запис?{' '}
+        {t('helper_text')}{' '}
         <MuiLink component={Link} to='/login' color='primary'>
-          Увійти
+          {t('login_link')}
         </MuiLink>
       </Typography>
     </FormProvider>

@@ -5,9 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginSchema } from 'pages/LoginPage/config';
 import type { LoginFormInputs } from 'pages/LoginPage/types';
 import { LoginField } from '..';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const { t } = useTranslation('login_page');
   const {
     handleSubmit,
     control,
@@ -30,13 +32,13 @@ export default function LoginForm() {
       <Stack spacing={2}>
         <LoginField
           name='email'
-          label='Електронна пошта'
+          label={t('email_placeholder')}
           control={control}
           errorMessage={errors.email?.message}
         />
         <LoginField
           name='password'
-          label='Пароль'
+          label={t('password_placeholder')}
           type='password'
           control={control}
           errorMessage={errors.password?.message}
@@ -47,13 +49,13 @@ export default function LoginForm() {
           color='primary'
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Завантаження...' : 'Увійти'}
+          {isSubmitting ? '...' : `${t('button')}`}
         </Button>
       </Stack>
       <Typography variant='body2' align='center' mt={2}>
-        Не маєте облікового запису?{' '}
+        {t('helper_text')}{' '}
         <MuiLink component={Link} to='/register' color='primary'>
-          Зареєструватися
+          {t('register_link')}
         </MuiLink>
       </Typography>
     </Box>

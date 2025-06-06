@@ -1,0 +1,14 @@
+{
+  "title": "Реєстрація",
+  "email_placeholder": "Електронна пошта",
+  "password_placeholder": "Пароль",
+  "password_confirmation_placeholder": "Підтвердіть пароль",
+  "button_next_step": "Наступний крок",
+  "helper_text": "Вже маєте обліковий запис?",
+  "login_link": "Увійти",
+  "name_placeholder": "Ім'я",
+  "surname_placeholder": "Прізвище",
+  "avatar_placeholder": "Аватар (посилання)",
+  "button_finish": "Завершити реєстрацію",
+  "button_back": "Назад"
+}

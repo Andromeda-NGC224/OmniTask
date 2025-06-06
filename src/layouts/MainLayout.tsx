@@ -12,7 +12,11 @@ const MainLayout = () => {
   return (
     <Box sx={{ display: 'flex', backgroundColor: 'background.default' }}>
       <Sidebar open={isDrawerOpen} />
-      <Header onMenuToggle={toggleDrawer} showLogo={isDrawerOpen} />
+      <Header
+        onMenuToggle={toggleDrawer}
+        showLogo={isDrawerOpen}
+        clipped={false}
+      />
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
         <Outlet />
