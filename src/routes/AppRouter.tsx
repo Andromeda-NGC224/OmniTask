@@ -9,6 +9,7 @@ const TasksPage = lazy(() => import('pages/TasksPage/TasksPage'));
 const TestPage = lazy(() => import('pages/TestPage/TestPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
+const PreviewPage = lazy(() => import('pages/PreviewPage/PreviewPage'));
 
 const APP_ROUTES: RouteObject[] = [
   {
@@ -35,6 +36,14 @@ const APP_ROUTES: RouteObject[] = [
   {
     element: <ClippedLayout />,
     children: [
+      {
+        path: EAppRoutes.PREVIEW,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PreviewPage />
+          </Suspense>
+        ),
+      },
       {
         path: EAppRoutes.LOGIN,
         element: (

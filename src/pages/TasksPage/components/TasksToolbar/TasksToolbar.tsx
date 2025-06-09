@@ -1,4 +1,4 @@
-import { useState, useRef, type MouseEvent } from 'react';
+import { useState, useRef, type MouseEvent, useEffect } from 'react';
 import {
   Box,
   IconButton,
@@ -18,18 +18,31 @@ import type { TasksToolbarProps } from './types';
 import { useTranslation } from 'react-i18next';
 import FilterSortPopover from './FilterSortPopover';
 import { ViewMode } from '../../types';
+import { useTaskParams } from 'pages/TasksPage/utils';
+import { useSearchParams } from 'react-router-dom';
 
 export default function TasksToolbar({
   viewMode,
   onChangeViewMode,
-  onFilterChange,
-  onSortChange,
-  onSearchChange,
 }: TasksToolbarProps) {
   const { t } = useTranslation('tasks_page');
+
+  const { handleSortChange, handleFilterChange, handleSearchChange } =
+    useTaskParams();
+
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const search = searchParams.get('search');
+    if (search) {
+      setSearchValue(search);
+      setSearchOpen(true);
+    }
+  }, [searchParams]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [popoverType, setPopoverType] = useState<'filter' | 'sort' | null>(
@@ -106,7 +119,7 @@ export default function TasksToolbar({
               value={searchValue}
               onChange={(e) => {
                 setSearchValue(e.target.value);
-                onSearchChange(e.target.value);
+                handleSearchChange(e.target.value);
               }}
               onBlur={handleSearchBlur}
               placeholder={`${t('toolbar.search')}...`}
@@ -161,8 +174,8 @@ export default function TasksToolbar({
         >
           <FilterSortPopover
             popoverType={popoverType}
-            onFilterChange={onFilterChange}
-            onSortChange={onSortChange}
+            onFilterChange={handleFilterChange}
+            onSortChange={handleSortChange}
             handlePopoverClose={handlePopoverClose}
           />
         </Popover>

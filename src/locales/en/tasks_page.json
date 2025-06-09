@@ -20,7 +20,8 @@
     },
     "sort": {
       "sort": "Sort",
-      "title": "By name (A-Z)",
+      "titleAsc": "By name (A-Z)",
+      "titleDesc": "By name (Z-A)",
       "created_at_asc": "Created At (Oldest First)",
       "created_at_desc": "Created At (Newest First)",
       "completed_asc": "Completed first",
