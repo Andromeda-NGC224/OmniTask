@@ -1,5 +1,5 @@
 import type { Task } from 'types/tasks';
-import { httpClient } from './httpClient';
+import { httpClient } from '../httpClient';
 import type {
   CreateTaskPayload,
   GetTasksParams,
@@ -8,8 +8,11 @@ import type {
 } from './types';
 
 export const taskService = {
-  async getTasks(params: GetTasksParams): Promise<GetTasksResponse> {
-    const response = await httpClient.get<GetTasksResponse>('/task', {
+  async getTasks(
+    params: GetTasksParams,
+    signal?: AbortSignal,
+  ): Promise<GetTasksResponse> {
+    return httpClient.get('/task', {
       params: {
         order: params.order ?? 'desc',
         sortBy: params.sortBy ?? 'title',
@@ -17,26 +20,23 @@ export const taskService = {
         page: params.page ?? 1,
         search: params.search ?? '',
       },
+      signal,
     });
-    return response.data;
   },
 
   async getTaskById(taskId: string): Promise<Task> {
-    const response = await httpClient.get<Task>(`/task/${taskId}`);
-    return response.data;
+    return httpClient.get(`/task/${taskId}`);
   },
 
   async createTask(payload: CreateTaskPayload): Promise<Task> {
-    const response = await httpClient.post<Task>('/task', payload);
-    return response.data;
+    return httpClient.post('/task', payload);
   },
 
   async updateTask(taskId: string, payload: UpdateTaskPayload): Promise<Task> {
-    const response = await httpClient.put<Task>(`/task/${taskId}`, payload);
-    return response.data;
+    return httpClient.put(`/task/${taskId}`, payload);
   },
 
   async deleteTask(taskId: string): Promise<void> {
-    await httpClient.delete(`/task/${taskId}`);
+    return httpClient.delete(`/task/${taskId}`);
   },
 };

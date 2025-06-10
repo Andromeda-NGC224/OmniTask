@@ -1,9 +1,11 @@
 import { Container, Box, Paper, Typography } from '@mui/material';
-import { LoginForm } from './components';
 import { useTranslation } from 'react-i18next';
+
+import { LoginForm } from './components';
 
 export default function LoginPage() {
   const { t } = useTranslation('login_page');
+
   return (
     <Container maxWidth='sm'>
       <Box

@@ -1,9 +1,11 @@
 import { Container, Box, Paper, Typography } from '@mui/material';
-import { RegisterForm } from './components';
 import { useTranslation } from 'react-i18next';
+
+import { RegisterForm } from './components';
 
 export default function RegisterPage() {
   const { t } = useTranslation('register_page');
+
   return (
     <Container maxWidth='sm'>
       <Box

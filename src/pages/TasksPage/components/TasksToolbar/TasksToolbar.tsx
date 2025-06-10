@@ -18,7 +18,7 @@ import type { TasksToolbarProps } from './types';
 import { useTranslation } from 'react-i18next';
 import FilterSortPopover from './FilterSortPopover';
 import { ViewMode } from '../../types';
-import { useTaskParams } from 'pages/TasksPage/utils';
+import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 
 export default function TasksToolbar({

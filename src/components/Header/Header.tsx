@@ -2,9 +2,9 @@ import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import { BiMenu } from 'react-icons/bi';
 import { Logo } from 'components/Logo';
-import { UserMenu } from 'components/UserMenu';
+
 import type { HeaderProps } from './types';
-import { LanguageSwitcher, ThemeSwitcher } from './components';
+import { LanguageSwitcher, ThemeSwitcher, UserMenu } from './components';
 
 export default function Header({
   onMenuToggle,

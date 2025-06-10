@@ -29,5 +29,9 @@
     },
     "list": "List",
     "grid": "Cards"
+  },
+  "emptyTasks": {
+    "title": "Tasks not found",
+    "description": "Create your first task to get started"
   }
 }

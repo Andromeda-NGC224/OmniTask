@@ -16,6 +16,7 @@ export default function LoginField({
       render={({ field }) => (
         <TextField
           {...field}
+          value={field.value ?? ''}
           type={type}
           label={label}
           fullWidth
