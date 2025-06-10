@@ -3,6 +3,7 @@ import type { RegisterFormInputs } from '../../types';
 import { Button, Stack } from '@mui/material';
 import { RegisterField } from '../../components';
 import type { RegisterStep2FormProps } from './types';
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterStep2Form({
   onBack,
@@ -13,23 +14,25 @@ export default function RegisterStep2Form({
     formState: { errors },
   } = useFormContext<RegisterFormInputs>();
 
+  const { t } = useTranslation('register_page');
+
   return (
     <Stack spacing={2}>
       <RegisterField
         name='name'
-        label="Ім'я"
+        label={t('name_placeholder')}
         control={control}
         errorMessage={errors.name?.message}
       />
       <RegisterField
         name='surname'
-        label='Прізвище'
+        label={t('surname_placeholder')}
         control={control}
         errorMessage={errors.surname?.message}
       />
       <RegisterField
         name='avatar'
-        label='Аватар (посилання)'
+        label={t('avatar_placeholder')}
         control={control}
         errorMessage={errors.avatar?.message}
       />
@@ -40,7 +43,7 @@ export default function RegisterStep2Form({
         color='primary'
         fullWidth
       >
-        Завершити реєстрацію
+        {t('button_finish')}
       </Button>
       <Button
         type='button'
@@ -49,7 +52,7 @@ export default function RegisterStep2Form({
         color='primary'
         fullWidth
       >
-        Назад
+        {t('button_back')}
       </Button>
     </Stack>
   );

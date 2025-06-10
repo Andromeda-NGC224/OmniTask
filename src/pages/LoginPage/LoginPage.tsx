@@ -1,7 +1,11 @@
 import { Container, Box, Paper, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+
 import { LoginForm } from './components';
 
 export default function LoginPage() {
+  const { t } = useTranslation('login_page');
+
   return (
     <Container maxWidth='sm'>
       <Box
@@ -12,7 +16,7 @@ export default function LoginPage() {
       >
         <Paper elevation={5} sx={{ p: 4, width: '100%', borderRadius: 3 }}>
           <Typography variant='h5' align='center' gutterBottom>
-            Вхід
+            {t('title')}
           </Typography>
           <LoginForm />
         </Paper>

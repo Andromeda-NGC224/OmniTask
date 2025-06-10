@@ -10,9 +10,10 @@ export enum TaskFilter {
 }
 
 export enum TaskSort {
-  CompletedAsc = 'completed-asc',
-  CompletedDesc = 'completed-desc',
+  CompletedAsc = 'completed-desc',
+  CompletedDesc = 'completed-asc',
   CreatedAtDesc = 'createdAt-desc',
   CreatedAtAsc = 'createdAt-asc',
   TitleAsc = 'title-asc',
+  TitleDesc = 'title-desc',
 }

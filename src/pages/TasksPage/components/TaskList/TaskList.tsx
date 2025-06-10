@@ -1,41 +1,61 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { getTasks } from 'api/services/taskService';
 import { Loader } from 'components/Loader';
-import { TaskCard } from '../../components';
+import { EmptyTaskList, TaskCard } from '../../components';
 import type { Task } from 'types/tasks';
 import type { TaskListProps } from './types';
-import { filterTasks, searchTasks, sortTasks } from './utils';
+import { useSearchParams } from 'react-router-dom';
+import { getQueryParams } from 'utils';
+import { taskService } from 'api/services';
+import { errorHandler } from 'api/utils/errorHandler';
+import type { ErrorToHandle } from 'api/types';
 
-export default function TaskList({
-  viewMode,
-  filter,
-  sort,
-  searchQuery,
-}: TaskListProps) {
+export default function TaskList({ viewMode }: TaskListProps) {
+  const [searchParams] = useSearchParams();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getTasks()
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error loading tasks:', error);
-        setLoading(false);
-      });
-  }, []);
+  const { order, sortBy, per_page, page, search } =
+    getQueryParams(searchParams);
 
-  const filteredTasks = useMemo(() => {
-    let result = filterTasks(tasks, filter);
-    result = searchTasks(result, searchQuery);
-    result = sortTasks(result, sort);
-    return result;
-  }, [tasks, filter, searchQuery, sort]);
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchTasks = async () => {
+      setLoading(true);
+
+      try {
+        const response = await taskService.getTasks(
+          {
+            order,
+            sortBy,
+            per_page,
+            page,
+            search,
+          },
+          controller.signal,
+        );
+
+        setTasks(response.data);
+
+        console.log('Fetched tasks:', response);
+      } catch (err) {
+        errorHandler(err as ErrorToHandle);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+
+    return () => {
+      controller.abort();
+    };
+  }, [order, page, per_page, sortBy, search]);
 
   if (loading) return <Loader />;
+
+  if (tasks.length === 0) return <EmptyTaskList />;
 
   return (
     <Box
@@ -48,7 +68,7 @@ export default function TaskList({
       flexDirection={viewMode === 'list' ? 'column' : undefined}
       gap={2}
     >
-      {filteredTasks.map((task) => (
+      {tasks.map((task) => (
         <TaskCard key={task.id} task={task} />
       ))}
     </Box>

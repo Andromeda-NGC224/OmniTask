@@ -1,5 +1,6 @@
 export enum EAppRoutes {
-  TASKS = '/',
+  PREVIEW = '/',
+  TASKS = '/tasks',
   TEST_PAGE = '/test',
   DASHBOARD = '/dashboard',
   KANBAN = '/kanban',

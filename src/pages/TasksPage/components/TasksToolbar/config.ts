@@ -11,5 +11,6 @@ export const sortOptionsConfig: { labelKey: string; value: TaskSort }[] = [
   { labelKey: 'toolbar.sort.completed_desc', value: TaskSort.CompletedDesc },
   { labelKey: 'toolbar.sort.created_at_desc', value: TaskSort.CreatedAtDesc },
   { labelKey: 'toolbar.sort.created_at_asc', value: TaskSort.CreatedAtAsc },
-  { labelKey: 'toolbar.sort.title', value: TaskSort.TitleAsc },
+  { labelKey: 'toolbar.sort.titleAsc', value: TaskSort.TitleAsc },
+  { labelKey: 'toolbar.sort.titleDesc', value: TaskSort.TitleDesc },
 ];

@@ -1,4 +1,5 @@
 export interface HeaderProps {
-  onMenuToggle: () => void;
-  showLogo: boolean;
+  onMenuToggle?: () => void;
+  showLogo?: boolean;
+  clipped: boolean;
 }

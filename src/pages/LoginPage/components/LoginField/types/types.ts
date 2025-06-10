@@ -1,9 +1,10 @@
-import type { Control, FieldValues } from 'react-hook-form';
+import type { Control } from 'react-hook-form';
+import type { LoginFormInputs } from 'pages/LoginPage/types';
 
-export interface LoginFieldProps<T extends FieldValues> {
-  name: keyof T;
+export interface LoginFieldProps {
+  name: keyof LoginFormInputs;
   label: string;
   type?: string;
-  control: Control<T>;
+  control: Control<LoginFormInputs>;
   errorMessage?: string;
 }
