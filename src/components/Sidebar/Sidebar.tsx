@@ -10,6 +10,7 @@ import {
   useTheme,
   useColorScheme,
   Tooltip,
+  useMediaQuery,
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
@@ -19,16 +20,28 @@ import { getDrawerSx, menuItems } from './config';
 
 export default function Sidebar({ open }: { open: boolean }) {
   const { mode } = useColorScheme();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const drawerWidth = isSmallScreen
+    ? '100%'
+    : open
+      ? DRAWER_WIDTH
+      : COLLAPSED_WIDTH;
 
   return (
     <Drawer
-      variant='permanent'
+      variant={isSmallScreen ? 'temporary' : 'permanent'}
+      open={isSmallScreen ? open : true}
+      ModalProps={{
+        keepMounted: true,
+      }}
       sx={getDrawerSx(
         open,
-        DRAWER_WIDTH,
+        drawerWidth,
         COLLAPSED_WIDTH,
         mode === 'dark' ? 'dark' : 'light',
-        useTheme(),
+        theme,
       )}
     >
       <Box

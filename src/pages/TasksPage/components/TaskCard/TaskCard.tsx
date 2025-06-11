@@ -1,8 +1,20 @@
-import { Card, Typography, Box, Chip, useColorScheme } from '@mui/material';
+import {
+  Card,
+  Typography,
+  Box,
+  Chip,
+  useColorScheme,
+  Tooltip,
+  IconButton,
+} from '@mui/material';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import { useTranslation } from 'react-i18next';
 import type { TaskCardProps } from './types';
+import { toolbarButtons } from './config';
+import { handleToolbarAction } from './utils';
 
 export default function TaskCard({ task }: TaskCardProps) {
   const { mode } = useColorScheme();
@@ -25,20 +37,53 @@ export default function TaskCard({ task }: TaskCardProps) {
       }}
     >
       <Box sx={{ textAlign: 'left' }}>
-        <Typography variant='h6' fontWeight='bold' gutterBottom>
-          {task.title}
-        </Typography>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          {isCompleted ? (
+            <AssignmentTurnedInIcon sx={{ marginTop: '4px' }} color='success' />
+          ) : (
+            <AssignmentLateIcon sx={{ marginTop: '4px' }} color='warning' />
+          )}
+          <Typography variant='h6' fontWeight='bold' gutterBottom>
+            {task.title}
+          </Typography>
+        </Box>
         <Typography variant='body2' color='text.secondary'>
           {task.description}
         </Typography>
       </Box>
 
-      <Chip
-        size='small'
-        icon={isCompleted ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />}
-        label={isCompleted ? t('chips.completed') : t('chips.pending')}
-        color={isCompleted ? 'success' : 'warning'}
-      />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          alignSelf: 'flex-end',
+          width: '100%',
+          height: '40px',
+        }}
+      >
+        <Chip
+          size='small'
+          icon={
+            isCompleted ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />
+          }
+          label={isCompleted ? t('chips.completed') : t('chips.pending')}
+          color={isCompleted ? 'success' : 'warning'}
+        />
+        <Box display='flex'>
+          {toolbarButtons.map(({ action, icon, tooltipKey }) => (
+            <Tooltip key={action} title={t(tooltipKey)}>
+              <IconButton
+                size='medium'
+                color='primary'
+                onClick={() => handleToolbarAction(action)}
+              >
+                {icon}
+              </IconButton>
+            </Tooltip>
+          ))}
+        </Box>
+      </Box>
     </Card>
   );
 }

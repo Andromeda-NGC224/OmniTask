@@ -9,6 +9,12 @@
     "pending": "Pending",
     "completed": "Completed"
   },
+  "card_button": {
+    "edit": "Edit",
+    "details": "Details",
+    "complete": "Complete",
+    "delete": "Delete"
+  },
   "toolbar": {
     "addNewTask": "Add New Task",
     "search": "Search",
@@ -18,6 +24,7 @@
       "pending": "Only Pending",
       "completed": "Only Completed"
     },
+
     "sort": {
       "sort": "Sort",
       "titleAsc": "By name (A-Z)",
@@ -33,5 +40,17 @@
   "emptyTasks": {
     "title": "Tasks not found",
     "description": "Create your first task to get started"
+  },
+  "errorTasks": {
+    "title": "Oops! Something went wrong",
+    "description": "Failed to load tasks list. Try to refresh the page.",
+    "retry": "Retry"
+  },
+  "addTaskModal": {
+    "header": "Add new task",
+    "title": "Task name",
+    "description": "Describe task",
+    "cancel": "Cancel",
+    "add": "Create task"
   }
 }
