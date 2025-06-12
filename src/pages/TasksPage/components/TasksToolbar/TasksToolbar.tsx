@@ -22,7 +22,11 @@ import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 
 import { taskService } from 'api/services/taskService/taskService';
-import { AddTaskModal } from '../AddTaskModal';
+import toast from 'react-hot-toast';
+import { toastStyles } from 'styles/toastStyles';
+import { errorHandler } from 'api/utils';
+import type { ErrorToHandle } from 'api';
+import { AddTaskModal } from '../modals';
 
 export default function TasksToolbar({
   viewMode,
@@ -89,10 +93,13 @@ export default function TasksToolbar({
   const handleAddTask = async (title: string, description: string) => {
     try {
       await taskService.createTask({ title, description });
+      toast.success(t('addTaskModal.successMessage'), {
+        style: toastStyles,
+      });
       handleCloseAddTaskModal();
       onTaskAdded();
     } catch (error) {
-      console.error('Failed to add task:', error);
+      errorHandler(error as ErrorToHandle);
     }
   };
 

@@ -33,7 +33,7 @@ export const taskService = {
   },
 
   async updateTask(taskId: string, payload: UpdateTaskPayload): Promise<Task> {
-    return httpClient.put(`/task/${taskId}`, payload);
+    return httpClient.patch(`/task/${taskId}`, payload);
   },
 
   async deleteTask(taskId: string): Promise<void> {

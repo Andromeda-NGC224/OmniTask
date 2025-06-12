@@ -13,13 +13,37 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import { useTranslation } from 'react-i18next';
 import type { TaskCardProps } from './types';
-import { toolbarButtons } from './config';
-import { handleToolbarAction } from './utils';
+import { toolbarButtons, CardButtonAction } from './config';
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({
+  task,
+  onDelete,
+  onComplete,
+  onDetails,
+  onEdit,
+}: TaskCardProps) {
   const { mode } = useColorScheme();
   const isCompleted = task.completed;
   const { t } = useTranslation('tasks_page');
+
+  const handleAction = (action: CardButtonAction) => {
+    switch (action) {
+      case CardButtonAction.Edit:
+        onEdit(task);
+        break;
+      case CardButtonAction.Details:
+        onDetails(task);
+        break;
+      case CardButtonAction.Complete:
+        onComplete(task);
+        break;
+      case CardButtonAction.Delete:
+        onDelete(task);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <Card
@@ -76,7 +100,7 @@ export default function TaskCard({ task }: TaskCardProps) {
               <IconButton
                 size='medium'
                 color='primary'
-                onClick={() => handleToolbarAction(action)}
+                onClick={() => handleAction(action)}
               >
                 {icon}
               </IconButton>

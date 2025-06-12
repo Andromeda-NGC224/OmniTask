@@ -51,6 +51,36 @@
     "title": "Task name",
     "description": "Describe task",
     "cancel": "Cancel",
-    "add": "Create task"
+    "add": "Create task",
+    "successMessage": "Task created successfully!"
+  },
+  "deleteTaskModal": {
+    "header": "Delete task",
+    "text": "Are you sure you want to delete this task?",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "successMessage": "Task deleted successfully!"
+  },
+  "completeTaskModal": {
+    "header": "Complete task",
+    "text": "Are you sure you want to mark this task as completed?",
+    "cancel": "Cancel",
+    "confirm": "Complete",
+    "successMessage": "Task completed successfully!",
+    "alreadyCompletedMessage": "Task is already completed!"
+  },
+  "taskDetailsModal": {
+    "header": "Task details",
+    "title": "Title",
+    "description": "Description"
+  },
+  "editTaskModal": {
+    "header": "Edit task",
+    "title": "Task name",
+    "description": "Describe task",
+    "completed": "Completed",
+    "cancel": "Cancel",
+    "save": "Save",
+    "successMessage": "Task updated successfully!"
   }
 }
