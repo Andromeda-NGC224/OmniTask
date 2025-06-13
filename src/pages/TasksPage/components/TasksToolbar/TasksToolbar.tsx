@@ -21,20 +21,35 @@ import { ViewMode } from '../../types';
 import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 
+import { taskService } from 'api/services/taskService/taskService';
+import toast from 'react-hot-toast';
+import { toastStyles } from 'styles/toastStyles';
+import { errorHandler } from 'api/utils';
+import type { ErrorToHandle } from 'api';
+import { AddTaskModal } from '../modals';
+
+
 export default function TasksToolbar({
   viewMode,
   onChangeViewMode,
+
+  onTaskAdded,
 }: TasksToolbarProps) {
   const { t } = useTranslation('tasks_page');
+  const [searchParams] = useSearchParams();
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const { handleSortChange, handleFilterChange, handleSearchChange } =
     useTaskParams();
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const [searchParams] = useSearchParams();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [popoverType, setPopoverType] = useState<'filter' | 'sort' | null>(
+    null,
+  );
+  const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
 
   useEffect(() => {
     const search = searchParams.get('search');
@@ -43,11 +58,6 @@ export default function TasksToolbar({
       setSearchOpen(true);
     }
   }, [searchParams]);
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [popoverType, setPopoverType] = useState<'filter' | 'sort' | null>(
-    null,
-  );
 
   const handleSearchClick = () => {
     setSearchOpen(true);
@@ -75,28 +85,59 @@ export default function TasksToolbar({
     setPopoverType(null);
   };
 
+  const handleOpenAddTaskModal = () => {
+    setIsAddTaskModalOpen(true);
+  };
+
+  const handleCloseAddTaskModal = () => {
+    setIsAddTaskModalOpen(false);
+  };
+
+  const handleAddTask = async (title: string, description: string) => {
+    try {
+      await taskService.createTask({ title, description });
+      toast.success(t('addTaskModal.successMessage'), {
+        style: toastStyles,
+      });
+      handleCloseAddTaskModal();
+      onTaskAdded();
+    } catch (error) {
+      errorHandler(error as ErrorToHandle);
+    }
+  };
+
   return (
     <Box
-      display='flex'
-      gap={1}
-      mb={2}
-      justifyContent='space-between'
       sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        gap: 1,
+        mb: 2,
         padding: '24px 16px',
         backgroundColor: 'background.paper',
         borderRadius: 3,
+        flexWrap: 'wrap',
+        boxSizing: 'content-box',
       }}
     >
-      <Button variant='contained' color='primary' size='small'>
+      <Button
+        variant='contained'
+        color='primary'
+        size='small'
+        sx={{ height: '40px', minWidth: '231px' }}
+        onClick={handleOpenAddTaskModal}
+      >
         <AddBoxOutlinedIcon sx={{ mr: 1 }} />
         <Typography>{t('toolbar.addNewTask')}</Typography>
       </Button>
 
-      <Box display='flex'>
+      <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
         <Box
           sx={(theme) => ({
             transition: 'width 0.3s ease',
             width: searchOpen ? '200px' : '40px',
+            height: '40px',
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
@@ -104,7 +145,6 @@ export default function TasksToolbar({
               ? `1px solid ${theme.palette.text.secondary}`
               : 'none',
             borderRadius: 3,
-            px: searchOpen ? 1 : 0,
             bgcolor: searchOpen ? 'background.paper' : 'transparent',
           })}
         >
@@ -147,24 +187,26 @@ export default function TasksToolbar({
           {t('toolbar.sort.sort')}
         </Button>
 
-        <Tooltip title={t('toolbar.list')}>
-          <IconButton
-            size='medium'
-            color={viewMode === 'list' ? 'primary' : 'default'}
-            onClick={() => onChangeViewMode(ViewMode.List)}
-          >
-            <ViewListIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title={t('toolbar.grid')}>
-          <IconButton
-            size='medium'
-            color={viewMode === 'grid' ? 'primary' : 'default'}
-            onClick={() => onChangeViewMode(ViewMode.Grid)}
-          >
-            <ViewModuleIcon />
-          </IconButton>
-        </Tooltip>
+        <Box>
+          <Tooltip title={t('toolbar.list')}>
+            <IconButton
+              size='medium'
+              color={viewMode === 'list' ? 'primary' : 'default'}
+              onClick={() => onChangeViewMode(ViewMode.List)}
+            >
+              <ViewListIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title={t('toolbar.grid')}>
+            <IconButton
+              size='medium'
+              color={viewMode === 'grid' ? 'primary' : 'default'}
+              onClick={() => onChangeViewMode(ViewMode.Grid)}
+            >
+              <ViewModuleIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
 
         <Popover
           open={Boolean(anchorEl)}
@@ -180,6 +222,12 @@ export default function TasksToolbar({
           />
         </Popover>
       </Box>
+
+      <AddTaskModal
+        open={isAddTaskModalOpen}
+        onClose={handleCloseAddTaskModal}
+        onAddTask={handleAddTask}
+      />
     </Box>
   );
 }

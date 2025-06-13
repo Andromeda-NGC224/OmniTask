@@ -15,7 +15,9 @@ export const taskService = {
     return httpClient.get('/task', {
       params: {
         order: params.order ?? 'desc',
-        sortBy: params.sortBy ?? 'title',
+
+        sortBy: params.sortBy ?? 'createdAt',
+
         per_page: params.per_page ?? 10,
         page: params.page ?? 1,
         search: params.search ?? '',
@@ -33,7 +35,9 @@ export const taskService = {
   },
 
   async updateTask(taskId: string, payload: UpdateTaskPayload): Promise<Task> {
-    return httpClient.put(`/task/${taskId}`, payload);
+
+    return httpClient.patch(`/task/${taskId}`, payload);
+
   },
 
   async deleteTask(taskId: string): Promise<void> {
