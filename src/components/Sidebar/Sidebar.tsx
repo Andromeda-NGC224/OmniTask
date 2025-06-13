@@ -36,13 +36,7 @@ export default function Sidebar({ open }: { open: boolean }) {
       ModalProps={{
         keepMounted: true,
       }}
-      sx={getDrawerSx(
-        open,
-        drawerWidth,
-        COLLAPSED_WIDTH,
-        mode === 'dark' ? 'dark' : 'light',
-        theme,
-      )}
+      sx={getDrawerSx(drawerWidth, mode === 'dark' ? 'dark' : 'light', theme)}
     >
       <Box
         sx={{

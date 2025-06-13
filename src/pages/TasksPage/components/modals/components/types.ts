@@ -29,10 +29,3 @@ export interface EditTaskModalProps {
   ) => void;
   task: Task | null;
 }
-
-export interface TaskDetailsModalProps {
-  open: boolean;
-  onClose: () => void;
-  title: string;
-  description: string;
-}

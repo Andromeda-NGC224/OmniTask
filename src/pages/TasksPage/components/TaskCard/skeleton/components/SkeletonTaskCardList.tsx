@@ -1,5 +1,5 @@
 import { Card, Box, Skeleton, useColorScheme } from '@mui/material';
-import { toolbarButtons } from '../config';
+import { toolbarButtons } from '../../config';
 
 export default function SkeletonTaskCardList() {
   const { mode } = useColorScheme();

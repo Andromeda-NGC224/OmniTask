@@ -24,9 +24,7 @@ export const menuItems = [
 ];
 
 export const getDrawerSx = (
-  open: boolean,
   DRAWER_WIDTH: number | string,
-  COLLAPSED_WIDTH: number,
   mode: 'light' | 'dark',
   theme: Theme,
 ): DrawerProps['sx'] => ({

@@ -40,7 +40,6 @@
   "emptyTasks": {
     "title": "Tasks not found",
     "description": "Create your first task to get started"
-
   },
   "errorTasks": {
     "title": "Oops! Something went wrong",
@@ -70,11 +69,6 @@
     "successMessage": "Task completed successfully!",
     "alreadyCompletedMessage": "Task is already completed!"
   },
-  "taskDetailsModal": {
-    "header": "Task details",
-    "title": "Title",
-    "description": "Description"
-  },
   "editTaskModal": {
     "header": "Edit task",
     "title": "Task name",
@@ -83,6 +77,5 @@
     "cancel": "Cancel",
     "save": "Save",
     "successMessage": "Task updated successfully!"
-
   }
 }

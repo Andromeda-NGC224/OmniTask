@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import type { Task } from 'types/tasks';
 import type { TaskListProps } from './types';
@@ -11,20 +12,13 @@ import { errorHandler } from 'api/utils/errorHandler';
 import type { ErrorToHandle } from 'api/types';
 import { EmptyTaskList } from '../EmptyTaskList';
 import { ErrorTaskList } from '../ErrorTaskList';
-import {
-  SkeletonTaskCardGrid,
-  SkeletonTaskCardList,
-} from '../TaskCard/skeleton';
+
 import { TaskCard } from '../TaskCard';
 import { getQueryParams } from 'api/services/taskService/utils';
-import {
-  DeleteTaskModal,
-  CompleteTaskModal,
-  TaskDetailsModal,
-  EditTaskModal,
-} from '../modals';
+import { DeleteTaskModal, CompleteTaskModal, EditTaskModal } from '../modals';
 import { toastStyles } from 'styles/toastStyles';
 import { useTranslation } from 'react-i18next';
+import { SkeletonWrapper } from '../TaskCard/skeleton';
 
 export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
   const { t } = useTranslation('tasks_page');
@@ -36,12 +30,13 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
   const { order, sortBy, per_page, page, search } =
     getQueryParams(searchParams);
+
+  const navigate = useNavigate();
 
   const handleOpenDeleteModal = (task: Task) => {
     setSelectedTask(task);
@@ -106,16 +101,6 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
     }
   };
 
-  const handleOpenDetailsModal = (task: Task) => {
-    setSelectedTask(task);
-    setIsDetailsModalOpen(true);
-  };
-
-  const handleCloseDetailsModal = () => {
-    setSelectedTask(null);
-    setIsDetailsModalOpen(false);
-  };
-
   const handleOpenEditModal = (task: Task) => {
     setSelectedTask(task);
     setIsEditModalOpen(true);
@@ -151,6 +136,10 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
     }
   };
 
+  const handleDetailsClick = (task: Task) => {
+    navigate(`/tasks/${task.id}`);
+  };
+
   useEffect(() => {
     const controller = new AbortController();
 
@@ -160,13 +149,21 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
       try {
         const response = await taskService.getTasks(
           { order, sortBy, per_page, page, search },
-
           controller.signal,
         );
 
-        setTasks(response.data);
-
-        setError(null);
+        if (response.data === undefined) {
+          setError(true);
+          errorHandler(
+            new Error('Received undefined data from API.') as ErrorToHandle,
+          );
+        } else if (response.data === null) {
+          setTasks([]);
+          setError(null);
+        } else {
+          setTasks(response.data);
+          setError(null);
+        }
 
         console.log('Fetched tasks:', response);
       } catch (err) {
@@ -186,33 +183,12 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
   }, [order, page, per_page, sortBy, search, refreshKey]);
 
   if (loading) {
-    return (
-      <Box
-        display={viewMode === 'grid' ? 'grid' : 'flex'}
-        gridTemplateColumns={
-          viewMode === 'grid'
-            ? 'repeat(auto-fill, minmax(285px, 1fr))'
-            : undefined
-        }
-        flexDirection={viewMode === 'list' ? 'column' : undefined}
-        gap={2}
-      >
-        {Array.from({ length: 6 }).map((_, i) =>
-          viewMode === 'grid' ? (
-            <SkeletonTaskCardGrid key={i} />
-          ) : (
-            <SkeletonTaskCardList key={i} />
-          ),
-        )}
-      </Box>
-    );
+    return <SkeletonWrapper viewMode={viewMode} />;
   }
 
   if (error) {
     return <ErrorTaskList />;
   }
-
-  if (tasks.length === 0) return <EmptyTaskList />;
 
   if (tasks.length === 0) return <EmptyTaskList />;
 
@@ -233,7 +209,7 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
           task={task}
           onDelete={handleOpenDeleteModal}
           onComplete={handleOpenCompleteModal}
-          onDetails={handleOpenDetailsModal}
+          onDetails={handleDetailsClick}
           onEdit={handleOpenEditModal}
         />
       ))}
@@ -248,13 +224,6 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
         open={isCompleteModalOpen}
         onClose={handleCloseCompleteModal}
         onConfirm={handleConfirmComplete}
-      />
-
-      <TaskDetailsModal
-        open={isDetailsModalOpen}
-        onClose={handleCloseDetailsModal}
-        title={selectedTask?.title || ''}
-        description={selectedTask?.description || ''}
       />
 
       <EditTaskModal

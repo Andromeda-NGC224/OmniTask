@@ -60,7 +60,7 @@ export default function TaskCard({
         borderColor: 'divider',
       }}
     >
-      <Box sx={{ textAlign: 'left' }}>
+      <Box sx={{ textAlign: 'left', width: '100%' }}>
         <Box sx={{ display: 'flex', gap: 1 }}>
           {isCompleted ? (
             <AssignmentTurnedInIcon sx={{ marginTop: '4px' }} color='success' />
@@ -71,7 +71,15 @@ export default function TaskCard({
             {task.title}
           </Typography>
         </Box>
-        <Typography variant='body2' color='text.secondary'>
+        <Typography
+          variant='body2'
+          color='text.secondary'
+          sx={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
           {task.description}
         </Typography>
       </Box>

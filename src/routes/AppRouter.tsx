@@ -6,6 +6,9 @@ import NotFound from 'pages/NotFoundPage/NotFoundPage';
 import { ClippedLayout, MainLayout } from 'layouts';
 
 const TasksPage = lazy(() => import('pages/TasksPage/TasksPage'));
+const TasksDetailsPage = lazy(
+  () => import('pages/TasksDetailsPage/TasksDetailsPage'),
+);
 const TestPage = lazy(() => import('pages/TestPage/TestPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
@@ -20,6 +23,14 @@ const APP_ROUTES: RouteObject[] = [
         element: (
           <Suspense fallback={<Loader />}>
             <TasksPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: EAppRoutes.TASKS_DETAILS,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <TasksDetailsPage />
           </Suspense>
         ),
       },
