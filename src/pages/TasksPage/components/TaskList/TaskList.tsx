@@ -151,9 +151,6 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
     }
   };
 
-  const { order, sortBy, per_page, page, search } =
-    getQueryParams(searchParams);
-
   useEffect(() => {
     const controller = new AbortController();
 
@@ -162,14 +159,12 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
 
       try {
         const response = await taskService.getTasks(
-
           { order, sortBy, per_page, page, search },
 
           controller.signal,
         );
 
         setTasks(response.data);
-
 
         setError(null);
 
@@ -182,7 +177,6 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
         setLoading(false);
       }
     };
-
 
     fetchTasks();
 
@@ -218,7 +212,6 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
     return <ErrorTaskList />;
   }
 
-
   if (tasks.length === 0) return <EmptyTaskList />;
 
   if (tasks.length === 0) return <EmptyTaskList />;
@@ -243,7 +236,6 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
           onDetails={handleOpenDetailsModal}
           onEdit={handleOpenEditModal}
         />
-
       ))}
 
       <DeleteTaskModal
