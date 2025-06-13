@@ -5,6 +5,7 @@ import { ViewMode } from './types';
 
 const TasksPage = () => {
   const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.Grid);
+
   const [tasksRefreshKey, setTasksRefreshKey] = useState(0);
 
   const handleTaskAdded = () => {

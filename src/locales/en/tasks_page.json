@@ -40,6 +40,7 @@
   "emptyTasks": {
     "title": "Tasks not found",
     "description": "Create your first task to get started"
+
   },
   "errorTasks": {
     "title": "Oops! Something went wrong",
@@ -82,5 +83,6 @@
     "cancel": "Cancel",
     "save": "Save",
     "successMessage": "Task updated successfully!"
+
   }
 }

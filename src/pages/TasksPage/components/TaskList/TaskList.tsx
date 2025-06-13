@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
+
 import type { Task } from 'types/tasks';
 import type { TaskListProps } from './types';
 import { useSearchParams } from 'react-router-dom';
@@ -150,6 +151,9 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
     }
   };
 
+  const { order, sortBy, per_page, page, search } =
+    getQueryParams(searchParams);
+
   useEffect(() => {
     const controller = new AbortController();
 
@@ -158,22 +162,27 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
 
       try {
         const response = await taskService.getTasks(
+
           { order, sortBy, per_page, page, search },
+
           controller.signal,
         );
 
         setTasks(response.data);
+
 
         setError(null);
 
         console.log('Fetched tasks:', response);
       } catch (err) {
         setError(true);
+
         errorHandler(err as ErrorToHandle);
       } finally {
         setLoading(false);
       }
     };
+
 
     fetchTasks();
 
@@ -209,6 +218,9 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
     return <ErrorTaskList />;
   }
 
+
+  if (tasks.length === 0) return <EmptyTaskList />;
+
   if (tasks.length === 0) return <EmptyTaskList />;
 
   return (
@@ -231,6 +243,7 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
           onDetails={handleOpenDetailsModal}
           onEdit={handleOpenEditModal}
         />
+
       ))}
 
       <DeleteTaskModal

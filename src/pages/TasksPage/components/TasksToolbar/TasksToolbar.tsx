@@ -28,9 +28,11 @@ import { errorHandler } from 'api/utils';
 import type { ErrorToHandle } from 'api';
 import { AddTaskModal } from '../modals';
 
+
 export default function TasksToolbar({
   viewMode,
   onChangeViewMode,
+
   onTaskAdded,
 }: TasksToolbarProps) {
   const { t } = useTranslation('tasks_page');
@@ -42,6 +44,7 @@ export default function TasksToolbar({
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [popoverType, setPopoverType] = useState<'filter' | 'sort' | null>(
     null,

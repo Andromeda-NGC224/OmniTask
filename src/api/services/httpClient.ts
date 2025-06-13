@@ -1,4 +1,5 @@
 import { API_CONFIG } from 'api/config';
+
 import axios, { type AxiosInstance } from 'axios';
 import { localStorageService } from 'utils';
 
