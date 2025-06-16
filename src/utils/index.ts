@@ -1,2 +1,2 @@
-export { getQueryParams } from './getQueryParams';
 export { localStorageService } from './localStorageService';
+export { switchNeverDefaultCase } from './switchNeverDefaultCase';

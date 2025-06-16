@@ -1,6 +1,5 @@
 import type { ViewMode } from 'pages/TasksPage/types';
 
-export type TaskListProps = {
+export interface SkeletonWrapperProps {
   viewMode: ViewMode;
-  refreshKey: number;
-};
+}

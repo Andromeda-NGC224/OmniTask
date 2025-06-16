@@ -1,5 +1,5 @@
 import { API_CONFIG } from 'api/config';
-import { errorHandler } from 'api/utils';
+
 import axios, { type AxiosInstance } from 'axios';
 import { localStorageService } from 'utils';
 
@@ -25,7 +25,6 @@ export const createHttpClient = (): AxiosInstance => {
   instance.interceptors.response.use(
     (response) => response.data,
     (error) => {
-      errorHandler(error);
       return Promise.reject(error);
     },
   );

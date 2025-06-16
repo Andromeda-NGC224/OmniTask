@@ -1,10 +1,12 @@
 import { useSearchParams } from 'react-router-dom';
 import { TaskFilter, TaskSort } from 'pages/TasksPage/types';
 import { useEffect, useState } from 'react';
+import { getQueryParams } from 'api/services/taskService/utils';
 
 export const useTaskParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [debouncedSearchValue, setDebouncedSearchValue] = useState('');
+  const { search } = getQueryParams(searchParams);
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState(search);
 
   const handleSortChange = (sort: TaskSort) => {
     const [sortBy, order] = sort.split('-');
@@ -32,7 +34,7 @@ export const useTaskParams = () => {
       if (debouncedSearchValue === '') {
         searchParams.delete('search');
       } else {
-        searchParams.set('search', debouncedSearchValue);
+        searchParams.set('search', debouncedSearchValue as string);
       }
       setSearchParams(searchParams);
     }, 500);

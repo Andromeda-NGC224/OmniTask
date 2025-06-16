@@ -1,35 +1,37 @@
 import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Drawer,
-  ListItemButton,
   Box,
   Button,
   useTheme,
   useColorScheme,
   Tooltip,
+  useMediaQuery,
 } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
 import { BiLogOut } from 'react-icons/bi';
 import { DRAWER_WIDTH, COLLAPSED_WIDTH } from './constants';
-import { getDrawerSx, menuItems } from './config';
+import { getDrawerSx } from './config';
+import { SidebarNavList } from './components';
 
 export default function Sidebar({ open }: { open: boolean }) {
   const { mode } = useColorScheme();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const drawerWidth = isSmallScreen
+    ? '100%'
+    : open
+      ? DRAWER_WIDTH
+      : COLLAPSED_WIDTH;
 
   return (
     <Drawer
-      variant='permanent'
-      sx={getDrawerSx(
-        open,
-        DRAWER_WIDTH,
-        COLLAPSED_WIDTH,
-        mode === 'dark' ? 'dark' : 'light',
-        useTheme(),
-      )}
+      variant={isSmallScreen ? 'temporary' : 'permanent'}
+      open={isSmallScreen ? open : true}
+      ModalProps={{
+        keepMounted: true,
+      }}
+      sx={getDrawerSx(drawerWidth, mode === 'dark' ? 'dark' : 'light', theme)}
     >
       <Box
         sx={{
@@ -44,39 +46,7 @@ export default function Sidebar({ open }: { open: boolean }) {
         {open && <Logo />}
       </Box>
 
-      <List sx={{ py: 2 }}>
-        {menuItems.map(({ to, label, icon }) => (
-          <ListItem sx={{ px: 2 }} key={label} disablePadding>
-            <NavLink to={to} style={{ width: '100%' }}>
-              <Tooltip title={!open ? label : ''} placement='right'>
-                <ListItemButton
-                  sx={{ justifyContent: open ? 'initial' : 'center' }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 2 : 'auto',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {icon}
-                  </ListItemIcon>
-                  {open && (
-                    <ListItemText
-                      primary={label}
-                      slotProps={{
-                        primary: {
-                          sx: { fontWeight: 'bold', color: 'text.secondary' },
-                        },
-                      }}
-                    />
-                  )}
-                </ListItemButton>
-              </Tooltip>
-            </NavLink>
-          </ListItem>
-        ))}
-      </List>
+      <SidebarNavList open={open} />
 
       <Box sx={{ mt: 'auto', mb: 4, p: 2 }}>
         <Tooltip title={!open ? 'Log out' : ''} placement='right'>

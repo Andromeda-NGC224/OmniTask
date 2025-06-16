@@ -9,6 +9,12 @@
     "pending": "Pending",
     "completed": "Completed"
   },
+  "card_button": {
+    "edit": "Edit",
+    "details": "Details",
+    "complete": "Complete",
+    "delete": "Delete"
+  },
   "toolbar": {
     "addNewTask": "Add New Task",
     "search": "Search",
@@ -18,6 +24,7 @@
       "pending": "Only Pending",
       "completed": "Only Completed"
     },
+
     "sort": {
       "sort": "Sort",
       "titleAsc": "By name (A-Z)",
@@ -33,5 +40,46 @@
   "emptyTasks": {
     "title": "Tasks not found",
     "description": "Create your first task to get started"
+  },
+  "errorTasks": {
+    "title": "Oops! Something went wrong",
+    "description": "Failed to load tasks list. Try to refresh the page.",
+    "retry": "Retry"
+  },
+  "addTaskModal": {
+    "header": "Add new task",
+    "title": "Task name",
+    "description": "Describe task",
+    "cancel": "Cancel",
+    "add": "Create task",
+    "successMessage": "Task created successfully!"
+  },
+  "deleteTaskModal": {
+    "header": "Delete task",
+    "text": "Are you sure you want to delete this task?",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "successMessage": "Task deleted successfully!"
+  },
+  "completeTaskModal": {
+    "header": "Complete task",
+    "text": "Are you sure you want to mark this task as completed?",
+    "cancel": "Cancel",
+    "confirm": "Complete",
+    "successMessage": "Task completed successfully!",
+    "alreadyCompletedMessage": "Task is already completed!",
+    "headerAlreadyCompleted": "Task is already completed",
+    "textAlreadyCompleted": "This task is already completed. Would you like to return it to the pending state?",
+    "revertToPending": "Return to pending",
+    "revertedMessage": "Task status changed to 'in progress'"
+  },
+  "editTaskModal": {
+    "header": "Edit task",
+    "title": "Task name",
+    "description": "Describe task",
+    "completed": "Completed",
+    "cancel": "Cancel",
+    "save": "Save",
+    "successMessage": "Task updated successfully!"
   }
 }

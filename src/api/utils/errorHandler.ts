@@ -2,6 +2,8 @@ import type { ErrorToHandle } from 'api/types';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { getErrorMessage } from './getErrorMessage';
+import { toastStyles } from 'styles/toastStyles';
+
 // import { getErrorStatusCode } from './getErrorStatusCode';
 
 export const errorHandler = (
@@ -12,7 +14,12 @@ export const errorHandler = (
   const errorMessage = getErrorMessage(error);
   // const statusCode = getErrorStatusCode(error);
 
-  if (displayErrorMessage && !isCancelError) toast.error(errorMessage);
+
+  if (displayErrorMessage && !isCancelError)
+    toast.error(errorMessage, {
+      style: toastStyles,
+    });
+
 
   // if (statusCode === 401) {
   //   Logout()

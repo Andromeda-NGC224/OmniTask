@@ -12,31 +12,31 @@ export const taskService = {
     params: GetTasksParams,
     signal?: AbortSignal,
   ): Promise<GetTasksResponse> {
-    return httpClient.get('/task', {
+    return httpClient.get('/tasks', {
       params: {
-        order: params.order ?? 'desc',
-        sortBy: params.sortBy ?? 'title',
-        per_page: params.per_page ?? 10,
-        page: params.page ?? 1,
-        search: params.search ?? '',
+        order: params.order,
+        sortBy: params.sortBy,
+        per_page: params.per_page,
+        page: params.page,
+        search: params.search,
       },
       signal,
     });
   },
 
   async getTaskById(taskId: string): Promise<Task> {
-    return httpClient.get(`/task/${taskId}`);
+    return httpClient.get(`/tasks/${taskId}`);
   },
 
   async createTask(payload: CreateTaskPayload): Promise<Task> {
-    return httpClient.post('/task', payload);
+    return httpClient.post('/tasks', payload);
   },
 
   async updateTask(taskId: string, payload: UpdateTaskPayload): Promise<Task> {
-    return httpClient.put(`/task/${taskId}`, payload);
+    return httpClient.patch(`/tasks/${taskId}`, payload);
   },
 
   async deleteTask(taskId: string): Promise<void> {
-    return httpClient.delete(`/task/${taskId}`);
+    return httpClient.delete(`/tasks/${taskId}`);
   },
 };

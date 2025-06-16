@@ -1,4 +1,11 @@
-import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Box,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import { BiMenu } from 'react-icons/bi';
 import { Logo } from 'components/Logo';
@@ -11,6 +18,9 @@ export default function Header({
   showLogo,
   clipped,
 }: HeaderProps) {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <AppBar
       position='fixed'
@@ -18,9 +28,14 @@ export default function Header({
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Toolbar sx={{ backgroundColor: 'background.paper' }}>
+      <Toolbar
+        sx={{
+          backgroundColor: 'background.paper',
+          px: isSmallScreen ? 0.5 : 2,
+        }}
+      >
         {!clipped && (
-          <IconButton onClick={onMenuToggle} sx={{ mr: 2 }}>
+          <IconButton onClick={onMenuToggle} sx={{ mr: isSmallScreen ? 0 : 2 }}>
             <BiMenu size={24} />
           </IconButton>
         )}
