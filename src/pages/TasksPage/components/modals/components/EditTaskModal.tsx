@@ -22,15 +22,16 @@ export default function EditTaskModal({
   const [completed, setCompleted] = useState(false);
 
   useEffect(() => {
-    if (task) {
-      setTitle(task.title);
-      setDescription(task.description);
-      setCompleted(task.completed);
-    } else {
+    if (!task) {
       setTitle('');
       setDescription('');
       setCompleted(false);
+      return;
     }
+
+    setTitle(task.title);
+    setDescription(task.description);
+    setCompleted(task.completed);
   }, [task]);
 
   const handleSave = () => {

@@ -9,6 +9,7 @@ export default function DeleteTaskModal({
   onConfirm,
 }: DeleteTaskModalProps) {
   const { t } = useTranslation('tasks_page');
+
   return (
     <BaseModal
       open={open}

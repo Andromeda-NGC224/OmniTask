@@ -9,7 +9,6 @@ import { toast } from 'react-hot-toast';
 
 import { taskService } from 'api/services';
 import { errorHandler } from 'api/utils/errorHandler';
-import type { ErrorToHandle } from 'api/types';
 import { EmptyTaskList } from '../EmptyTaskList';
 import { ErrorTaskList } from '../ErrorTaskList';
 
@@ -19,6 +18,7 @@ import { DeleteTaskModal, CompleteTaskModal, EditTaskModal } from '../modals';
 import { toastStyles } from 'styles/toastStyles';
 import { useTranslation } from 'react-i18next';
 import { SkeletonWrapper } from '../TaskCard/skeleton';
+import { ViewMode } from 'pages/TasksPage/types';
 
 export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
   const { t } = useTranslation('tasks_page');
@@ -49,17 +49,18 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
   };
 
   const handleConfirmDelete = async () => {
-    if (selectedTask) {
-      try {
-        await taskService.deleteTask(String(selectedTask.id));
-        toast.success(t('deleteTaskModal.successMessage'), {
-          style: toastStyles,
-        });
-        setTasks(tasks.filter((task) => task.id !== selectedTask.id));
-        handleCloseDeleteModal();
-      } catch (err) {
-        errorHandler(err as ErrorToHandle);
-      }
+    if (!selectedTask) return;
+
+    try {
+      await taskService.deleteTask(String(selectedTask.id));
+      toast.success(t('deleteTaskModal.successMessage'), {
+        style: toastStyles,
+      });
+      setTasks((prev) => prev.filter((task) => task.id !== selectedTask.id));
+    } catch (err) {
+      errorHandler(err);
+    } finally {
+      handleCloseDeleteModal();
     }
   };
 
@@ -74,30 +75,31 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
   };
 
   const handleConfirmComplete = async () => {
-    if (selectedTask) {
-      if (selectedTask.completed) {
-        toast.success(t('completeTaskModal.alreadyCompletedMessage'), {
-          style: toastStyles,
-        });
-        handleCloseCompleteModal();
-        return;
-      }
-      try {
-        await taskService.updateTask(String(selectedTask.id), {
-          completed: true,
-        });
-        toast.success(t('completeTaskModal.successMessage'), {
-          style: toastStyles,
-        });
-        setTasks(
-          tasks.map((task) =>
-            task.id === selectedTask.id ? { ...task, completed: true } : task,
-          ),
-        );
-        handleCloseCompleteModal();
-      } catch (err) {
-        errorHandler(err as ErrorToHandle);
-      }
+    if (!selectedTask) return;
+
+    try {
+      await taskService.updateTask(String(selectedTask.id), {
+        completed: !selectedTask.completed,
+      });
+
+      toast.success(
+        selectedTask.completed
+          ? t('completeTaskModal.revertedMessage')
+          : t('completeTaskModal.successMessage'),
+        { style: toastStyles },
+      );
+
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === selectedTask.id
+            ? { ...task, completed: !task.completed }
+            : task,
+        ),
+      );
+    } catch (err) {
+      errorHandler(err);
+    } finally {
+      handleCloseCompleteModal();
     }
   };
 
@@ -127,12 +129,10 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
         style: toastStyles,
       });
       setTasks(tasks.map((task) => (task.id === id ? updatedTask : task)));
-      handleCloseEditModal();
     } catch (err) {
-      errorHandler(err as ErrorToHandle);
-      toast.error(t('editTaskModal.errorMessage'), {
-        style: toastStyles,
-      });
+      errorHandler(err);
+    } finally {
+      handleCloseEditModal();
     }
   };
 
@@ -152,12 +152,7 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
           controller.signal,
         );
 
-        if (response.data === undefined) {
-          setError(true);
-          errorHandler(
-            new Error('Received undefined data from API.') as ErrorToHandle,
-          );
-        } else if (response.data === null) {
+        if (response.data === null) {
           setTasks([]);
           setError(null);
         } else {
@@ -169,7 +164,7 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
       } catch (err) {
         setError(true);
 
-        errorHandler(err as ErrorToHandle);
+        errorHandler(err);
       } finally {
         setLoading(false);
       }
@@ -194,13 +189,13 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
 
   return (
     <Box
-      display={viewMode === 'grid' ? 'grid' : 'flex'}
+      display={viewMode === ViewMode.Grid ? 'grid' : 'flex'}
       gridTemplateColumns={
-        viewMode === 'grid'
+        viewMode === ViewMode.Grid
           ? 'repeat(auto-fill, minmax(285px, 1fr))'
           : undefined
       }
-      flexDirection={viewMode === 'list' ? 'column' : undefined}
+      flexDirection={viewMode === ViewMode.List ? 'column' : undefined}
       gap={2}
     >
       {tasks.map((task) => (
@@ -224,6 +219,7 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
         open={isCompleteModalOpen}
         onClose={handleCloseCompleteModal}
         onConfirm={handleConfirmComplete}
+        isAlreadyCompleted={selectedTask?.completed || false}
       />
 
       <EditTaskModal

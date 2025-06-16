@@ -14,11 +14,11 @@ export const taskService = {
   ): Promise<GetTasksResponse> {
     return httpClient.get('/tasks', {
       params: {
-        order: params.order ?? 'desc',
-        sortBy: params.sortBy ?? 'createdAt',
-        per_page: params.per_page ?? 10,
-        page: params.page ?? 1,
-        search: params.search ?? '',
+        order: params.order,
+        sortBy: params.sortBy,
+        per_page: params.per_page,
+        page: params.page,
+        search: params.search,
       },
       signal,
     });

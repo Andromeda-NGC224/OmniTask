@@ -66,7 +66,11 @@
     "cancel": "Скасувати",
     "confirm": "Завершити",
     "successMessage": "Завдання успішно завершено!",
-    "alreadyCompletedMessage": "Завдання вже завершене!"
+    "alreadyCompletedMessage": "Завдання вже завершене!",
+    "headerAlreadyCompleted": "Завдання вже завершене",
+    "textAlreadyCompleted": "Це завдання вже виконане. Бажаєте повернути його у стан виконання?",
+    "revertToPending": "Повернути до виконання",
+    "revertedMessage": "Статус завдання змінено на 'у процесі виконання'"
   },
 
   "editTaskModal": {

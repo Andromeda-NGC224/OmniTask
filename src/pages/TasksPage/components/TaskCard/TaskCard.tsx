@@ -14,6 +14,7 @@ import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import { useTranslation } from 'react-i18next';
 import type { TaskCardProps } from './types';
 import { toolbarButtons, CardButtonAction } from './config';
+import { switchNeverDefaultCase } from 'utils';
 
 export default function TaskCard({
   task,
@@ -41,7 +42,7 @@ export default function TaskCard({
         onDelete(task);
         break;
       default:
-        break;
+        switchNeverDefaultCase(action);
     }
   };
 

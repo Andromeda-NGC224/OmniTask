@@ -17,7 +17,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import type { TasksToolbarProps } from './types';
 import { useTranslation } from 'react-i18next';
 import FilterSortPopover from './FilterSortPopover';
-import { ViewMode } from '../../types';
+
 import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 
@@ -25,9 +25,8 @@ import { taskService } from 'api/services/taskService/taskService';
 import toast from 'react-hot-toast';
 import { toastStyles } from 'styles/toastStyles';
 import { errorHandler } from 'api/utils';
-import type { ErrorToHandle } from 'api';
 import { AddTaskModal } from '../modals';
-
+import { ViewMode } from 'pages/TasksPage/types';
 
 export default function TasksToolbar({
   viewMode,
@@ -102,7 +101,7 @@ export default function TasksToolbar({
       handleCloseAddTaskModal();
       onTaskAdded();
     } catch (error) {
-      errorHandler(error as ErrorToHandle);
+      errorHandler(error);
     }
   };
 
@@ -191,7 +190,7 @@ export default function TasksToolbar({
           <Tooltip title={t('toolbar.list')}>
             <IconButton
               size='medium'
-              color={viewMode === 'list' ? 'primary' : 'default'}
+              color={viewMode === ViewMode.List ? 'primary' : 'default'}
               onClick={() => onChangeViewMode(ViewMode.List)}
             >
               <ViewListIcon />
@@ -200,7 +199,7 @@ export default function TasksToolbar({
           <Tooltip title={t('toolbar.grid')}>
             <IconButton
               size='medium'
-              color={viewMode === 'grid' ? 'primary' : 'default'}
+              color={viewMode === ViewMode.Grid ? 'primary' : 'default'}
               onClick={() => onChangeViewMode(ViewMode.Grid)}
             >
               <ViewModuleIcon />

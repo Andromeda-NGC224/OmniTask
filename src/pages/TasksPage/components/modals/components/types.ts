@@ -10,6 +10,7 @@ export interface CompleteTaskModalProps {
   open: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  isAlreadyCompleted: boolean;
 }
 
 export interface DeleteTaskModalProps {

@@ -67,7 +67,11 @@
     "cancel": "Cancel",
     "confirm": "Complete",
     "successMessage": "Task completed successfully!",
-    "alreadyCompletedMessage": "Task is already completed!"
+    "alreadyCompletedMessage": "Task is already completed!",
+    "headerAlreadyCompleted": "Task is already completed",
+    "textAlreadyCompleted": "This task is already completed. Would you like to return it to the pending state?",
+    "revertToPending": "Return to pending",
+    "revertedMessage": "Task status changed to 'in progress'"
   },
   "editTaskModal": {
     "header": "Edit task",

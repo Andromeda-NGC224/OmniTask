@@ -4,22 +4,15 @@ import { taskService } from 'api/services/taskService/taskService';
 import type { Task } from 'types/tasks';
 import { Box, Typography, Alert } from '@mui/material';
 import { errorHandler } from 'api/utils';
-import type { ErrorToHandle } from 'api';
 import { Loader } from 'components/Loader';
 
 export default function TasksDetailsPage() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams() as { id: string };
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) {
-      setError('Task ID is missing.');
-      setLoading(false);
-      return;
-    }
-
     const fetchTask = async () => {
       setLoading(true);
       setError(null);
@@ -28,7 +21,7 @@ export default function TasksDetailsPage() {
         setTask(response);
       } catch (err) {
         setError('Failed to fetch task details.');
-        errorHandler(err as ErrorToHandle);
+        errorHandler(err);
       } finally {
         setLoading(false);
       }
