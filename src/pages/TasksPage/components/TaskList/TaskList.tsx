@@ -19,6 +19,7 @@ import { toastStyles } from 'styles/toastStyles';
 import { useTranslation } from 'react-i18next';
 import { SkeletonWrapper } from '../TaskCard/skeleton';
 import { ViewMode } from 'pages/TasksPage/types';
+import { isCancel } from 'axios';
 
 export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
   const { t } = useTranslation('tasks_page');
@@ -162,8 +163,9 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
 
         console.log('Fetched tasks:', response);
       } catch (err) {
-        setError(true);
+        if (isCancel(err)) return;
 
+        setError(true);
         errorHandler(err);
       } finally {
         setLoading(false);
