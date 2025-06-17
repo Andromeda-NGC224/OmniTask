@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { taskService } from 'api/services/taskService/taskService';
+import { taskService } from 'api/services/TaskService/taskService';
 import type { Task } from 'types/tasks';
 import { Box, Typography, Alert } from '@mui/material';
 import { errorHandler } from 'api/utils';
@@ -18,7 +18,9 @@ export default function TasksDetailsPage() {
       setError(null);
       try {
         const response = await taskService.getTaskById(id);
-        setTask(response);
+        console.log('response', response);
+
+        setTask(response.data);
       } catch (err) {
         setError('Failed to fetch task details.');
         errorHandler(err);

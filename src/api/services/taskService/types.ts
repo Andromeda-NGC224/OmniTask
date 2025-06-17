@@ -1,5 +1,3 @@
-import type { Task } from 'types/tasks';
-
 export interface GetTasksParams {
   order?: 'asc' | 'desc';
   sortBy?: string;
@@ -8,8 +6,8 @@ export interface GetTasksParams {
   search?: string;
 }
 
-export interface GetTasksResponse {
-  data: Task[];
+export interface PaginatedResponse<DataType> {
+  data: DataType[];
   total: number;
   page: number;
   per_page: number;

@@ -13,7 +13,7 @@ import { EmptyTaskList } from '../EmptyTaskList';
 import { ErrorTaskList } from '../ErrorTaskList';
 
 import { TaskCard } from '../TaskCard';
-import { getQueryParams } from 'api/services/taskService/utils';
+import { getQueryParams } from 'api/services/TaskService/utils';
 import { DeleteTaskModal, CompleteTaskModal, EditTaskModal } from '../modals';
 import { toastStyles } from 'styles/toastStyles';
 import { useTranslation } from 'react-i18next';
@@ -157,7 +157,7 @@ export default function TaskList({ viewMode, refreshKey }: TaskListProps) {
           setTasks([]);
           setError(null);
         } else {
-          setTasks(response.data);
+          setTasks(response.data.data);
           setError(null);
         }
 

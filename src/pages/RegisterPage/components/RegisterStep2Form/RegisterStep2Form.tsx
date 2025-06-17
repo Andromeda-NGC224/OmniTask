@@ -30,12 +30,12 @@ export default function RegisterStep2Form({
         control={control}
         errorMessage={errors.surname?.message}
       />
-      <RegisterField
+      {/* <RegisterField
         name='avatar'
         label={t('avatar_placeholder')}
         control={control}
         errorMessage={errors.avatar?.message}
-      />
+      /> */}
       <Button
         type='submit'
         disabled={isSubmitting}

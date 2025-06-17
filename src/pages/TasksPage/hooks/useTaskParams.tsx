@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { TaskFilter, TaskSort } from 'pages/TasksPage/types';
 import { useEffect, useState } from 'react';
-import { getQueryParams } from 'api/services/taskService/utils';
+import { getQueryParams } from 'api/services/TaskService/utils';
 
 export const useTaskParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();

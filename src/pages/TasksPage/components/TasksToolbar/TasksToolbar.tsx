@@ -21,7 +21,7 @@ import FilterSortPopover from './FilterSortPopover';
 import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 
-import { taskService } from 'api/services/taskService/taskService';
+import { taskService } from 'api/services/TaskService/taskService';
 import toast from 'react-hot-toast';
 import { toastStyles } from 'styles/toastStyles';
 import { errorHandler } from 'api/utils';

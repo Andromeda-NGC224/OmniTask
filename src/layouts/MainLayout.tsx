@@ -1,9 +1,10 @@
 import { Box, Toolbar } from '@mui/material';
 import { Header } from 'components/Header';
 import { Sidebar } from 'components/Sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
+import { UserService } from 'api/services/UserService';
 
 const MainLayout = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -11,6 +12,10 @@ const MainLayout = () => {
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    UserService.getMe().catch(() => {});
+  }, []);
 
   return (
     <Box sx={{ display: 'flex', backgroundColor: 'background.default' }}>

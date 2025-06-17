@@ -3,16 +3,13 @@ import { httpClient } from '../httpClient';
 import type {
   CreateTaskPayload,
   GetTasksParams,
-  GetTasksResponse,
+  PaginatedResponse,
   UpdateTaskPayload,
 } from './types';
 
 export const taskService = {
-  async getTasks(
-    params: GetTasksParams,
-    signal?: AbortSignal,
-  ): Promise<GetTasksResponse> {
-    return httpClient.get('/tasks', {
+  async getTasks(params: GetTasksParams, signal?: AbortSignal) {
+    return httpClient.get<PaginatedResponse<Task>>('/tasks', {
       params: {
         order: params.order,
         sortBy: params.sortBy,
@@ -24,8 +21,8 @@ export const taskService = {
     });
   },
 
-  async getTaskById(taskId: string): Promise<Task> {
-    return httpClient.get(`/tasks/${taskId}`);
+  async getTaskById(taskId: string) {
+    return httpClient.get<Task>(`/tasks/${taskId}`);
   },
 
   async createTask(payload: CreateTaskPayload): Promise<Task> {

@@ -8,10 +8,16 @@ import type { RegisterFormInputs } from '../../types';
 import { RegisterStep1Form, RegisterStep2Form } from '..';
 import { step1Fields, step2Fields } from './config';
 import { useTranslation } from 'react-i18next';
+import { AuthService } from 'api/services/AuthService';
+import { UserService } from 'api/services/UserService';
+import { errorHandler } from 'api/utils';
+import { EAppRoutes } from 'routes/config';
+import { pickFilledFields } from './utils';
 
 export default function RegisterForm() {
   const { t } = useTranslation('register_page');
   const [step, setStep] = useState(1);
+  const [userId, setUserId] = useState<string | null>(null);
   const methods = useForm<RegisterFormInputs>({
     resolver: zodResolver(registerFormSchema),
     mode: 'onChange',
@@ -27,23 +33,41 @@ export default function RegisterForm() {
 
   const handleNextStep = async () => {
     const isValid = await trigger(step1Fields);
-    if (isValid) {
+    if (!isValid) return;
+
+    const data = methods.getValues();
+    const registrationData = {
+      email: data.email,
+      password: data.password,
+    };
+
+    try {
+      await AuthService.register(registrationData);
+
+      const me = await UserService.getMe().catch(() => null);
+      const userId = me?.data?.id || me?.data?._id || null;
+
+      setUserId(userId);
       setStep(2);
+    } catch (error) {
+      errorHandler(error);
     }
   };
 
-  const handleRegisterSubmit = async (data: RegisterFormInputs) => {
+  const handleStep2Finish = async (data: RegisterFormInputs) => {
     try {
       const isValid = await trigger(step2Fields);
-      if (!isValid) {
-        return;
+      if (!isValid) return;
+
+      const updatePayload = pickFilledFields(data, step2Fields);
+
+      if (userId && Object.keys(updatePayload).length > 0) {
+        await UserService.updateUser(userId, updatePayload);
       }
 
-      console.log('Final registration data:', data);
-
-      navigate('/');
+      navigate(EAppRoutes.TASKS);
     } catch (error) {
-      console.error('Ошибка регистрации:', error);
+      errorHandler(error);
     }
   };
 
@@ -51,7 +75,7 @@ export default function RegisterForm() {
     <FormProvider {...methods}>
       <Box
         component='form'
-        onSubmit={handleSubmit(handleRegisterSubmit)}
+        onSubmit={handleSubmit(handleStep2Finish)}
         noValidate
       >
         <Stack spacing={2}>

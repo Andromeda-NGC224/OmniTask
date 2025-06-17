@@ -6,6 +6,9 @@ import { loginSchema } from 'pages/LoginPage/config';
 import type { LoginFormInputs } from 'pages/LoginPage/types';
 import { LoginField } from '..';
 import { useTranslation } from 'react-i18next';
+import { AuthService } from 'api/services/AuthService/AuthService';
+import { EAppRoutes } from 'routes/config';
+import { errorHandler } from 'api/utils';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -20,10 +23,10 @@ export default function LoginForm() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      console.log('Дані для входу:', data);
-      navigate('/');
+      await AuthService.login(data);
+      navigate(EAppRoutes.TASKS);
     } catch (error) {
-      console.error('Помилка входу:', error);
+      errorHandler(error);
     }
   };
 
