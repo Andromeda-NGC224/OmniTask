@@ -1,6 +1,7 @@
 import { httpClient } from 'api/services/httpClient';
 import { localStorageService } from 'utils/localStorageService';
 import type { AuthResponse, LoginDto, RegisterDto } from './types';
+import { useUserStore } from 'store';
 
 export const AuthService = {
   async login(data: LoginDto): Promise<AuthResponse> {
@@ -19,12 +20,13 @@ export const AuthService = {
   },
 
   async refreshToken() {
-    const res = await httpClient.get<AuthResponse>('/auth/refresh', {});
+    const res = await httpClient.get<AuthResponse>('/auth/refresh');
     localStorageService.setAccessToken(res.data.access_token);
     return res.data;
   },
 
   logout() {
     localStorageService.removeAccessToken();
+    useUserStore.getState().clearUser();
   },
 };

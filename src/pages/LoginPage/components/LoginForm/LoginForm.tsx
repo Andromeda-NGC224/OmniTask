@@ -1,6 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, Stack, Typography, Link as MuiLink } from '@mui/material';
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  Link as MuiLink,
+  CircularProgress,
+} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginSchema } from 'pages/LoginPage/config';
 import type { LoginFormInputs } from 'pages/LoginPage/types';
@@ -52,7 +59,11 @@ export default function LoginForm() {
           color='primary'
           disabled={isSubmitting}
         >
-          {isSubmitting ? '...' : `${t('button')}`}
+          {isSubmitting ? (
+            <CircularProgress size={24} color='primary' />
+          ) : (
+            t('button')
+          )}
         </Button>
       </Stack>
       <Typography variant='body2' align='center' mt={2}>

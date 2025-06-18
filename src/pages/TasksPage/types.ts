@@ -17,3 +17,9 @@ export enum TaskSort {
   TitleAsc = 'title-asc',
   TitleDesc = 'title-desc',
 }
+
+export enum ModalType {
+  Delete = 'delete',
+  Complete = 'complete',
+  Edit = 'edit',
+}

@@ -7,7 +7,7 @@ import type {
   UpdateTaskPayload,
 } from './types';
 
-export const taskService = {
+export const TaskService = {
   async getTasks(params: GetTasksParams, signal?: AbortSignal) {
     return httpClient.get<PaginatedResponse<Task>>('/tasks', {
       params: {
@@ -25,12 +25,12 @@ export const taskService = {
     return httpClient.get<Task>(`/tasks/${taskId}`);
   },
 
-  async createTask(payload: CreateTaskPayload): Promise<Task> {
-    return httpClient.post('/tasks', payload);
+  async createTask(payload: CreateTaskPayload) {
+    return httpClient.post<Task>('/tasks', payload);
   },
 
-  async updateTask(taskId: string, payload: UpdateTaskPayload): Promise<Task> {
-    return httpClient.patch(`/tasks/${taskId}`, payload);
+  async updateTask(taskId: string, payload: UpdateTaskPayload) {
+    return httpClient.patch<Task>(`/tasks/${taskId}`, payload);
   },
 
   async deleteTask(taskId: string): Promise<void> {

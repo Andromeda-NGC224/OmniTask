@@ -13,28 +13,27 @@ import { UserService } from 'api/services/UserService';
 import { errorHandler } from 'api/utils';
 import { EAppRoutes } from 'routes/config';
 import { pickFilledFields } from './utils';
+import { useUserStore } from 'store/userStore';
 
 export default function RegisterForm() {
   const { t } = useTranslation('register_page');
   const [step, setStep] = useState(1);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const methods = useForm<RegisterFormInputs>({
     resolver: zodResolver(registerFormSchema),
     mode: 'onChange',
   });
 
   const navigate = useNavigate();
+  const setUser = useUserStore((state) => state.setUser);
 
-  const {
-    handleSubmit,
-    trigger,
-    formState: { isSubmitting },
-  } = methods;
+  const { handleSubmit, trigger } = methods;
 
   const handleNextStep = async () => {
     const isValid = await trigger(step1Fields);
     if (!isValid) return;
-
+    setIsLoading(true);
     const data = methods.getValues();
     const registrationData = {
       email: data.email,
@@ -44,13 +43,16 @@ export default function RegisterForm() {
     try {
       await AuthService.register(registrationData);
 
-      const me = await UserService.getMe().catch(() => null);
-      const userId = me?.data?.id || me?.data?._id || null;
+      const userInfo = await UserService.getMe().catch(() => null);
+      if (!userInfo) return;
 
-      setUserId(userId);
+      setUser(userInfo);
+      setUserId(String(userInfo.id));
       setStep(2);
     } catch (error) {
       errorHandler(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -58,7 +60,7 @@ export default function RegisterForm() {
     try {
       const isValid = await trigger(step2Fields);
       if (!isValid) return;
-
+      setIsLoading(true);
       const updatePayload = pickFilledFields(data, step2Fields);
 
       if (userId && Object.keys(updatePayload).length > 0) {
@@ -68,6 +70,8 @@ export default function RegisterForm() {
       navigate(EAppRoutes.TASKS);
     } catch (error) {
       errorHandler(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,15 +84,12 @@ export default function RegisterForm() {
       >
         <Stack spacing={2}>
           {step === 1 && (
-            <RegisterStep1Form
-              onNext={handleNextStep}
-              isSubmitting={isSubmitting}
-            />
+            <RegisterStep1Form onNext={handleNextStep} isLoading={isLoading} />
           )}
           {step === 2 && (
             <RegisterStep2Form
               onBack={() => setStep(1)}
-              isSubmitting={isSubmitting}
+              isLoading={isLoading}
             />
           )}
         </Stack>

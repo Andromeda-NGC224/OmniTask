@@ -4,7 +4,7 @@ import { EAppRoutes } from './config';
 import { Loader } from 'components/Loader';
 import NotFound from 'pages/NotFoundPage/NotFoundPage';
 import { ClippedLayout, MainLayout } from 'layouts';
-import { ProtectedRoute } from './utils';
+import { PreventLoggedInAccess, ProtectedRoute } from './utils';
 
 const TasksPage = lazy(() => import('pages/TasksPage/TasksPage'));
 const TasksDetailsPage = lazy(
@@ -63,17 +63,21 @@ const APP_ROUTES: RouteObject[] = [
       {
         path: EAppRoutes.LOGIN,
         element: (
-          <Suspense fallback={<Loader />}>
-            <LoginPage />
-          </Suspense>
+          <PreventLoggedInAccess>
+            <Suspense fallback={<Loader />}>
+              <LoginPage />
+            </Suspense>
+          </PreventLoggedInAccess>
         ),
       },
       {
         path: EAppRoutes.REGISTER,
         element: (
-          <Suspense fallback={<Loader />}>
-            <RegisterPage />
-          </Suspense>
+          <PreventLoggedInAccess>
+            <Suspense fallback={<Loader />}>
+              <RegisterPage />
+            </Suspense>
+          </PreventLoggedInAccess>
         ),
       },
       {

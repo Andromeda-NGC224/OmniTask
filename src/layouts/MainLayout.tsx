@@ -5,17 +5,24 @@ import { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
 import { UserService } from 'api/services/UserService';
+import { useUserStore } from 'store/userStore';
 
 const MainLayout = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
+  const user = useUserStore((state) => state.user);
+
+  console.log('user', user);
 
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
   };
 
   useEffect(() => {
-    UserService.getMe().catch(() => {});
-  }, []);
+    UserService.getMe()
+      .then((user) => setUser(user))
+      .catch(() => {});
+  }, [setUser]);
 
   return (
     <Box sx={{ display: 'flex', backgroundColor: 'background.default' }}>

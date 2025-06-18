@@ -1,13 +1,13 @@
 import { useFormContext } from 'react-hook-form';
 import type { RegisterFormInputs } from '../../types';
-import { Button, Stack } from '@mui/material';
+import { Button, CircularProgress, Stack } from '@mui/material';
 import { RegisterField } from '../../components';
 import type { RegisterStep1FormProps } from './types';
 import { useTranslation } from 'react-i18next';
 
 export default function RegisterStep1Form({
   onNext,
-  isSubmitting,
+  isLoading,
 }: RegisterStep1FormProps) {
   const {
     control,
@@ -42,12 +42,16 @@ export default function RegisterStep1Form({
       <Button
         type='button'
         onClick={onNext}
-        disabled={isSubmitting}
+        disabled={isLoading}
         variant='contained'
         color='primary'
         fullWidth
       >
-        {t('button_next_step')}
+        {isLoading ? (
+          <CircularProgress size={24} color='primary' />
+        ) : (
+          t('button_next_step')
+        )}
       </Button>
     </Stack>
   );

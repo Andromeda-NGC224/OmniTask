@@ -31,10 +31,10 @@ export const useTaskParams = () => {
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      if (debouncedSearchValue === '') {
+      if (!debouncedSearchValue) {
         searchParams.delete('search');
       } else {
-        searchParams.set('search', debouncedSearchValue as string);
+        searchParams.set('search', debouncedSearchValue);
       }
       setSearchParams(searchParams);
     }, 500);

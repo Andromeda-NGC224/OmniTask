@@ -2,9 +2,10 @@ import { API_CONFIG } from 'api/config';
 
 import axios, { type AxiosInstance } from 'axios';
 import { localStorageService } from 'utils';
-import { AuthService } from './AuthService/AuthService';
+
 import { EAppRoutes } from 'routes/config';
-import { useNavigate } from 'react-router-dom';
+import { appRouter } from 'routes';
+import { AuthService } from './AuthService';
 
 export const createHttpClient = (): AxiosInstance => {
   const instance = axios.create(API_CONFIG);
@@ -36,8 +37,8 @@ export const createHttpClient = (): AxiosInstance => {
           return instance(originalRequest);
         } catch {
           AuthService.logout();
-          const navigate = useNavigate();
-          navigate(EAppRoutes.LOGIN);
+
+          appRouter.navigate(EAppRoutes.LOGIN);
         }
       }
       return Promise.reject(error);

@@ -1,9 +1,9 @@
 export interface GetTasksParams {
-  order?: 'asc' | 'desc';
-  sortBy?: string;
-  per_page?: number;
-  page?: number;
-  search?: string;
+  order: 'asc' | 'desc';
+  sortBy: string;
+  per_page: number;
+  page: number;
+  search: string;
 }
 
 export interface PaginatedResponse<DataType> {
