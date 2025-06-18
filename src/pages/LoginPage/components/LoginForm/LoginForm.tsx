@@ -1,11 +1,21 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, Stack, Typography, Link as MuiLink } from '@mui/material';
+import {
+  Box,
+  Button,
+  Stack,
+  Typography,
+  Link as MuiLink,
+  CircularProgress,
+} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginSchema } from 'pages/LoginPage/config';
 import type { LoginFormInputs } from 'pages/LoginPage/types';
 import { LoginField } from '..';
 import { useTranslation } from 'react-i18next';
+import { AuthService } from 'api/services/AuthService/AuthService';
+import { EAppRoutes } from 'routes/config';
+import { errorHandler } from 'api/utils';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -20,10 +30,10 @@ export default function LoginForm() {
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      console.log('Дані для входу:', data);
-      navigate('/');
+      await AuthService.login(data);
+      navigate(EAppRoutes.TASKS);
     } catch (error) {
-      console.error('Помилка входу:', error);
+      errorHandler(error);
     }
   };
 
@@ -49,7 +59,11 @@ export default function LoginForm() {
           color='primary'
           disabled={isSubmitting}
         >
-          {isSubmitting ? '...' : `${t('button')}`}
+          {isSubmitting ? (
+            <CircularProgress size={24} color='primary' />
+          ) : (
+            t('button')
+          )}
         </Button>
       </Stack>
       <Typography variant='body2' align='center' mt={2}>

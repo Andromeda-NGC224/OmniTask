@@ -1,1 +1,1 @@
-export { taskService } from './taskService';
+export { TaskService } from './TaskService';

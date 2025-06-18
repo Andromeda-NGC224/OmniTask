@@ -7,7 +7,7 @@ export const registerFormSchema = z
     confirmPassword: z.string(),
     name: z.string().min(1, "Ім'я обов'язкове").optional(),
     surname: z.string().min(1, "Прізвище обов'язкове").optional(),
-    avatar: z.string().optional(),
+    // avatar: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Паролі не збігаються',

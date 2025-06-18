@@ -1,2 +1,4 @@
 export { httpClient } from './httpClient';
-export { taskService } from './taskService';
+export { TaskService } from './TaskService';
+export { UserService } from './UserService';
+export { AuthService } from './AuthService';

@@ -1,16 +1,28 @@
 import { Box, Toolbar } from '@mui/material';
 import { Header } from 'components/Header';
 import { Sidebar } from 'components/Sidebar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
+import { UserService } from 'api/services/UserService';
+import { useUserStore } from 'store/userStore';
 
 const MainLayout = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const setUser = useUserStore((state) => state.setUser);
+  const user = useUserStore((state) => state.user);
+
+  console.log('user', user);
 
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    UserService.getMe()
+      .then((user) => setUser(user))
+      .catch(() => {});
+  }, [setUser]);
 
   return (
     <Box sx={{ display: 'flex', backgroundColor: 'background.default' }}>

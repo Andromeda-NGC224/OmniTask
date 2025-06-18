@@ -1,13 +1,13 @@
 import { useFormContext } from 'react-hook-form';
 import type { RegisterFormInputs } from '../../types';
-import { Button, Stack } from '@mui/material';
+import { Button, CircularProgress, Stack } from '@mui/material';
 import { RegisterField } from '../../components';
 import type { RegisterStep2FormProps } from './types';
 import { useTranslation } from 'react-i18next';
 
 export default function RegisterStep2Form({
   onBack,
-  isSubmitting,
+  isLoading,
 }: RegisterStep2FormProps) {
   const {
     control,
@@ -30,20 +30,24 @@ export default function RegisterStep2Form({
         control={control}
         errorMessage={errors.surname?.message}
       />
-      <RegisterField
+      {/* <RegisterField
         name='avatar'
         label={t('avatar_placeholder')}
         control={control}
         errorMessage={errors.avatar?.message}
-      />
+      /> */}
       <Button
         type='submit'
-        disabled={isSubmitting}
+        disabled={isLoading}
         variant='contained'
         color='primary'
         fullWidth
       >
-        {t('button_finish')}
+        {isLoading ? (
+          <CircularProgress size={24} color='primary' />
+        ) : (
+          t('button_finish')
+        )}
       </Button>
       <Button
         type='button'

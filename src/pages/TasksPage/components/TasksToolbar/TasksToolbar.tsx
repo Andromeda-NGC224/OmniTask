@@ -21,12 +21,11 @@ import FilterSortPopover from './FilterSortPopover';
 import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 
-import { taskService } from 'api/services/taskService/taskService';
-import toast from 'react-hot-toast';
-import { toastStyles } from 'styles/toastStyles';
+import { TaskService } from 'api/services/TaskService/TaskService';
 import { errorHandler } from 'api/utils';
 import { AddTaskModal } from '../modals';
 import { ViewMode } from 'pages/TasksPage/types';
+import { showToast } from 'utils/toast';
 
 export default function TasksToolbar({
   viewMode,
@@ -94,10 +93,10 @@ export default function TasksToolbar({
 
   const handleAddTask = async (title: string, description: string) => {
     try {
-      await taskService.createTask({ title, description });
-      toast.success(t('addTaskModal.successMessage'), {
-        style: toastStyles,
-      });
+      await TaskService.createTask({ title, description });
+
+      showToast.success(t('addTaskModal.successMessage'));
+
       handleCloseAddTaskModal();
       onTaskAdded();
     } catch (error) {

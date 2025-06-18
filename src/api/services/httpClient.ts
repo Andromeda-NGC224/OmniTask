@@ -3,6 +3,10 @@ import { API_CONFIG } from 'api/config';
 import axios, { type AxiosInstance } from 'axios';
 import { localStorageService } from 'utils';
 
+import { EAppRoutes } from 'routes/config';
+import { appRouter } from 'routes';
+import { AuthService } from './AuthService';
+
 export const createHttpClient = (): AxiosInstance => {
   const instance = axios.create(API_CONFIG);
 
@@ -12,19 +16,31 @@ export const createHttpClient = (): AxiosInstance => {
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
-
-    const acceptLanguage = localStorageService.getLanguage();
-    if (acceptLanguage) {
-      config.headers['Accept-Language'] = acceptLanguage;
-    }
-
     return config;
   });
 
   // Response интерсептор
   instance.interceptors.response.use(
-    (response) => response.data,
-    (error) => {
+    (response) => response,
+    async (error) => {
+      const originalRequest = error.config;
+
+      if (
+        error.response?.status === 401 &&
+        !originalRequest._retry &&
+        !originalRequest.url.includes('/refresh')
+      ) {
+        originalRequest._retry = true;
+        try {
+          await AuthService.refreshToken();
+
+          return instance(originalRequest);
+        } catch {
+          AuthService.logout();
+
+          appRouter.navigate(EAppRoutes.LOGIN);
+        }
+      }
       return Promise.reject(error);
     },
   );

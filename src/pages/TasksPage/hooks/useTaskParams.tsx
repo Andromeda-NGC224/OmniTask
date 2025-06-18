@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { TaskFilter, TaskSort } from 'pages/TasksPage/types';
 import { useEffect, useState } from 'react';
-import { getQueryParams } from 'api/services/taskService/utils';
+import { getQueryParams } from 'api/services/TaskService/utils';
 
 export const useTaskParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,10 +31,10 @@ export const useTaskParams = () => {
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      if (debouncedSearchValue === '') {
+      if (!debouncedSearchValue) {
         searchParams.delete('search');
       } else {
-        searchParams.set('search', debouncedSearchValue as string);
+        searchParams.set('search', debouncedSearchValue);
       }
       setSearchParams(searchParams);
     }, 500);

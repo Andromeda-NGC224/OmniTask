@@ -12,17 +12,26 @@ import { BiLogOut } from 'react-icons/bi';
 import { DRAWER_WIDTH, COLLAPSED_WIDTH } from './constants';
 import { getDrawerSx } from './config';
 import { SidebarNavList } from './components';
+import { AuthService } from 'api/services/AuthService/AuthService';
+import { useNavigate } from 'react-router-dom';
+import { EAppRoutes } from 'routes/config';
 
 export default function Sidebar({ open }: { open: boolean }) {
   const { mode } = useColorScheme();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const navigate = useNavigate();
 
   const drawerWidth = isSmallScreen
     ? '100%'
     : open
       ? DRAWER_WIDTH
       : COLLAPSED_WIDTH;
+
+  const handleLogout = () => {
+    AuthService.logout();
+    navigate(EAppRoutes.LOGIN);
+  };
 
   return (
     <Drawer
@@ -62,6 +71,7 @@ export default function Sidebar({ open }: { open: boolean }) {
               minWidth: 0,
               px: open ? 2 : 1,
             }}
+            onClick={handleLogout}
           >
             {open && 'Log out'}
           </Button>

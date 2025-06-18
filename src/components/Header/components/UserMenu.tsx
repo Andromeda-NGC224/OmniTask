@@ -1,11 +1,15 @@
 import { useState, type MouseEvent } from 'react';
 import { IconButton, Menu, MenuItem, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useUserStore } from 'store/userStore';
+import { AuthService } from 'api/services';
+import { EAppRoutes } from 'routes/config';
 
 const UserMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
 
   const handleMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -15,16 +19,19 @@ const UserMenu = () => {
   };
   const handleProfile = () => {
     handleClose();
-    navigate('/profile');
+    navigate(EAppRoutes.PROFILE);
   };
   const handleLogout = () => {
-    handleClose();
+    AuthService.logout();
+    navigate(EAppRoutes.LOGIN);
   };
 
   return (
     <>
       <IconButton onClick={handleMenu} color='inherit'>
-        <Avatar alt='User' />
+        <Avatar alt={user?.name || user?.email || 'User'}>
+          {user ? user.name?.[0] || user.email?.[0] || 'U' : ''}
+        </Avatar>
       </IconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem onClick={handleProfile}>Профіль</MenuItem>
