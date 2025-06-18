@@ -21,7 +21,7 @@ import FilterSortPopover from './FilterSortPopover';
 import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 
-import { TaskService } from 'api/services/TaskService/TaskService';
+import { TaskService } from 'api/services/TaskService';
 import { errorHandler } from 'api/utils';
 import { AddTaskModal } from '../modals';
 import { ViewMode } from 'pages/TasksPage/types';

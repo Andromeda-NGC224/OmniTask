@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { TaskService } from 'api/services/TaskService/TaskService';
+import { TaskService } from 'api/services/TaskService';
 import type { Task } from 'types/tasks';
 import { Box, Typography, Alert } from '@mui/material';
 import { errorHandler } from 'api/utils';
