@@ -10,9 +10,6 @@ import { useUserStore } from 'store/userStore';
 const MainLayout = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const setUser = useUserStore((state) => state.setUser);
-  const user = useUserStore((state) => state.user);
-
-  console.log('user', user);
 
   const toggleDrawer = () => {
     setDrawerOpen((prev) => !prev);

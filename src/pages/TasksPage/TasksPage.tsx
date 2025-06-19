@@ -14,24 +14,39 @@ import {
   CompleteTaskModal,
   EditTaskModal,
 } from './components/modals';
-import { useModals } from './hooks';
+import { useInfiniteScroll, useModals } from './hooks';
 import { showToast } from 'utils/toast';
 
 const TasksPage = () => {
   const { t } = useTranslation('tasks_page');
   const navigate = useNavigate();
 
-  const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.Grid);
   const [searchParams] = useSearchParams();
+
+  const {
+    order,
+    sortBy,
+    per_page,
+    search,
+    page: initialPage,
+  } = getQueryParams(searchParams);
+
+  const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.Grid);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState<number>(initialPage);
+
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-  const { isOpen, open, close } = useModals();
+  const { lastElementRef } = useInfiniteScroll({
+    loading,
+    hasMore,
+    setPage,
+  });
 
-  const { order, sortBy, per_page, page, search } =
-    getQueryParams(searchParams);
+  const { isOpen, open, close } = useModals();
 
   const handleOpenModal = (type: ModalType, task: Task) => {
     setSelectedTask(task);
@@ -111,6 +126,13 @@ const TasksPage = () => {
     navigate(`/tasks/${task.id}`);
   };
 
+  const handleTaskAdded = () => {
+    setTasks([]);
+    setPage(1);
+    setHasMore(true);
+    fetchTasks();
+  };
+
   const fetchTasks = useCallback(async () => {
     const controller = new AbortController();
     setLoading(true);
@@ -125,11 +147,21 @@ const TasksPage = () => {
         setTasks([]);
         setError(null);
       } else {
-        setTasks(response.data.data);
+        // Для первой страницы заменяем задачи, для последующих - добавляем
+        setTasks((prevTasks) =>
+          page === 1
+            ? response.data.data
+            : [
+                ...prevTasks,
+                ...response.data.data.filter(
+                  (newTask) =>
+                    !prevTasks.some((task) => task.id === newTask.id),
+                ),
+              ],
+        );
+        setHasMore(response.data.data.length >= per_page);
         setError(null);
       }
-
-      console.log('Fetched tasks:', response);
     } catch (err) {
       if (isCancel(err)) return;
       setError(true);
@@ -146,14 +178,21 @@ const TasksPage = () => {
       const controller = new AbortController();
       controller.abort();
     };
-  }, [fetchTasks]);
+  }, [fetchTasks, initialPage]);
+
+  // Скидання при зміні фільтрації/пошуку/сортування
+  useEffect(() => {
+    setTasks([]);
+    setPage(1);
+    setHasMore(true);
+  }, [order, sortBy, per_page, search]);
 
   return (
     <Box>
       <TasksToolbar
         viewMode={viewMode}
         onChangeViewMode={setViewMode}
-        onTaskAdded={fetchTasks}
+        onTaskAdded={handleTaskAdded}
       />
       <TaskList
         viewMode={viewMode}
@@ -164,6 +203,9 @@ const TasksPage = () => {
         onComplete={(task) => handleOpenModal(ModalType.Complete, task)}
         onDetails={handleDetailsClick}
         onEdit={(task) => handleOpenModal(ModalType.Edit, task)}
+        lastElementRef={lastElementRef}
+        hasMore={hasMore}
+        onRetry={fetchTasks}
       />
 
       <DeleteTaskModal

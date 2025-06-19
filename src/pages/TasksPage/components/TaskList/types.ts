@@ -10,4 +10,7 @@ export type TaskListProps = {
   onComplete: (task: Task) => void;
   onDetails: (task: Task) => void;
   onEdit: (task: Task) => void;
+  lastElementRef?: (node: HTMLDivElement | null) => void;
+  hasMore: boolean;
+  onRetry?: () => void;
 };
