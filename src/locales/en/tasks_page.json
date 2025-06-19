@@ -37,6 +37,11 @@
     "list": "List",
     "grid": "Cards"
   },
+  "taskList": {
+    "noTasks": "No more tasks found",
+    "errorLoadingTasks": "Failed to load more tasks",
+    "retry": "Retry"
+  },
   "emptyTasks": {
     "title": "Tasks not found",
     "description": "Create your first task to get started"
