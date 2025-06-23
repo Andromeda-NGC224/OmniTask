@@ -10,4 +10,12 @@ export const localStorageService = {
   removeAccessToken: (): void => {
     localStorage.removeItem('accessToken');
   },
+
+  setViewMode: (viewMode: string): void => {
+    localStorage.setItem('viewMode', viewMode);
+  },
+
+  getViewMode: (): string | null => {
+    return localStorage.getItem('viewMode');
+  },
 };

@@ -7,7 +7,7 @@ import type {
   UpdateTaskPayload,
 } from './types';
 
-export const TaskService = {
+export const TasksService = {
   async getTasks(params: GetTasksParams, signal?: AbortSignal) {
     return httpClient.get<PaginatedResponse<Task>>('/tasks', {
       params: {

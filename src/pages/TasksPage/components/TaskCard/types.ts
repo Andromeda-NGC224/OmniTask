@@ -1,3 +1,4 @@
+import type { Ref } from 'react';
 import type { Task } from 'types/tasks';
 
 export interface TaskCardProps {
@@ -6,4 +7,5 @@ export interface TaskCardProps {
   onComplete: (task: Task) => void;
   onDetails: (task: Task) => void;
   onEdit: (task: Task) => void;
+  ref?: Ref<HTMLDivElement>;
 }
