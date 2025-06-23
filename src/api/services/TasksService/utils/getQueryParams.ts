@@ -1,4 +1,4 @@
-import type { GetTasksParams } from 'api/services/TaskService/types';
+import type { GetTasksParams } from 'api/services/TasksService/types';
 
 export const getQueryParams = (
   searchParams: URLSearchParams,

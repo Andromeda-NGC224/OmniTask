@@ -1,10 +1,11 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { TaskService } from 'api/services/TaskService';
+
 import type { Task } from 'types/tasks';
 import { Box, Typography, Alert } from '@mui/material';
 import { errorHandler } from 'api/utils';
 import { Loader } from 'components/Loader';
+import { TasksService } from 'api/services';
 
 export default function TasksDetailsPage() {
   const { id } = useParams() as { id: string };
@@ -17,7 +18,7 @@ export default function TasksDetailsPage() {
       setLoading(true);
       setError(null);
       try {
-        const response = await TaskService.getTaskById(id);
+        const response = await TasksService.getTaskById(id);
         console.log('response', response);
 
         setTask(response.data);

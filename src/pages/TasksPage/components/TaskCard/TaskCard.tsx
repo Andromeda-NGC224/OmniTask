@@ -16,13 +16,14 @@ import type { TaskCardProps } from './types';
 import { toolbarButtons, CardButtonAction } from './config';
 import { switchNeverDefaultCase } from 'utils';
 
-export default function TaskCard({
+const TaskCard = ({
   task,
   onDelete,
   onComplete,
   onDetails,
   onEdit,
-}: TaskCardProps) {
+  ref,
+}: TaskCardProps) => {
   const { mode } = useColorScheme();
   const isCompleted = task.completed;
   const { t } = useTranslation('tasks_page');
@@ -48,6 +49,7 @@ export default function TaskCard({
 
   return (
     <Card
+      ref={ref}
       variant='outlined'
       sx={{
         p: 2,
@@ -84,7 +86,6 @@ export default function TaskCard({
           {task.description}
         </Typography>
       </Box>
-
       <Box
         sx={{
           display: 'flex',
@@ -119,4 +120,6 @@ export default function TaskCard({
       </Box>
     </Card>
   );
-}
+};
+
+export default TaskCard;
