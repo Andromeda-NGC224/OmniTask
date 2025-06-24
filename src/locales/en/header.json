@@ -1,4 +1,6 @@
 {
   "theme": "Change theme",
-  "language": "Change language"
+  "language": "Change language",
+  "profile": "Profile",
+  "logout": "Logout"
 }

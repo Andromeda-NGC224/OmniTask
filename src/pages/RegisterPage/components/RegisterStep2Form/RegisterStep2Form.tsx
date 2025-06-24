@@ -1,9 +1,10 @@
 import { useFormContext } from 'react-hook-form';
 import type { RegisterFormInputs } from '../../types';
 import { Button, CircularProgress, Stack } from '@mui/material';
-import { RegisterField } from '../../components';
+import { RegisterField, RegisterFieldAvatar } from '../../components';
 import type { RegisterStep2FormProps } from './types';
 import { useTranslation } from 'react-i18next';
+import { getFieldError } from './utils';
 
 export default function RegisterStep2Form({
   onBack,
@@ -30,12 +31,24 @@ export default function RegisterStep2Form({
         control={control}
         errorMessage={errors.surname?.message}
       />
-      {/* <RegisterField
-        name='avatar'
-        label={t('avatar_placeholder')}
+      <RegisterField
+        name='birthday'
+        label={t('date_of_birth_placeholder')}
         control={control}
-        errorMessage={errors.avatar?.message}
-      /> */}
+        type='date'
+        errorMessage={errors.birthday?.message}
+        slotProps={{
+          inputLabel: {
+            shrink: true,
+          },
+        }}
+      />
+
+      <RegisterFieldAvatar
+        name='avatar'
+        control={control}
+        errorMessage={getFieldError(errors.avatar)}
+      />
       <Button
         type='submit'
         disabled={isLoading}

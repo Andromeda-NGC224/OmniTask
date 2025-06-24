@@ -8,6 +8,7 @@ export default function RegisterField<T extends FieldValues>({
   type = 'text',
   control,
   errorMessage,
+  slotProps,
 }: RegisterFieldProps<T>) {
   return (
     <Controller
@@ -24,6 +25,7 @@ export default function RegisterField<T extends FieldValues>({
           size='small'
           error={!!errorMessage}
           helperText={errorMessage}
+          slotProps={slotProps}
         />
       )}
     />

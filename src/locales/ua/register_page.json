@@ -8,7 +8,8 @@
   "login_link": "Увійти",
   "name_placeholder": "Ім'я",
   "surname_placeholder": "Прізвище",
-  "avatar_placeholder": "Аватар (посилання)",
+  "date_of_birth_placeholder": "Дата народження",
+  "avatar_placeholder": "Аватар",
   "button_finish": "Завершити реєстрацію",
   "button_back": "Назад"
 }

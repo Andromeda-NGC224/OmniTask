@@ -4,7 +4,8 @@ export enum RegisterFields {
   CONFIRM_PASSWORD = 'confirmPassword',
   NAME = 'name',
   SURNAME = 'surname',
-  // AVATAR = 'avatar',
+  BIRTHDAY = 'birthday',
+  AVATAR = 'avatar',
 }
 
 export const step1Fields = [
@@ -16,5 +17,6 @@ export const step1Fields = [
 export const step2Fields = [
   RegisterFields.NAME,
   RegisterFields.SURNAME,
-  // RegisterFields.AVATAR,
+  RegisterFields.BIRTHDAY,
+  RegisterFields.AVATAR,
 ];
