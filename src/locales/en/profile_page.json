@@ -1,0 +1,26 @@
+{
+  "user_not_found": "User not found.",
+  "user_info": {
+    "name": "Your name",
+    "registered_on": "Registered:",
+    "birthday": "Birthday:",
+    "email": "Email:"
+  },
+  "tasks_stats": {
+    "total": "Total tasks",
+    "completed": "Completed",
+    "pending": "In progress"
+  },
+  "editProfileModal": {
+    "successMessage": "Profile updated successfully!",
+    "errorMessage": "Failed to update profile.",
+    "save_button": "Save",
+    "cancel_button": "Cancel",
+    "first_name_placeholder": "First Name",
+    "last_name_placeholder": "Last Name",
+    "email_placeholder": "Email",
+    "date_of_birth_placeholder": "Date of Birth",
+    "avatar_placeholder": "Avatar",
+    "edit_profile_title": "Edit Profile"
+  }
+}

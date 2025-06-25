@@ -9,8 +9,8 @@ export interface Avatar {
   url: string;
   cloudinaryId: string;
   userId: number;
-  createdAt: string | Date;
-  updatedAt: string | Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface User {
@@ -20,6 +20,6 @@ export interface User {
   surname: string;
   birthday: string | null;
   avatar: Avatar | null;
-  createdAt: string | Date;
-  updatedAt: string | Date;
+  createdAt: string;
+  updatedAt: string;
 }

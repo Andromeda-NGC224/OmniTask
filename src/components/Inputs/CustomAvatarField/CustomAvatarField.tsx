@@ -1,13 +1,13 @@
 import { Controller, type FieldValues } from 'react-hook-form';
 import { TextField } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import type { RegisterFieldAvatarProps } from './types';
+import type { CustomAvatarFieldProps } from './types';
 
-export default function RegisterFieldAvatar<T extends FieldValues>({
+export default function CustomAvatarField<T extends FieldValues>({
   name,
   control,
   errorMessage,
-}: RegisterFieldAvatarProps<T>) {
+}: CustomAvatarFieldProps<T>) {
   const { t } = useTranslation('register_page');
 
   return (

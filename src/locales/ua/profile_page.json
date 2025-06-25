@@ -1,0 +1,26 @@
+{
+  "user_not_found": "Користувача не знайдено.",
+  "user_info": {
+    "name": "Ваше ім'я",
+    "registered_on": "Зареєстрований:",
+    "birthday": "Дата народження:",
+    "email": "Електронна пошта:"
+  },
+  "tasks_stats": {
+    "total": "Всього задач",
+    "completed": "Виконано",
+    "pending": "В процесі"
+  },
+  "editProfileModal": {
+    "edit_profile_title": "Редагувати профіль",
+    "successMessage": "Профіль успішно оновлено!",
+    "errorMessage": "Не вдалося оновити профіль.",
+    "save_button": "Зберегти",
+    "cancel_button": "Скасувати",
+    "first_name_placeholder": "Ім'я",
+    "last_name_placeholder": "Прізвище",
+    "email_placeholder": "Електронна пошта",
+    "date_of_birth_placeholder": "Дата народження",
+    "avatar_placeholder": "Аватар"
+  }
+}

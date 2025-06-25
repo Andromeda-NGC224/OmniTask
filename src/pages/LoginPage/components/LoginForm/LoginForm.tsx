@@ -11,11 +11,11 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { loginSchema } from 'pages/LoginPage/config';
 import type { LoginFormInputs } from 'pages/LoginPage/types';
-import { LoginField } from '..';
 import { useTranslation } from 'react-i18next';
 import { AuthService } from 'api/services/AuthService/AuthService';
 import { EAppRoutes } from 'routes/config';
 import { errorHandler } from 'api/utils';
+import { CustomTextField } from 'components/Inputs';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -40,13 +40,13 @@ export default function LoginForm() {
   return (
     <Box component='form' onSubmit={handleSubmit(onSubmit)} noValidate>
       <Stack spacing={2}>
-        <LoginField
+        <CustomTextField
           name='email'
           label={t('email_placeholder')}
           control={control}
           errorMessage={errors.email?.message}
         />
-        <LoginField
+        <CustomTextField
           name='password'
           label={t('password_placeholder')}
           type='password'
