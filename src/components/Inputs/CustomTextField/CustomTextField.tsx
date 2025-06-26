@@ -1,14 +1,15 @@
 import { Controller, type FieldValues } from 'react-hook-form';
 import { TextField } from '@mui/material';
-import type { RegisterFieldProps } from './types';
+import type { CustomTextFieldProps } from './types';
 
-export default function RegisterField<T extends FieldValues>({
+export default function CustomTextField<T extends FieldValues>({
   name,
   label,
   type = 'text',
   control,
   errorMessage,
-}: RegisterFieldProps<T>) {
+  slotProps,
+}: CustomTextFieldProps<T>) {
   return (
     <Controller
       name={name}
@@ -24,6 +25,7 @@ export default function RegisterField<T extends FieldValues>({
           size='small'
           error={!!errorMessage}
           helperText={errorMessage}
+          slotProps={slotProps}
         />
       )}
     />

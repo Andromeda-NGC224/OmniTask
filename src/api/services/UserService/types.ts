@@ -2,7 +2,15 @@ export interface UpdateUserDto {
   name?: string;
   surname?: string;
   birthday?: string;
-  // avatar?: string; // если потом добавится
+}
+
+export interface Avatar {
+  id: number;
+  url: string;
+  cloudinaryId: string;
+  userId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface User {
@@ -11,6 +19,7 @@ export interface User {
   name: string;
   surname: string;
   birthday: string | null;
-  createdAt: Date;
-  updatedAt: Date;
+  avatar: Avatar | null;
+  createdAt: string;
+  updatedAt: string;
 }

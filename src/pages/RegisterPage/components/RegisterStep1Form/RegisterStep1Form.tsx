@@ -1,9 +1,9 @@
 import { useFormContext } from 'react-hook-form';
 import type { RegisterFormInputs } from '../../types';
 import { Button, CircularProgress, Stack } from '@mui/material';
-import { RegisterField } from '../../components';
 import type { RegisterStep1FormProps } from './types';
 import { useTranslation } from 'react-i18next';
+import { CustomTextField } from 'components/Inputs';
 
 export default function RegisterStep1Form({
   onNext,
@@ -18,21 +18,21 @@ export default function RegisterStep1Form({
 
   return (
     <Stack spacing={2}>
-      <RegisterField
+      <CustomTextField
         name='email'
         label={t('email_placeholder')}
         type='email'
         control={control}
         errorMessage={errors.email?.message}
       />
-      <RegisterField
+      <CustomTextField
         name='password'
         label={t('password_placeholder')}
         type='password'
         control={control}
         errorMessage={errors.password?.message}
       />
-      <RegisterField
+      <CustomTextField
         name='confirmPassword'
         label={t('password_confirmation_placeholder')}
         type='password'

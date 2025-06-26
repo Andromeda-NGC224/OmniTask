@@ -8,7 +8,8 @@
   "login_link": "Login",
   "name_placeholder": "Name",
   "surname_placeholder": "Surname",
-  "avatar_placeholder": "Avatar (link)",
+  "date_of_birth_placeholder": "Date of birth",
+  "avatar_placeholder": "Avatar",
   "button_finish": "Finish registration",
   "button_back": "Back"
 }

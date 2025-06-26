@@ -1,0 +1,1 @@
+export { statsConfig } from './statsConfig';

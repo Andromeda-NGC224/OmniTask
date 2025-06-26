@@ -6,14 +6,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { registerFormSchema } from '../../config';
 import type { RegisterFormInputs } from '../../types';
 import { RegisterStep1Form, RegisterStep2Form } from '..';
-import { step1Fields, step2Fields } from './config';
+import { RegisterFields, step1Fields, step2Fields } from './config';
 import { useTranslation } from 'react-i18next';
 import { AuthService } from 'api/services/AuthService';
 import { UserService } from 'api/services/UserService';
 import { errorHandler } from 'api/utils';
 import { EAppRoutes } from 'routes/config';
-import { pickFilledFields } from './utils';
 import { useUserStore } from 'store/userStore';
+import { pickFilledFields } from './utils';
 
 export default function RegisterForm() {
   const { t } = useTranslation('register_page');
@@ -57,11 +57,24 @@ export default function RegisterForm() {
   };
 
   const handleStep2Finish = async (data: RegisterFormInputs) => {
+    const { avatar, ...restData } = data;
+
     try {
       const isValid = await trigger(step2Fields);
       if (!isValid) return;
+
       setIsLoading(true);
-      const updatePayload = pickFilledFields(data, step2Fields);
+
+      if (avatar instanceof File) {
+        await UserService.uploadAvatar(avatar);
+      }
+
+      const updatePayload = pickFilledFields(
+        restData,
+        step2Fields.filter(
+          (f) => f !== RegisterFields.AVATAR,
+        ) as (keyof typeof restData)[],
+      );
 
       if (userId && Object.keys(updatePayload).length > 0) {
         await UserService.updateUser(userId, updatePayload);
