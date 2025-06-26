@@ -18,6 +18,7 @@ export default function UserInfo({ user }: UserInfoProps) {
       >
         {user.name || `${t('user_info.name')}`} {user.surname || ''}
       </Typography>
+
       <Stack spacing={1} alignItems='center'>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <EventNoteOutlinedIcon sx={{ color: 'text.secondary' }} />
@@ -25,6 +26,7 @@ export default function UserInfo({ user }: UserInfoProps) {
             {t('user_info.registered_on')} {formatDate(user.createdAt)}
           </Typography>
         </Box>
+
         {user.birthday && (
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <CakeOutlinedIcon sx={{ color: 'text.secondary' }} />
@@ -33,6 +35,7 @@ export default function UserInfo({ user }: UserInfoProps) {
             </Typography>
           </Box>
         )}
+
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <EmailOutlinedIcon sx={{ color: 'text.secondary' }} />
           <Typography variant='body1' sx={{ color: 'text.secondary' }}>

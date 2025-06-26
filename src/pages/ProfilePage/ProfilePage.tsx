@@ -27,13 +27,8 @@ export default function ProfilePage() {
           search: '',
         });
 
-        if (response.data) {
-          setTasks(response.data.data);
-          setTotal(response.data.total || 0);
-        } else {
-          setTasks([]);
-          setTotal(0);
-        }
+        setTasks(response.data.data);
+        setTotal(response.data.total);
       } catch (error) {
         errorHandler(error);
         setTasks([]);
