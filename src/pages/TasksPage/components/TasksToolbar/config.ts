@@ -8,7 +8,8 @@ export const filterOptionsConfig: { labelKey: string; value: TaskFilter }[] = [
 
 export const sortOptionsConfig: { labelKey: string; value: TaskSort }[] = [
   { labelKey: 'toolbar.sort.completed_asc', value: TaskSort.CompletedAsc },
-  { labelKey: 'toolbar.sort.completed_desc', value: TaskSort.CompletedDesc },
+  { labelKey: 'toolbar.sort.pending_asc', value: TaskSort.PendingAsc },
+  { labelKey: 'toolbar.sort.inProgress_asc', value: TaskSort.InProgressAsc },
   { labelKey: 'toolbar.sort.created_at_desc', value: TaskSort.CreatedAtDesc },
   { labelKey: 'toolbar.sort.created_at_asc', value: TaskSort.CreatedAtAsc },
   { labelKey: 'toolbar.sort.titleAsc', value: TaskSort.TitleAsc },

@@ -7,12 +7,13 @@
   "no_tasks": "No tasks available.",
   "chips": {
     "pending": "Pending",
-    "completed": "Completed"
+    "completed": "Completed",
+    "inProgress": "In Progress"
   },
   "card_button": {
     "edit": "Edit",
     "details": "Details",
-    "complete": "Complete",
+    "change_status": "Change status",
     "delete": "Delete"
   },
   "toolbar": {
@@ -32,7 +33,8 @@
       "created_at_asc": "Created At (Oldest First)",
       "created_at_desc": "Created At (Newest First)",
       "completed_asc": "Completed first",
-      "completed_desc": "Pending first"
+      "pending_asc": "Pending first",
+      "inProgress_asc": "In Progress first"
     },
     "list": "List",
     "grid": "Cards"
@@ -66,23 +68,36 @@
     "confirm": "Delete",
     "successMessage": "Task deleted successfully!"
   },
-  "completeTaskModal": {
-    "header": "Complete task",
-    "text": "Are you sure you want to mark this task as completed?",
+  "changeStatusModal": {
     "cancel": "Cancel",
-    "confirm": "Complete",
-    "successMessage": "Task completed successfully!",
-    "alreadyCompletedMessage": "Task is already completed!",
-    "headerAlreadyCompleted": "Task is already completed",
-    "textAlreadyCompleted": "This task is already completed. Would you like to return it to the pending state?",
-    "revertToPending": "Return to pending",
-    "revertedMessage": "Task status changed to 'in progress'"
+    "pending": {
+      "complete": "Complete",
+      "startProgress": "Start Progress"
+    },
+    "inProgress": {
+      "complete": "Complete",
+      "revertToPending": "Revert to Pending"
+    },
+    "completed": {
+      "revertToPending": "Revert to Pending",
+      "revertToInProgress": "Revert to In Progress"
+    },
+    "default": {
+      "title": "Change task status",
+      "text": "Choose a new status for this task:"
+    },
+    "successMessage": "Task status updated successfully!"
   },
   "editTaskModal": {
     "header": "Edit task",
     "title": "Task name",
     "description": "Describe task",
-    "completed": "Completed",
+    "statusLabel": "Status",
+    "statusOptions": {
+      "pending": "Pending",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    },
     "cancel": "Cancel",
     "save": "Save",
     "successMessage": "Task updated successfully!"

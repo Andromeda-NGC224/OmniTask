@@ -10,8 +10,9 @@ export enum TaskFilter {
 }
 
 export enum TaskSort {
-  CompletedAsc = 'completed-desc',
-  CompletedDesc = 'completed-asc',
+  CompletedAsc = 'completed-asc',
+  PendingAsc = 'pending-asc',
+  InProgressAsc = 'in_progress-asc',
   CreatedAtDesc = 'createdAt-desc',
   CreatedAtAsc = 'createdAt-asc',
   TitleAsc = 'title-asc',
@@ -20,6 +21,6 @@ export enum TaskSort {
 
 export enum ModalType {
   Delete = 'delete',
-  Complete = 'complete',
+  ChangeStatus = 'change_status',
   Edit = 'edit',
 }
