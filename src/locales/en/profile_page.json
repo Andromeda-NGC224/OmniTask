@@ -9,7 +9,8 @@
   "tasks_stats": {
     "total": "Total tasks",
     "completed": "Completed",
-    "pending": "In progress"
+    "pending": "Pending",
+    "in_progress": "In progress"
   },
   "editProfileModal": {
     "successMessage": "Profile updated successfully!",

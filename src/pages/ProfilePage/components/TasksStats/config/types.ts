@@ -1,5 +1,6 @@
 export enum StatType {
-  Total = 'total',
-  Completed = 'completed',
-  Pending = 'pending',
+  TOTAL = 'total',
+  COMPLETED = 'completed',
+  PENDING = 'pending',
+  IN_PROGRESS = 'in_progress',
 }
