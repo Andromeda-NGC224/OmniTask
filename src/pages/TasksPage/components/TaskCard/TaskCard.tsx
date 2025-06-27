@@ -11,10 +11,13 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { useTranslation } from 'react-i18next';
 import type { TaskCardProps } from './types';
 import { toolbarButtons, CardButtonAction } from './config';
 import { switchNeverDefaultCase } from 'utils';
+import { TaskStatus } from 'types/tasks';
 
 const TaskCard = ({
   task,
@@ -25,25 +28,73 @@ const TaskCard = ({
   ref,
 }: TaskCardProps) => {
   const { mode } = useColorScheme();
-  const isCompleted = task.completed;
   const { t } = useTranslation('tasks_page');
 
   const handleAction = (action: CardButtonAction) => {
     switch (action) {
-      case CardButtonAction.Edit:
+      case CardButtonAction.EDIT:
         onEdit(task);
         break;
-      case CardButtonAction.Details:
+      case CardButtonAction.DETAILS:
         onDetails(task);
         break;
-      case CardButtonAction.Complete:
+      case CardButtonAction.CHANGE_STATUS:
         onComplete(task);
         break;
-      case CardButtonAction.Delete:
+      case CardButtonAction.DELETE:
         onDelete(task);
         break;
       default:
         switchNeverDefaultCase(action);
+    }
+  };
+
+  const getStatusIcon = () => {
+    switch (task.status) {
+      case TaskStatus.COMPLETED:
+        return (
+          <AssignmentTurnedInIcon sx={{ marginTop: '4px' }} color='success' />
+        );
+      case TaskStatus.PENDING:
+        return <AssignmentLateIcon sx={{ marginTop: '4px' }} color='warning' />;
+      case TaskStatus.IN_PROGRESS:
+        return <PendingActionsIcon sx={{ marginTop: '4px' }} color='info' />;
+      default:
+        return null;
+    }
+  };
+
+  const getStatusChip = () => {
+    switch (task.status) {
+      case TaskStatus.COMPLETED:
+        return (
+          <Chip
+            size='small'
+            icon={<CheckCircleOutlineIcon />}
+            label={t('chips.completed')}
+            color='success'
+          />
+        );
+      case TaskStatus.PENDING:
+        return (
+          <Chip
+            size='small'
+            icon={<CancelOutlinedIcon />}
+            label={t('chips.pending')}
+            color='warning'
+          />
+        );
+      case TaskStatus.IN_PROGRESS:
+        return (
+          <Chip
+            size='small'
+            icon={<HourglassEmptyIcon />}
+            label={t('chips.inProgress')}
+            color='info'
+          />
+        );
+      default:
+        return null;
     }
   };
 
@@ -65,11 +116,7 @@ const TaskCard = ({
     >
       <Box sx={{ textAlign: 'left', width: '100%' }}>
         <Box sx={{ display: 'flex', gap: 1 }}>
-          {isCompleted ? (
-            <AssignmentTurnedInIcon sx={{ marginTop: '4px' }} color='success' />
-          ) : (
-            <AssignmentLateIcon sx={{ marginTop: '4px' }} color='warning' />
-          )}
+          {getStatusIcon()}
           <Typography variant='h6' fontWeight='bold' gutterBottom>
             {task.title}
           </Typography>
@@ -96,14 +143,7 @@ const TaskCard = ({
           height: '40px',
         }}
       >
-        <Chip
-          size='small'
-          icon={
-            isCompleted ? <CheckCircleOutlineIcon /> : <CancelOutlinedIcon />
-          }
-          label={isCompleted ? t('chips.completed') : t('chips.pending')}
-          color={isCompleted ? 'success' : 'warning'}
-        />
+        {getStatusChip()}
         <Box display='flex'>
           {toolbarButtons.map(({ action, icon, tooltipKey }) => (
             <Tooltip key={action} title={t(tooltipKey)}>

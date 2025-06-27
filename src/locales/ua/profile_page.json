@@ -9,7 +9,8 @@
   "tasks_stats": {
     "total": "Всього задач",
     "completed": "Виконано",
-    "pending": "В процесі"
+    "pending": "В очікуванні",
+    "in_progress": "У процесі"
   },
   "editProfileModal": {
     "edit_profile_title": "Редагувати профіль",

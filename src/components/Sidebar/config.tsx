@@ -1,6 +1,5 @@
 import { GrBug } from 'react-icons/gr';
 import { FaTasks } from 'react-icons/fa';
-import { LuLayoutDashboard } from 'react-icons/lu';
 import { BsFillKanbanFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
 import { type Theme } from '@mui/material/styles';
@@ -9,11 +8,6 @@ import { EAppRoutes } from 'routes/config';
 
 export const menuItems = [
   { to: EAppRoutes.TASKS, label: 'Tasks', icon: <FaTasks size={24} /> },
-  {
-    to: EAppRoutes.DASHBOARD,
-    label: 'Dashboard',
-    icon: <LuLayoutDashboard size={24} />,
-  },
   {
     to: EAppRoutes.KANBAN,
     label: 'Kanban',

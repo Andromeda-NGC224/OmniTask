@@ -25,7 +25,7 @@ const theme = extendTheme({
         },
         divider: '#eaeaea',
         info: { main: '#2f80ed' },
-        success: { main: '#219653' },
+        success: { main: '#219653', contrastText: '#ffffff' },
         warning: {
           main: '#f2994a',
           contrastText: '#ffffff',
@@ -54,8 +54,8 @@ const theme = extendTheme({
           secondary: '#9e9e9e',
         },
         divider: '#a8a8a8',
-        info: { main: '#bfb2ff' },
-        success: { main: '#219653' },
+        info: { main: '#673cb6' },
+        success: { main: '#219653', contrastText: '#ffffff' },
         warning: {
           main: '#f2994a',
           contrastText: '#ffffff',

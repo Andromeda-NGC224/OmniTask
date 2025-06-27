@@ -1,3 +1,5 @@
+import { TaskStatus } from 'types/tasks';
+
 export interface GetTasksParams {
   order: 'asc' | 'desc';
   sortBy: string;
@@ -21,5 +23,5 @@ export interface CreateTaskPayload {
 export interface UpdateTaskPayload {
   title?: string;
   description?: string;
-  completed?: boolean;
+  status?: TaskStatus;
 }

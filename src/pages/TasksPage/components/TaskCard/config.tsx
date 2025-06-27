@@ -1,33 +1,34 @@
 import EditIcon from '@mui/icons-material/Edit';
 import DescriptionIcon from '@mui/icons-material/Description';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
 import DeleteIcon from '@mui/icons-material/Delete';
+import { FaExchangeAlt } from 'react-icons/fa';
 
 export enum CardButtonAction {
-  Edit = 'edit',
-  Details = 'details',
-  Complete = 'complete',
-  Delete = 'delete',
+  EDIT = 'edit',
+  DETAILS = 'details',
+  CHANGE_STATUS = 'change_status',
+  DELETE = 'delete',
 }
 
 export const toolbarButtons = [
   {
-    action: CardButtonAction.Details,
+    action: CardButtonAction.DETAILS,
     icon: <DescriptionIcon />,
     tooltipKey: 'card_button.details',
   },
   {
-    action: CardButtonAction.Complete,
-    icon: <CheckCircleOutlineIcon />,
-    tooltipKey: 'card_button.complete',
+    action: CardButtonAction.CHANGE_STATUS,
+    icon: <FaExchangeAlt />,
+    tooltipKey: 'card_button.change_status',
   },
   {
-    action: CardButtonAction.Edit,
+    action: CardButtonAction.EDIT,
     icon: <EditIcon />,
     tooltipKey: 'card_button.edit',
   },
   {
-    action: CardButtonAction.Delete,
+    action: CardButtonAction.DELETE,
     icon: <DeleteIcon />,
     tooltipKey: 'card_button.delete',
   },

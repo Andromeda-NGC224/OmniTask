@@ -8,16 +8,18 @@ import { errorHandler } from 'api/utils/errorHandler';
 import { useTranslation } from 'react-i18next';
 import { isCancel } from 'axios';
 import type { Task } from 'types/tasks';
-import {
-  DeleteTaskModal,
-  CompleteTaskModal,
-  EditTaskModal,
-} from './components/modals';
+import { TaskStatus } from 'types/tasks';
+
 import { useInfiniteScroll, useModals } from './hooks';
 import { showToast } from 'utils/toast';
 import { getQueryParams } from 'api/services/TasksService/utils';
 import { TasksService } from 'api/services';
 import { localStorageService } from 'utils/localStorageService';
+import {
+  ChangeTaskStatusModal,
+  DeleteTaskModal,
+  EditTaskModal,
+} from './components/modals';
 
 const TasksPage = () => {
   const { t } = useTranslation('tasks_page');
@@ -83,25 +85,21 @@ const TasksPage = () => {
     }
   };
 
-  const handleConfirmComplete = async () => {
-    if (!selectedTask) return;
+  const handleSaveEdit = async (
+    id: number,
+    title: string,
+    description: string,
+    status: TaskStatus,
+  ) => {
     try {
-      await TasksService.updateTask(String(selectedTask.id), {
-        completed: !selectedTask.completed,
+      const updatedTask = await TasksService.updateTask(String(id), {
+        title,
+        description,
+        status,
       });
-
-      showToast.success(
-        selectedTask.completed
-          ? t('completeTaskModal.revertedMessage')
-          : t('completeTaskModal.successMessage'),
-      );
-
+      showToast.success(t('editTaskModal.successMessage'));
       setTasks((prev) =>
-        prev.map((task) =>
-          task.id === selectedTask.id
-            ? { ...task, completed: !task.completed }
-            : task,
-        ),
+        prev.map((task) => (task.id === id ? updatedTask.data : task)),
       );
     } catch (err) {
       errorHandler(err);
@@ -110,21 +108,19 @@ const TasksPage = () => {
     }
   };
 
-  const handleSaveEdit = async (
-    id: number,
-    title: string,
-    description: string,
-    completed: boolean,
-  ) => {
+  const handleChangeTaskStatus = async (newStatus: TaskStatus) => {
+    if (!selectedTask) return;
     try {
-      const updatedTask = await TasksService.updateTask(String(id), {
-        title,
-        description,
-        completed,
+      await TasksService.updateTask(String(selectedTask.id), {
+        status: newStatus,
       });
-      showToast.success(t('editTaskModal.successMessage'));
+
+      showToast.success(t('changeStatusModal.successMessage'));
+
       setTasks((prev) =>
-        prev.map((task) => (task.id === id ? updatedTask.data : task)),
+        prev.map((task) =>
+          task.id === selectedTask.id ? { ...task, status: newStatus } : task,
+        ),
       );
     } catch (err) {
       errorHandler(err);
@@ -213,7 +209,7 @@ const TasksPage = () => {
         loading={loading}
         error={error}
         onDelete={(task) => handleOpenModal(ModalType.Delete, task)}
-        onComplete={(task) => handleOpenModal(ModalType.Complete, task)}
+        onComplete={(task) => handleOpenModal(ModalType.ChangeStatus, task)}
         onDetails={handleDetailsClick}
         onEdit={(task) => handleOpenModal(ModalType.Edit, task)}
         lastElementRef={lastElementRef}
@@ -227,11 +223,11 @@ const TasksPage = () => {
         onConfirm={handleConfirmDelete}
       />
 
-      <CompleteTaskModal
-        open={isOpen(ModalType.Complete)}
+      <ChangeTaskStatusModal
+        open={isOpen(ModalType.ChangeStatus)}
         onClose={handleCloseModal}
-        onConfirm={handleConfirmComplete}
-        isAlreadyCompleted={selectedTask?.completed || false}
+        onConfirm={handleChangeTaskStatus}
+        currentStatus={selectedTask?.status || TaskStatus.PENDING}
       />
 
       <EditTaskModal

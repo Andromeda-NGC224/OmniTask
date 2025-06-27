@@ -1,10 +1,10 @@
-import { formatDate } from '../../utils/dateFormatter';
 import { Box, Typography, Stack } from '@mui/material';
 import type { UserInfoProps } from './types';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 import { useTranslation } from 'react-i18next';
+import { formatDate } from 'utils';
 
 export default function UserInfo({ user }: UserInfoProps) {
   const { t } = useTranslation('profile_page');
