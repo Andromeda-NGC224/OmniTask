@@ -4,5 +4,9 @@
   "password_placeholder": "Password",
   "button": "Login",
   "helper_text": "Don't have an account?",
-  "register_link": "Register"
+  "register_link": "Register",
+  "schema": {
+    "email": "Invalid email format",
+    "password": "Password must contain at least 6 characters"
+  }
 }

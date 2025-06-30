@@ -7,23 +7,16 @@ import {
   Button,
 } from '@mui/material';
 import { useForm, FormProvider } from 'react-hook-form';
-import type { EditProfileFormValues } from './types';
+import type { EditProfileFormValues, EditProfileModalProps } from './types';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@mui/icons-material/Close';
 import { UserService } from 'api/services';
-import type { User } from 'api/services/UserService/types';
 import { useUserStore } from 'store';
 import { showToast } from 'utils/toast';
 import { modalContainerStyle } from 'pages/TasksPage/components/modals/styles';
 import { useState } from 'react';
 import { CustomAvatarField, CustomTextField } from 'components/Inputs';
 import { errorHandler } from 'api/utils';
-
-interface EditProfileModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  user: User;
-}
 
 export default function EditProfileModal({
   isOpen,

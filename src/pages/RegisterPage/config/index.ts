@@ -1,1 +1,0 @@
-export { registerFormSchema } from './registerSchema';

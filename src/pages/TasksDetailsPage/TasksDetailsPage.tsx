@@ -19,7 +19,6 @@ export default function TasksDetailsPage() {
       setError(null);
       try {
         const response = await TasksService.getTaskById(id);
-        console.log('response', response);
 
         setTask(response.data);
       } catch (err) {

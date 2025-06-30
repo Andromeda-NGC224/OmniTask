@@ -9,13 +9,14 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginSchema } from 'pages/LoginPage/config';
+
 import type { LoginFormInputs } from 'pages/LoginPage/types';
 import { useTranslation } from 'react-i18next';
 import { AuthService } from 'api/services/AuthService/AuthService';
 import { EAppRoutes } from 'routes/config';
 import { errorHandler } from 'api/utils';
 import { CustomTextField } from 'components/Inputs';
+import { useLoginSchema } from 'pages/LoginPage/hooks';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function LoginForm() {
     control,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(useLoginSchema()),
   });
 
   const onSubmit = async (data: LoginFormInputs) => {

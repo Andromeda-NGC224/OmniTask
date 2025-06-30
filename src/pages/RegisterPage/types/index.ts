@@ -1,4 +1,4 @@
 import { z } from 'zod';
-import type { registerFormSchema } from '../config';
+import type { useRegisterSchema } from '../hooks';
 
-export type RegisterFormInputs = z.infer<typeof registerFormSchema>;
+export type RegisterFormInputs = z.infer<ReturnType<typeof useRegisterSchema>>;

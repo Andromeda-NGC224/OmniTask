@@ -11,5 +11,12 @@
   "date_of_birth_placeholder": "Date of birth",
   "avatar_placeholder": "Avatar",
   "button_finish": "Finish registration",
-  "button_back": "Back"
+  "button_back": "Back",
+  "schema": {
+    "email": "Invalid email format",
+    "password": "Password must contain at least 6 characters",
+    "confirmPassword": "Passwords do not match",
+    "birthday_format": "Date must be in YYYY-MM-DD format",
+    "birthday_valid": "Invalid date of birth"
+  }
 }

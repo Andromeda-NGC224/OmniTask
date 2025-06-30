@@ -6,12 +6,15 @@ import { useDroppable } from '@dnd-kit/core';
 import TaskItem from '../TaskItem/TaskItem';
 import Sortable from '../Sortable/Sortable';
 import { formatColumnTitle } from './utils';
+import { useTranslation } from 'react-i18next';
 
 export default memo(function Column({ title, tasks }: ColumnProps) {
   const { mode } = useColorScheme();
   const { setNodeRef, isOver } = useDroppable({ id: title });
 
-  const formattedTitle = formatColumnTitle(title);
+  const { t } = useTranslation('tasks_page');
+
+  const formattedTitle = formatColumnTitle(title, t);
 
   return (
     <Box

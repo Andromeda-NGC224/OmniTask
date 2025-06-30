@@ -22,6 +22,10 @@
     "email_placeholder": "Email",
     "date_of_birth_placeholder": "Date of Birth",
     "avatar_placeholder": "Avatar",
-    "edit_profile_title": "Edit Profile"
+    "edit_profile_title": "Edit Profile",
+    "date": {
+      "notSpecified": "Not specified",
+      "invalid": "Invalid date"
+    }
   }
 }

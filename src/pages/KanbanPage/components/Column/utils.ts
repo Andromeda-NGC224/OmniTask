@@ -1,9 +1,12 @@
-export const formatColumnTitle = (status: string) => {
+export const formatColumnTitle = (
+  status: string,
+  t: (key: string) => string,
+) => {
   const titleMap: Record<string, string> = {
-    pending: 'Pending',
-    in_progress: 'In Progress',
-    completed: 'Completed',
+    pending: 'chips.pending',
+    in_progress: 'chips.inProgress',
+    completed: 'chips.completed',
   };
 
-  return titleMap[status];
+  return t(titleMap[status]);
 };

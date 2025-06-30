@@ -10,7 +10,8 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { useTranslation } from 'react-i18next';
-import { formatDate, switchNeverDefaultCase } from 'utils';
+import { switchNeverDefaultCase } from 'utils';
+import { useFormatDate } from 'hooks';
 
 export default memo(function TaskItem({
   task,
@@ -18,7 +19,7 @@ export default memo(function TaskItem({
 }: TaskItemProps) {
   const { t } = useTranslation('tasks_page');
 
-  console.log('task', task);
+  const formatDate = useFormatDate();
 
   const getStatusChip = () => {
     switch (task.status) {
@@ -53,6 +54,7 @@ export default memo(function TaskItem({
         switchNeverDefaultCase(task.status);
     }
   };
+
   const getStatusIcon = () => {
     switch (task.status) {
       case TaskStatus.COMPLETED:
@@ -75,15 +77,12 @@ export default memo(function TaskItem({
         boxShadow: 6,
         borderRadius: 4,
         cursor: 'grab',
-
         backdropFilter: 'blur(6px)',
-
         position: 'relative',
         overflow: 'hidden',
         '&:active': { cursor: 'grabbing' },
         '&:hover': {
           boxShadow: 12,
-
           transform: 'scale(1.025)',
         },
         transition: 'box-shadow 0.3s, border-color 0.3s, transform 0.2s',
@@ -112,6 +111,7 @@ export default memo(function TaskItem({
             {task.title}
           </Typography>
         </Box>
+
         <Typography
           variant='body2'
           color='text.secondary'
@@ -119,6 +119,7 @@ export default memo(function TaskItem({
         >
           {task.description}
         </Typography>
+
         <Box
           sx={{
             display: 'flex',

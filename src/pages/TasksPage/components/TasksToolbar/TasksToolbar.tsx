@@ -21,10 +21,11 @@ import FilterSortPopover from './FilterSortPopover';
 import { useTaskParams } from 'pages/TasksPage/hooks';
 import { useSearchParams } from 'react-router-dom';
 import { errorHandler } from 'api/utils';
-import { AddTaskModal } from '../modals';
+
 import { ViewMode } from 'pages/TasksPage/types';
 import { showToast } from 'utils/toast';
 import { TasksService } from 'api/services';
+import { AddTaskModal } from '../modals';
 
 export default function TasksToolbar({
   viewMode,
