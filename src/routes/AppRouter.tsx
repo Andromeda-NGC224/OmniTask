@@ -16,6 +16,7 @@ const TestPage = lazy(() => import('pages/TestPage/TestPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
 const PreviewPage = lazy(() => import('pages/PreviewPage/PreviewPage'));
+const KanbanPage = lazy(() => import('pages/KanbanPage/KanbanPage'));
 
 const APP_ROUTES: RouteObject[] = [
   {
@@ -47,6 +48,16 @@ const APP_ROUTES: RouteObject[] = [
           <ProtectedRoute>
             <Suspense fallback={<Loader />}>
               <ProfilePage />
+            </Suspense>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: EAppRoutes.KANBAN,
+        element: (
+          <ProtectedRoute>
+            <Suspense fallback={<Loader />}>
+              <KanbanPage />
             </Suspense>
           </ProtectedRoute>
         ),

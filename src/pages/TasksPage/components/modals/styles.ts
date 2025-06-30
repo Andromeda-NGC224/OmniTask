@@ -3,7 +3,7 @@ export const modalContainerStyle = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  maxWidth: '500px',
+  maxWidth: '540px',
   width: '100%',
   bgcolor: 'background.paper',
   boxShadow: 24,

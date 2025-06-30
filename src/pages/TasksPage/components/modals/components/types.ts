@@ -1,4 +1,4 @@
-import type { Task } from 'types/tasks';
+import type { Task, TaskStatus } from 'types/tasks';
 
 export interface AddTaskModalProps {
   open: boolean;
@@ -6,11 +6,11 @@ export interface AddTaskModalProps {
   onAddTask: (title: string, description: string) => void;
 }
 
-export interface CompleteTaskModalProps {
+export interface ChangeTaskStatusModalProps {
   open: boolean;
   onClose: () => void;
-  onConfirm: () => void;
-  isAlreadyCompleted: boolean;
+  onConfirm: (newStatus: TaskStatus) => void;
+  currentStatus: TaskStatus;
 }
 
 export interface DeleteTaskModalProps {
@@ -26,7 +26,7 @@ export interface EditTaskModalProps {
     id: number,
     title: string,
     description: string,
-    completed: boolean,
+    status: TaskStatus,
   ) => void;
   task: Task | null;
 }
