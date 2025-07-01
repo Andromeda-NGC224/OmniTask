@@ -12,7 +12,6 @@ const TasksDetailsPage = lazy(
 );
 
 const ProfilePage = lazy(() => import('pages/ProfilePage/ProfilePage'));
-const TestPage = lazy(() => import('pages/TestPage/TestPage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
 const PreviewPage = lazy(() => import('pages/PreviewPage/PreviewPage'));
@@ -60,14 +59,6 @@ const APP_ROUTES: RouteObject[] = [
               <KanbanPage />
             </Suspense>
           </ProtectedRoute>
-        ),
-      },
-      {
-        path: EAppRoutes.TEST_PAGE,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <TestPage />
-          </Suspense>
         ),
       },
     ],

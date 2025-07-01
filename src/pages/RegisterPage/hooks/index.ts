@@ -1,0 +1,1 @@
+export { useRegisterSchema } from './useRegisterSchema';

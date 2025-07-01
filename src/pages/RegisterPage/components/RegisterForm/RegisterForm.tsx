@@ -3,7 +3,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Stack, Typography, Link as MuiLink } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerFormSchema } from '../../config';
+
 import type { RegisterFormInputs } from '../../types';
 import { RegisterStep1Form, RegisterStep2Form } from '..';
 import { RegisterFields, step1Fields, step2Fields } from './config';
@@ -14,6 +14,7 @@ import { errorHandler } from 'api/utils';
 import { EAppRoutes } from 'routes/config';
 import { useUserStore } from 'store/userStore';
 import { pickFilledFields } from './utils';
+import { useRegisterSchema } from 'pages/RegisterPage/hooks';
 
 export default function RegisterForm() {
   const { t } = useTranslation('register_page');
@@ -21,7 +22,7 @@ export default function RegisterForm() {
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const methods = useForm<RegisterFormInputs>({
-    resolver: zodResolver(registerFormSchema),
+    resolver: zodResolver(useRegisterSchema()),
     mode: 'onChange',
   });
 

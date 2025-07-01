@@ -149,26 +149,20 @@ const TasksPage = () => {
           { order, sortBy, per_page, page, search },
           signal,
         );
-
-        if (response.data === null) {
-          setTasks([]);
-          setError(null);
-        } else {
-          // Для первой страницы заменяем задачи, для последующих - добавляем
-          setTasks((prevTasks) =>
-            page === 1
-              ? response.data.data
-              : [
-                  ...prevTasks,
-                  ...response.data.data.filter(
-                    (newTask) =>
-                      !prevTasks.some((task) => task.id === newTask.id),
-                  ),
-                ],
-          );
-          setHasMore(response.data.data.length >= per_page);
-          setError(null);
-        }
+        // Для первой страницы заменяем задачи, для последующих - добавляем
+        setTasks((prevTasks) =>
+          page === 1
+            ? response.data.data
+            : [
+                ...prevTasks,
+                ...response.data.data.filter(
+                  (newTask) =>
+                    !prevTasks.some((task) => task.id === newTask.id),
+                ),
+              ],
+        );
+        setHasMore(response.data.data.length >= per_page);
+        setError(null);
       } catch (err) {
         if (isCancel(err)) return;
         setError(true);

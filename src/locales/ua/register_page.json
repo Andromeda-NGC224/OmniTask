@@ -11,5 +11,12 @@
   "date_of_birth_placeholder": "Дата народження",
   "avatar_placeholder": "Аватар",
   "button_finish": "Завершити реєстрацію",
-  "button_back": "Назад"
+  "button_back": "Назад",
+  "schema": {
+    "email": "Невірний формат електронної пошти",
+    "password": "Пароль повинен містити щонайменше 6 символів",
+    "confirmPassword": "Паролі не збігаються",
+    "birthday_format": "Дата повинна бути у форматі YYYY-MM-DD",
+    "birthday_valid": "Недійсна дата народження"
+  }
 }

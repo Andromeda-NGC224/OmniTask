@@ -15,8 +15,10 @@ import { SidebarNavList } from './components';
 import { AuthService } from 'api/services/AuthService/AuthService';
 import { useNavigate } from 'react-router-dom';
 import { EAppRoutes } from 'routes/config';
+import { useTranslation } from 'react-i18next';
 
 export default function Sidebar({ open }: { open: boolean }) {
+  const { t } = useTranslation('header');
   const { mode } = useColorScheme();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -58,7 +60,7 @@ export default function Sidebar({ open }: { open: boolean }) {
       <SidebarNavList open={open} />
 
       <Box sx={{ mt: 'auto', mb: 4, p: 2 }}>
-        <Tooltip title={!open ? 'Log out' : ''} placement='right'>
+        <Tooltip title={!open ? t('logout') : ''} placement='right'>
           <Button
             fullWidth={open}
             startIcon={<BiLogOut size={24} />}
@@ -73,7 +75,7 @@ export default function Sidebar({ open }: { open: boolean }) {
             }}
             onClick={handleLogout}
           >
-            {open && 'Log out'}
+            {open && t('logout')}
           </Button>
         </Tooltip>
       </Box>

@@ -22,6 +22,10 @@
     "last_name_placeholder": "Прізвище",
     "email_placeholder": "Електронна пошта",
     "date_of_birth_placeholder": "Дата народження",
-    "avatar_placeholder": "Аватар"
+    "avatar_placeholder": "Аватар",
+    "date": {
+      "notSpecified": "Не вказано",
+      "invalid": "Некоректна дата"
+    }
   }
 }

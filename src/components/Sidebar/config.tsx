@@ -1,4 +1,3 @@
-import { GrBug } from 'react-icons/gr';
 import { FaTasks } from 'react-icons/fa';
 import { BsFillKanbanFill } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
@@ -14,7 +13,6 @@ export const menuItems = [
     icon: <BsFillKanbanFill size={24} />,
   },
   { to: EAppRoutes.PROFILE, label: 'Profile', icon: <CgProfile size={24} /> },
-  { to: EAppRoutes.TEST_PAGE, label: 'Test', icon: <GrBug size={24} /> },
 ];
 
 export const getDrawerSx = (

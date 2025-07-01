@@ -4,10 +4,12 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import CakeOutlinedIcon from '@mui/icons-material/CakeOutlined';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 import { useTranslation } from 'react-i18next';
-import { formatDate } from 'utils';
+import { useFormatDate } from 'hooks';
 
 export default function UserInfo({ user }: UserInfoProps) {
   const { t } = useTranslation('profile_page');
+
+  const formatDate = useFormatDate();
 
   return (
     <Box sx={{ textAlign: 'center', mb: 3 }}>
