@@ -10,7 +10,7 @@ import {
   closestCorners,
   type CollisionDetection,
 } from '@dnd-kit/core';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { TaskStatus, type Task } from 'types/tasks';
 import { TasksService } from 'api/services';
@@ -19,14 +19,19 @@ import { moveTaskInList } from './utils';
 import { ErrorTaskList } from 'pages/TasksPage/components/ErrorTaskList';
 import { EmptyTaskList } from 'pages/TasksPage/components';
 import { Column, KanbanSkeleton, TaskItem } from './components';
+import { showToast } from 'utils/toast';
+import { useTranslation } from 'react-i18next';
 
 export default function KanbanPage() {
   const sensors = useDnDSensors();
+  const { t } = useTranslation('tasks_page');
 
   const [tasks, setTasks] = useState<Task[]>([]);
   const [activeItem, setActiveItem] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean | null>(null);
+
+  const originalTaskState = useRef<Task | null>(null);
 
   const fetchTasks = useCallback(async () => {
     setLoading(true);
@@ -56,12 +61,13 @@ export default function KanbanPage() {
     const { active } = event;
     const task = tasks.find((t) => t.id === active.id);
     setActiveItem(task || null);
+    originalTaskState.current = task || null;
   };
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     setActiveItem(null);
-    if (!over) return;
+    if (!over || !originalTaskState.current) return;
 
     const activeTask = tasks.find((t) => t.id === active.id);
     if (!activeTask) return;
@@ -70,17 +76,30 @@ export default function KanbanPage() {
       const newStatus = over.id as TaskStatus;
       if (activeTask.status === newStatus) return;
 
+      const currentOriginalTask = originalTaskState.current;
+
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === activeTask.id ? { ...task, status: newStatus } : task,
+        ),
+      );
+
       try {
-        await TasksService.updateTask(String(activeTask.id), {
+        await TasksService.updateTask(`${activeTask.id}`, {
           status: newStatus,
         });
-        setTasks((prev) =>
-          prev.map((task) =>
-            task.id === activeTask.id ? { ...task, status: newStatus } : task,
-          ),
-        );
+        showToast.success(t('changeStatusModal.successMessage'));
       } catch (err) {
         errorHandler(err);
+        setTasks((prev) =>
+          prev.map((task) =>
+            task.id === currentOriginalTask?.id
+              ? { ...task, status: currentOriginalTask.status }
+              : task,
+          ),
+        );
+      } finally {
+        originalTaskState.current = null;
       }
       return;
     }

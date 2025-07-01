@@ -1,28 +1,32 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
 import type { Task } from 'types/tasks';
-import { Box, Typography, Alert } from '@mui/material';
+import { Box, Alert, Paper, Divider } from '@mui/material';
 import { errorHandler } from 'api/utils';
 import { Loader } from 'components/Loader';
 import { TasksService } from 'api/services';
+import { useTranslation } from 'react-i18next';
+import {
+  TaskAuthorInfo,
+  TaskDescription,
+  TaskDetailsHeader,
+} from './components';
 
 export default function TasksDetailsPage() {
   const { id } = useParams() as { id: string };
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+  const { t } = useTranslation('tasks_details_page');
 
   useEffect(() => {
     const fetchTask = async () => {
       setLoading(true);
-      setError(null);
+
       try {
         const response = await TasksService.getTaskById(id);
-
         setTask(response.data);
       } catch (err) {
-        setError('Failed to fetch task details.');
         errorHandler(err);
       } finally {
         setLoading(false);
@@ -36,33 +40,43 @@ export default function TasksDetailsPage() {
     return <Loader />;
   }
 
-  if (error) {
-    return (
-      <Alert severity='error' sx={{ mt: 4 }}>
-        Error
-      </Alert>
-    );
-  }
-
   if (!task) {
     return (
       <Alert severity='info' sx={{ mt: 4 }}>
-        Task not found.
+        {t('taskNotFound')}
       </Alert>
     );
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant='h4' component='h1' gutterBottom>
-        {task.title}
-      </Typography>
-      <Typography variant='body1' color='text.secondary' paragraph>
-        {task.description}
-      </Typography>
-      <Typography variant='caption' color='text.disabled'>
-        Created at: {new Date(task.createdAt).toLocaleString()}
-      </Typography>
+    <Box
+      sx={{
+        p: { xs: 2, md: 4 },
+        maxWidth: 1200,
+        margin: '0 auto',
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+          borderRadius: 8,
+          boxShadow: 6,
+        }}
+      >
+        <TaskDetailsHeader
+          title={task.title}
+          status={task.status}
+          createdAt={task.createdAt}
+          updatedAt={task.updatedAt}
+        />
+
+        <Divider sx={{ my: 3 }} />
+
+        <TaskDescription description={task.description} />
+
+        <TaskAuthorInfo author={task.author} />
+      </Paper>
     </Box>
   );
 }

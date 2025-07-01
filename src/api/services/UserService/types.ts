@@ -2,6 +2,7 @@ export interface UpdateUserDto {
   name?: string;
   surname?: string;
   birthday?: string;
+  email?: string;
 }
 
 export interface Avatar {

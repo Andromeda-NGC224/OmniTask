@@ -74,7 +74,7 @@ const TasksPage = () => {
   const handleConfirmDelete = async () => {
     if (!selectedTask) return;
     try {
-      await TasksService.deleteTask(String(selectedTask.id));
+      await TasksService.deleteTask(`${selectedTask.id}`);
       showToast.success(t('deleteTaskModal.successMessage'));
 
       setTasks((prev) => prev.filter((task) => task.id !== selectedTask.id));
@@ -92,7 +92,7 @@ const TasksPage = () => {
     status: TaskStatus,
   ) => {
     try {
-      const updatedTask = await TasksService.updateTask(String(id), {
+      const updatedTask = await TasksService.updateTask(`${id}`, {
         title,
         description,
         status,
@@ -111,7 +111,7 @@ const TasksPage = () => {
   const handleChangeTaskStatus = async (newStatus: TaskStatus) => {
     if (!selectedTask) return;
     try {
-      await TasksService.updateTask(String(selectedTask.id), {
+      await TasksService.updateTask(`${selectedTask.id}`, {
         status: newStatus,
       });
 

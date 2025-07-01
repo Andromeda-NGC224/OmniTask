@@ -95,7 +95,7 @@
     "statusLabel": "Status",
     "statusOptions": {
       "pending": "Pending",
-      "inProgress": "In Progress",
+      "in_progress": "In Progress",
       "completed": "Completed"
     },
     "cancel": "Cancel",

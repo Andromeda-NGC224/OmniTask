@@ -5,16 +5,15 @@ import { Loader } from 'components/Loader';
 import NotFound from 'pages/NotFoundPage/NotFoundPage';
 import { ClippedLayout, MainLayout } from 'layouts';
 import { PreventLoggedInAccess, ProtectedRoute } from './utils';
+import TasksPage from 'pages/TasksPage/TasksPage';
+import PreviewPage from 'pages/PreviewPage/PreviewPage';
 
-const TasksPage = lazy(() => import('pages/TasksPage/TasksPage'));
 const TasksDetailsPage = lazy(
   () => import('pages/TasksDetailsPage/TasksDetailsPage'),
 );
-
 const ProfilePage = lazy(() => import('pages/ProfilePage/ProfilePage'));
 const LoginPage = lazy(() => import('pages/LoginPage/LoginPage'));
 const RegisterPage = lazy(() => import('pages/RegisterPage/RegisterPage'));
-const PreviewPage = lazy(() => import('pages/PreviewPage/PreviewPage'));
 const KanbanPage = lazy(() => import('pages/KanbanPage/KanbanPage'));
 
 const APP_ROUTES: RouteObject[] = [
@@ -68,11 +67,7 @@ const APP_ROUTES: RouteObject[] = [
     children: [
       {
         path: EAppRoutes.PREVIEW,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <PreviewPage />
-          </Suspense>
-        ),
+        element: <PreviewPage />,
       },
       {
         path: EAppRoutes.LOGIN,

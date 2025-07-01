@@ -26,6 +26,7 @@ import { ViewMode } from 'pages/TasksPage/types';
 import { showToast } from 'utils/toast';
 import { TasksService } from 'api/services';
 import { AddTaskModal } from '../modals';
+import { toolbarStyles } from './styles';
 
 export default function TasksToolbar({
   viewMode,
@@ -105,20 +106,7 @@ export default function TasksToolbar({
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: 1,
-        mb: 2,
-        padding: '24px 16px',
-        backgroundColor: 'background.paper',
-        borderRadius: 3,
-        flexWrap: 'wrap',
-        boxSizing: 'content-box',
-      }}
-    >
+    <Box sx={toolbarStyles}>
       <Button
         variant='contained'
         color='primary'

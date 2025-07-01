@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Modal,
   Box,
@@ -14,9 +15,12 @@ import { UserService } from 'api/services';
 import { useUserStore } from 'store';
 import { showToast } from 'utils/toast';
 import { modalContainerStyle } from 'pages/TasksPage/components/modals/styles';
-import { useState } from 'react';
 import { CustomAvatarField, CustomTextField } from 'components/Inputs';
 import { errorHandler } from 'api/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEditProfileSchema } from '../../hooks/useEditProfileSchema';
+import type { User } from 'api/services/UserService/types';
+import { useEditProfileData } from './hooks';
 
 export default function EditProfileModal({
   isOpen,
@@ -25,40 +29,45 @@ export default function EditProfileModal({
 }: EditProfileModalProps) {
   const setUser = useUserStore((state) => state.setUser);
   const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation('profile_page');
+
+  const editProfileSchema = useEditProfileSchema();
   const methods = useForm<EditProfileFormValues>({
     defaultValues: {
       avatar: null,
-      firstName: user.name,
-      lastName: user.surname,
-      email: user.email,
+      firstName: user.name || '',
+      lastName: user.surname || '',
+      email: user.email || '',
       birthday: user.birthday || '',
     },
+    resolver: zodResolver(editProfileSchema),
+    mode: 'onBlur',
   });
-  const { control, handleSubmit, resetField } = methods;
-  const { t } = useTranslation('profile_page');
+  const { control, handleSubmit, resetField, formState } = methods;
 
-  const onSubmit = async (data: EditProfileFormValues) => {
+  const { dirtyFields } = formState;
+  const { updateData, avatarToUpload } = useEditProfileData(
+    methods.getValues(),
+    dirtyFields,
+  );
+
+  const onSubmit = async () => {
     setIsLoading(true);
+
     try {
-      const userDataToUpdate = {
-        name: data.firstName,
-        surname: data.lastName,
-        email: data.email,
-        birthday: data.birthday,
-      };
+      let newUserState: User = user;
 
-      const updatedUserResponse = await UserService.updateUser(
-        String(user.id),
-        userDataToUpdate,
-      );
-
-      if (data.avatar instanceof File) {
-        await UserService.uploadAvatar(data.avatar);
-        const latestUser = await UserService.getMe();
-        setUser(latestUser);
-      } else {
-        setUser({ ...updatedUserResponse, avatar: user.avatar });
+      if (Object.keys(updateData).length > 0) {
+        await UserService.updateUser(`${user.id}`, updateData);
+        newUserState = await UserService.getMe();
       }
+
+      if (avatarToUpload instanceof File) {
+        await UserService.uploadAvatar(avatarToUpload);
+        newUserState = await UserService.getMe();
+      }
+
+      setUser(newUserState);
       showToast.success(t('editProfileModal.successMessage'));
       onClose();
       resetField('avatar', { defaultValue: null });

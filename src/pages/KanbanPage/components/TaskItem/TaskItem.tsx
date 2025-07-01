@@ -2,16 +2,10 @@ import { Card, CardContent, Typography, Chip, Box } from '@mui/material';
 import { type TaskItemProps } from './types';
 import { memo } from 'react';
 import { mergeSortActivatorProps } from 'pages/KanbanPage/utils';
-import { TaskStatus } from 'types/tasks';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import { useTranslation } from 'react-i18next';
-import { switchNeverDefaultCase } from 'utils';
 import { useFormatDate } from 'hooks';
+import { getTaskStatusChipConfig, getTaskStatusIconConfig } from './config.tsx';
+import { taskItemStyles } from './styles.ts';
 
 export default memo(function TaskItem({
   task,
@@ -22,74 +16,16 @@ export default memo(function TaskItem({
   const formatDate = useFormatDate();
 
   const getStatusChip = () => {
-    switch (task.status) {
-      case TaskStatus.COMPLETED:
-        return (
-          <Chip
-            size='small'
-            icon={<CheckCircleOutlineIcon />}
-            label={t('chips.completed')}
-            color='success'
-          />
-        );
-      case TaskStatus.PENDING:
-        return (
-          <Chip
-            size='small'
-            icon={<CancelOutlinedIcon />}
-            label={t('chips.pending')}
-            color='warning'
-          />
-        );
-      case TaskStatus.IN_PROGRESS:
-        return (
-          <Chip
-            size='small'
-            icon={<HourglassEmptyIcon />}
-            label={t('chips.inProgress')}
-            color='info'
-          />
-        );
-      default:
-        switchNeverDefaultCase(task.status);
-    }
+    const { icon, label, color } = getTaskStatusChipConfig(task.status, t);
+    return <Chip size='small' icon={icon} label={label} color={color} />;
   };
 
   const getStatusIcon = () => {
-    switch (task.status) {
-      case TaskStatus.COMPLETED:
-        return (
-          <AssignmentTurnedInIcon sx={{ marginTop: '4px' }} color='success' />
-        );
-      case TaskStatus.PENDING:
-        return <AssignmentLateIcon sx={{ marginTop: '4px' }} color='warning' />;
-      case TaskStatus.IN_PROGRESS:
-        return <PendingActionsIcon sx={{ marginTop: '4px' }} color='info' />;
-      default:
-        return null;
-    }
+    return getTaskStatusIconConfig(task.status);
   };
 
   return (
-    <Card
-      {...mergeSortActivatorProps(sortActivatorProps)}
-      sx={{
-        boxShadow: 6,
-        borderRadius: 4,
-        cursor: 'grab',
-        backdropFilter: 'blur(6px)',
-        position: 'relative',
-        overflow: 'hidden',
-        '&:active': { cursor: 'grabbing' },
-        '&:hover': {
-          boxShadow: 12,
-          transform: 'scale(1.025)',
-        },
-        transition: 'box-shadow 0.3s, border-color 0.3s, transform 0.2s',
-        minHeight: 110,
-        mb: 0.5,
-      }}
-    >
+    <Card {...mergeSortActivatorProps(sortActivatorProps)} sx={taskItemStyles}>
       <CardContent
         sx={{
           display: 'flex',

@@ -5,6 +5,7 @@ import { statsConfig } from './config/statsConfig';
 import { StatType } from './config/types';
 import { switchNeverDefaultCase } from 'utils';
 import { TaskStatus } from 'types/tasks';
+import { statusStatPaperStyles, totalStatPaperStyles } from './styles';
 
 export default function TasksStats({ tasks = [], total }: TasksStatsProps) {
   const { t } = useTranslation('profile_page');
@@ -47,23 +48,7 @@ export default function TasksStats({ tasks = [], total }: TasksStatsProps) {
             mb: 3,
           }}
         >
-          <Paper
-            elevation={6}
-            sx={{
-              borderRadius: '12px',
-              p: 3,
-              textAlign: 'center',
-              width: { xs: '100%', sm: '50%' },
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              transition: 'all 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'translateY(-5px)',
-                boxShadow: '0 12px 24px rgba(0,0,0,0.2)',
-              },
-            }}
-          >
+          <Paper elevation={6} sx={totalStatPaperStyles}>
             <Box sx={{ mb: 1 }}>{totalStat.icon}</Box>
             <Typography variant='subtitle1' color='text.secondary'>
               {t(totalStat.label)}
@@ -92,24 +77,7 @@ export default function TasksStats({ tasks = [], total }: TasksStatsProps) {
         }}
       >
         {statusStats.map((stat) => (
-          <Paper
-            key={stat.label}
-            elevation={6}
-            sx={{
-              borderRadius: '12px',
-              p: 3,
-              textAlign: 'center',
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              transition: 'all 0.3s ease-in-out',
-              '&:hover': {
-                transform: 'translateY(-5px)',
-                boxShadow: '0 12px 24px rgba(0,0,0,0.2)',
-              },
-            }}
-          >
+          <Paper key={stat.label} elevation={6} sx={statusStatPaperStyles}>
             <Box sx={{ mb: 1 }}>{stat.icon}</Box>
             <Typography variant='subtitle1' color='text.secondary'>
               {t(stat.label)}

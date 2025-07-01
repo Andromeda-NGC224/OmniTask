@@ -26,6 +26,11 @@
     "date": {
       "notSpecified": "Not specified",
       "invalid": "Invalid date"
+    },
+    "schema": {
+      "email": "Invalid email address.",
+      "birthday_format": "Invalid date format. Expected YYYY-MM-DD.",
+      "birthday_valid": "Date of birth cannot be in the future."
     }
   }
 }
