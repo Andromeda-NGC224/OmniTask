@@ -1,6 +1,5 @@
-import type { Task } from 'types/tasks';
+import type { TasksStatsResponse } from 'api/services/TasksService/types';
 
 export interface TasksStatsProps {
-  tasks?: Task[];
-  total: number;
+  tasksStats: TasksStatsResponse | null;
 }

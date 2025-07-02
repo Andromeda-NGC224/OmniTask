@@ -40,6 +40,7 @@ export default function KanbanPage() {
       const response = await TasksService.getTasks({
         order: 'desc',
         sortBy: 'createdAt',
+        filter: null,
         per_page: 1000,
         page: 1,
         search: '',

@@ -7,26 +7,27 @@ import { switchNeverDefaultCase } from 'utils';
 import { TaskStatus } from 'types/tasks';
 import { statusStatPaperStyles, totalStatPaperStyles } from './styles';
 
-export default function TasksStats({ tasks = [], total }: TasksStatsProps) {
+export default function TasksStats({ tasksStats }: TasksStatsProps) {
   const { t } = useTranslation('profile_page');
-  const completed = tasks.filter(
-    (t) => t.status === TaskStatus.COMPLETED,
-  ).length;
-  const pending = tasks.filter((t) => t.status === TaskStatus.PENDING).length;
-  const inProgress = tasks.filter(
-    (t) => t.status === TaskStatus.IN_PROGRESS,
-  ).length;
+
+  const getStatusCount = (status: TaskStatus) => {
+    if (!tasksStats) return 0;
+    const stat = tasksStats.tasksByStatus.find((s) => s.status === status);
+    return stat ? parseInt(stat.count, 10) : 0;
+  };
 
   const getValue = (type: StatType) => {
+    if (!tasksStats) return 0;
+
     switch (type) {
       case StatType.TOTAL:
-        return total;
+        return tasksStats.totalTasks;
       case StatType.COMPLETED:
-        return completed;
+        return getStatusCount(TaskStatus.COMPLETED);
       case StatType.PENDING:
-        return pending;
+        return getStatusCount(TaskStatus.PENDING);
       case StatType.IN_PROGRESS:
-        return inProgress;
+        return getStatusCount(TaskStatus.IN_PROGRESS);
       default:
         switchNeverDefaultCase(type);
     }

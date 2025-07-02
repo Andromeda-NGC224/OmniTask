@@ -6,6 +6,7 @@ export interface GetTasksParams {
   per_page: number;
   page: number;
   search: string;
+  filter: string | null;
 }
 
 export interface PaginatedResponse<DataType> {
@@ -24,4 +25,12 @@ export interface UpdateTaskPayload {
   title?: string;
   description?: string;
   status?: TaskStatus;
+}
+
+export interface TasksStatsResponse {
+  totalTasks: number;
+  tasksByStatus: {
+    status: string;
+    count: string;
+  }[];
 }

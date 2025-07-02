@@ -30,6 +30,7 @@ const TasksPage = () => {
   const {
     order,
     sortBy,
+    filter,
     per_page,
     search,
     page: initialPage,
@@ -146,7 +147,14 @@ const TasksPage = () => {
 
       try {
         const response = await TasksService.getTasks(
-          { order, sortBy, per_page, page, search },
+          {
+            order,
+            sortBy,
+            filter,
+            per_page,
+            page,
+            search,
+          },
           signal,
         );
         // Для первой страницы заменяем задачи, для последующих - добавляем
@@ -171,7 +179,7 @@ const TasksPage = () => {
         setLoading(false);
       }
     },
-    [order, sortBy, per_page, page, search],
+    [order, sortBy, per_page, page, search, filter],
   );
 
   useEffect(() => {
@@ -188,7 +196,7 @@ const TasksPage = () => {
     setTasks([]);
     setPage(1);
     setHasMore(true);
-  }, [order, sortBy, per_page, search]);
+  }, [order, sortBy, per_page, search, filter]);
 
   return (
     <Box>

@@ -23,7 +23,8 @@
       "filter": "Filter",
       "all": "All",
       "pending": "Only Pending",
-      "completed": "Only Completed"
+      "completed": "Only Completed",
+      "in_progress": "Only In Progress"
     },
 
     "sort": {
