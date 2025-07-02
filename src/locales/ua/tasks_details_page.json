@@ -1,0 +1,16 @@
+{
+  "errors": {
+    "failedToLoadTask": "Не вдалося завантажити деталі завдання."
+  },
+  "taskNotFound": "Завдання не знайдено.",
+  "createdAt": "Створено",
+  "lastUpdated": "Останнє оновлення",
+  "author": "Автор",
+  "unknownAuthor": "Немає імені автора",
+  "birthday": "День народження",
+  "status": {
+    "pending": "В очікуванні",
+    "in_progress": "В процесі",
+    "completed": "Завершено"
+  }
+}

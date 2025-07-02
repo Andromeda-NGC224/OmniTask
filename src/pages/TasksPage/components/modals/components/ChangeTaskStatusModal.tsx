@@ -2,7 +2,7 @@ import { Button, Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import BaseModal from '../BaseModal';
 import type { ChangeTaskStatusModalProps } from './types';
-import { TaskStatus } from 'types/tasks';
+import { getChangeStatusButtonsConfig } from './config';
 
 export default function ChangeTaskStatusModal({
   open,
@@ -13,70 +13,23 @@ export default function ChangeTaskStatusModal({
   const { t } = useTranslation('tasks_page');
 
   const getButtons = () => {
-    switch (currentStatus) {
-      case TaskStatus.PENDING:
-        return (
-          <>
-            <Button onClick={onClose}>{t('changeStatusModal.cancel')}</Button>
-            <Button
-              onClick={() => onConfirm(TaskStatus.COMPLETED)}
-              variant='contained'
-              color='success'
-            >
-              {t('changeStatusModal.pending.complete')}
-            </Button>
-            <Button
-              onClick={() => onConfirm(TaskStatus.IN_PROGRESS)}
-              variant='contained'
-              color='info'
-            >
-              {t('changeStatusModal.pending.startProgress')}
-            </Button>
-          </>
-        );
-      case TaskStatus.IN_PROGRESS:
-        return (
-          <>
-            <Button onClick={onClose}>{t('changeStatusModal.cancel')}</Button>
-            <Button
-              onClick={() => onConfirm(TaskStatus.COMPLETED)}
-              variant='contained'
-              color='success'
-            >
-              {t('changeStatusModal.inProgress.complete')}
-            </Button>
-            <Button
-              onClick={() => onConfirm(TaskStatus.PENDING)}
-              variant='contained'
-              color='warning'
-            >
-              {t('changeStatusModal.inProgress.revertToPending')}
-            </Button>
-          </>
-        );
-      case TaskStatus.COMPLETED:
-        return (
-          <>
-            <Button onClick={onClose}>{t('changeStatusModal.cancel')}</Button>
-            <Button
-              onClick={() => onConfirm(TaskStatus.PENDING)}
-              variant='contained'
-              color='warning'
-            >
-              {t('changeStatusModal.completed.revertToPending')}
-            </Button>
-            <Button
-              onClick={() => onConfirm(TaskStatus.IN_PROGRESS)}
-              variant='contained'
-              color='info'
-            >
-              {t('changeStatusModal.completed.revertToInProgress')}
-            </Button>
-          </>
-        );
-      default:
-        return null;
-    }
+    const buttonsConfig = getChangeStatusButtonsConfig(currentStatus);
+
+    return (
+      <>
+        <Button onClick={onClose}>{t('changeStatusModal.cancel')}</Button>
+        {buttonsConfig.map((button) => (
+          <Button
+            key={button.targetStatus}
+            onClick={() => onConfirm(button.targetStatus)}
+            variant='contained'
+            color={button.color}
+          >
+            {t(button.labelKey)}
+          </Button>
+        ))}
+      </>
+    );
   };
 
   return (

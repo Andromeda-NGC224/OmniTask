@@ -48,7 +48,7 @@ export default function RegisterForm() {
       if (!userInfo) return;
 
       setUser(userInfo);
-      setUserId(String(userInfo.id));
+      setUserId(`${userInfo.id}`);
       setStep(2);
     } catch (error) {
       errorHandler(error);

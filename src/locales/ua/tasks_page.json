@@ -94,7 +94,7 @@
     "statusLabel": "Статус",
     "statusOptions": {
       "pending": "В очікуванні",
-      "inProgress": "У процесі",
+      "in_progress": "У процесі",
       "completed": "Завершено"
     },
     "cancel": "Скасувати",

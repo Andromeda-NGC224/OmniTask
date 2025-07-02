@@ -7,6 +7,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  type SelectChangeEvent,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import BaseModal from '../BaseModal';
@@ -20,27 +21,48 @@ export default function EditTaskModal({
   task,
 }: EditTaskModalProps) {
   const { t } = useTranslation('tasks_page');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState<TaskStatus>(TaskStatus.PENDING);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    status: TaskStatus.PENDING,
+  });
 
   useEffect(() => {
     if (!task) {
-      setTitle('');
-      setDescription('');
-      setStatus(TaskStatus.PENDING);
+      setFormData({
+        title: '',
+        description: '',
+        status: TaskStatus.PENDING,
+      });
       return;
     }
 
-    setTitle(task.title);
-    setDescription(task.description);
-    setStatus(task.status);
+    setFormData({
+      title: task.title,
+      description: task.description,
+      status: task.status,
+    });
   }, [task]);
 
   const handleSave = () => {
     if (task) {
-      onSave(task.id, title, description, status);
+      onSave(task.id, formData.title, formData.description, formData.status);
     }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [id.replace('edit-', '')]: value,
+    }));
+  };
+
+  const handleStatusChange = (e: SelectChangeEvent<TaskStatus>) => {
+    setFormData((prev) => ({
+      ...prev,
+      status: e.target.value as TaskStatus,
+    }));
   };
 
   return (
@@ -53,8 +75,8 @@ export default function EditTaskModal({
         type='text'
         fullWidth
         variant='outlined'
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={formData.title}
+        onChange={handleChange}
       />
       <TextField
         margin='dense'
@@ -65,8 +87,8 @@ export default function EditTaskModal({
         variant='outlined'
         multiline
         rows={4}
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        value={formData.description}
+        onChange={handleChange}
       />
       <FormControl fullWidth margin='dense'>
         <InputLabel id='status-select-label'>
@@ -75,19 +97,15 @@ export default function EditTaskModal({
         <Select
           labelId='status-select-label'
           id='status-select'
-          value={status}
+          value={formData.status}
           label={t('editTaskModal.statusLabel')}
-          onChange={(e) => setStatus(e.target.value as TaskStatus)}
+          onChange={handleStatusChange}
         >
-          <MenuItem value={TaskStatus.PENDING}>
-            {t('editTaskModal.statusOptions.pending')}
-          </MenuItem>
-          <MenuItem value={TaskStatus.IN_PROGRESS}>
-            {t('editTaskModal.statusOptions.inProgress')}
-          </MenuItem>
-          <MenuItem value={TaskStatus.COMPLETED}>
-            {t('editTaskModal.statusOptions.completed')}
-          </MenuItem>
+          {Object.values(TaskStatus).map((statusOption) => (
+            <MenuItem key={statusOption} value={statusOption}>
+              {t(`editTaskModal.statusOptions.${statusOption}`)}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1 }}>

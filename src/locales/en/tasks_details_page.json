@@ -1,0 +1,16 @@
+{
+  "errors": {
+    "failedToLoadTask": "Failed to load task details."
+  },
+  "taskNotFound": "Task not found.",
+  "createdAt": "Created",
+  "lastUpdated": "Last updated",
+  "author": "Author",
+  "unknownAuthor": "No author name",
+  "birthday": "Birthday",
+  "status": {
+    "pending": "Pending",
+    "in_progress": "In Progress",
+    "completed": "Completed"
+  }
+}
