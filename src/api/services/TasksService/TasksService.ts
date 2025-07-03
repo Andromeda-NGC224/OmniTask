@@ -5,6 +5,7 @@ import type {
   GetTasksParams,
   PaginatedResponse,
   UpdateTaskPayload,
+  TasksStatsResponse,
 } from './types';
 
 export const TasksService = {
@@ -16,6 +17,7 @@ export const TasksService = {
         per_page: params.per_page,
         page: params.page,
         search: params.search,
+        filter: params.filter,
       },
       signal,
     });
@@ -35,5 +37,9 @@ export const TasksService = {
 
   async deleteTask(taskId: string): Promise<void> {
     return httpClient.delete(`/tasks/${taskId}`);
+  },
+
+  async getTasksStats() {
+    return await httpClient.get<TasksStatsResponse>('/tasks/stats');
   },
 };

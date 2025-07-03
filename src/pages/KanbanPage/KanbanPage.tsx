@@ -38,11 +38,8 @@ export default function KanbanPage() {
     setError(null);
     try {
       const response = await TasksService.getTasks({
-        order: 'desc',
-        sortBy: 'createdAt',
         per_page: 1000,
         page: 1,
-        search: '',
       });
       setTasks(response.data.data);
     } catch (err) {

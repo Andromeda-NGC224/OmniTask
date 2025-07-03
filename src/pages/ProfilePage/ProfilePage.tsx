@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box, Container, Card, CardContent, Button } from '@mui/material';
 import { TasksStats, UserAvatar, UserInfo } from './components';
 import { TasksService } from 'api/services';
-import type { Task } from 'types/tasks';
+import type { TasksStatsResponse } from 'api/services/TasksService/types';
 import { useUserStore } from 'store';
 import EditIcon from '@mui/icons-material/Edit';
 import { EditProfileModal } from './components/modals';
@@ -11,32 +11,23 @@ import { errorHandler } from 'api/utils';
 
 export default function ProfilePage() {
   const user = useUserStore((state) => state.user);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [total, setTotal] = useState<number>(0);
+  const [tasksStats, setTasksStats] = useState<TasksStatsResponse | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { t } = useTranslation('profile_page');
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchTasksStats = async () => {
       try {
-        const response = await TasksService.getTasks({
-          order: 'asc',
-          sortBy: 'createdAt',
-          per_page: 1000,
-          page: 1,
-          search: '',
-        });
+        const response = await TasksService.getTasksStats();
 
-        setTasks(response.data.data);
-        setTotal(response.data.total);
+        setTasksStats(response.data);
       } catch (error) {
         errorHandler(error);
-        setTasks([]);
-        setTotal(0);
+        setTasksStats(null);
       }
     };
 
-    fetchTasks();
+    fetchTasksStats();
   }, []);
 
   const handleOpenEditModal = () => setIsEditModalOpen(true);
@@ -86,7 +77,7 @@ export default function ProfilePage() {
             </Button>
           </Box>
           <UserInfo user={user} />
-          <TasksStats tasks={tasks} total={total} />
+          <TasksStats tasksStats={tasksStats} />
         </CardContent>
       </Card>
       <EditProfileModal

@@ -1,11 +1,12 @@
 import { TaskStatus } from 'types/tasks';
 
 export interface GetTasksParams {
-  order: 'asc' | 'desc';
-  sortBy: string;
+  order?: 'asc' | 'desc';
+  sortBy?: string;
   per_page: number;
   page: number;
-  search: string;
+  search?: string;
+  filter?: string | null;
 }
 
 export interface PaginatedResponse<DataType> {
@@ -24,4 +25,12 @@ export interface UpdateTaskPayload {
   title?: string;
   description?: string;
   status?: TaskStatus;
+}
+
+export interface TasksStatsResponse {
+  totalTasks: number;
+  tasksByStatus: {
+    status: string;
+    count: string;
+  }[];
 }
