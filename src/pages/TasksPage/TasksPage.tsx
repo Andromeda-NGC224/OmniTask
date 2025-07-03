@@ -157,7 +157,7 @@ const TasksPage = () => {
           },
           signal,
         );
-        // Для первой страницы заменяем задачи, для последующих - добавляем
+        // For the first page we replace the tasks, for the subsequent ones we add them
         setTasks((prevTasks) =>
           page === 1
             ? response.data.data
@@ -191,7 +191,7 @@ const TasksPage = () => {
     };
   }, [fetchTasks, initialPage]);
 
-  // Скидання при зміні фільтрації/пошуку/сортування
+  // Discount when changing filtering/search/sorting
   useEffect(() => {
     setTasks([]);
     setPage(1);

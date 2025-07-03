@@ -1,12 +1,12 @@
 import { TaskStatus } from 'types/tasks';
 
 export interface GetTasksParams {
-  order: 'asc' | 'desc';
-  sortBy: string;
+  order?: 'asc' | 'desc';
+  sortBy?: string;
   per_page: number;
   page: number;
-  search: string;
-  filter: string | null;
+  search?: string;
+  filter?: string | null;
 }
 
 export interface PaginatedResponse<DataType> {

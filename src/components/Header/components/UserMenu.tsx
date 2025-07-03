@@ -31,7 +31,7 @@ const UserMenu = () => {
     navigate(EAppRoutes.LOGIN);
   };
 
-  // Отображения аватара или инициалов
+  // Displaying an avatar or initials
   const getInitials = () => {
     if (!user) return 'U';
     const name = user.name || '';

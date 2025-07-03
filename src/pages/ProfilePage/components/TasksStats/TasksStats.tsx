@@ -33,7 +33,7 @@ export default function TasksStats({ tasksStats }: TasksStatsProps) {
     }
   };
 
-  // Отделение TOTAL блока
+  // TOTAL Block Branch
   const totalStat = statsConfig.find((stat) => stat.type === StatType.TOTAL);
   const statusStats = statsConfig.filter(
     (stat) => stat.type !== StatType.TOTAL,

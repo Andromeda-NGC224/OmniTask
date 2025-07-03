@@ -49,4 +49,4 @@ initializeI18n().catch((error) => {
 
 export default i18n;
 
-// debug: false - что бы не было logs в консоли
+// debug: false - so that there are no logs in the console

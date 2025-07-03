@@ -65,7 +65,7 @@ const theme = extendTheme({
     },
   },
   colorSchemeSelector: 'data-theme',
-  // ключевой момент для переопределения стилей и темы в mui
+  // key point for overriding styles and theme in mui
 
   typography: {
     fontFamily: 'Poppins, sans-serif',
