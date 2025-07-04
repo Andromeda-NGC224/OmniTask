@@ -24,9 +24,7 @@ const APP_ROUTES: RouteObject[] = [
         path: EAppRoutes.TASKS,
         element: (
           <ProtectedRoute>
-            <Suspense fallback={<Loader />}>
-              <TasksPage />
-            </Suspense>
+            <TasksPage />
           </ProtectedRoute>
         ),
       },

@@ -25,7 +25,8 @@ export const AuthService = {
     return res.data;
   },
 
-  logout() {
+  async logout() {
+    await httpClient.post('/auth/logout');
     localStorageService.removeAccessToken();
     useUserStore.getState().clearUser();
   },
