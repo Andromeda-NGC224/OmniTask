@@ -26,8 +26,13 @@ export const AuthService = {
   },
 
   async logout() {
-    await httpClient.post('/auth/logout');
-    localStorageService.removeAccessToken();
-    useUserStore.getState().clearUser();
+    try {
+      await httpClient.post('/auth/logout');
+    } catch {
+      // Ignore the server error
+    } finally {
+      localStorageService.removeAccessToken();
+      useUserStore.getState().clearUser();
+    }
   },
 };
