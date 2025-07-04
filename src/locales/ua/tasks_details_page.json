@@ -10,7 +10,28 @@
   "birthday": "День народження",
   "status": {
     "pending": "В очікуванні",
-    "in_progress": "В процесі",
-    "completed": "Завершено"
-  }
+    "in_progress": "У процесі",
+    "completed": "Виконано"
+  },
+  "toolbar": {
+    "placeholder": "Введіть опис задачі...",
+    "undo": "Скасувати",
+    "redo": "Повторити",
+    "bold": "Жирний",
+    "italic": "Курсив",
+    "underline": "Підкреслений",
+    "strikethrough": "Закреслений",
+    "heading": "Заголовок",
+    "bulletedList": "Маркований список",
+    "numberedList": "Нумерований список",
+    "quote": "Цитата",
+    "code": "Код",
+    "insertTable": "Вставити таблицю",
+    "leftAlign": "Вирівняти по лівому краю",
+    "centerAlign": "Вирівняти по центру",
+    "rightAlign": "Вирівняти по правому краю",
+    "justifyAlign": "Вирівняти по ширині"
+  },
+  "success_message": "Опис успішно оновлено!",
+  "rich_button": "Зберегти опис"
 }

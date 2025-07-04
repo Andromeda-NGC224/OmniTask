@@ -12,5 +12,26 @@
     "pending": "Pending",
     "in_progress": "In Progress",
     "completed": "Completed"
-  }
+  },
+  "toolbar": {
+    "placeholder": "Enter task description...",
+    "undo": "Undo",
+    "redo": "Redo",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strikethrough": "Strikethrough",
+    "heading": "Heading",
+    "bulletedList": "Bulleted List",
+    "numberedList": "Numbered List",
+    "quote": "Quote",
+    "code": "Code",
+    "insertTable": "Insert Table",
+    "leftAlign": "Left Align",
+    "centerAlign": "Center Align",
+    "rightAlign": "Right Align",
+    "justifyAlign": "Justify Align"
+  },
+  "success_message": "Successfully updated description!",
+  "rich_button": "Save description"
 }
