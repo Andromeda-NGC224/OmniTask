@@ -30,8 +30,6 @@ export default function TasksDetailsPage() {
     useState<SerializedEditorState | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log();
-
   const { t } = useTranslation('tasks_details_page');
 
   useEffect(() => {

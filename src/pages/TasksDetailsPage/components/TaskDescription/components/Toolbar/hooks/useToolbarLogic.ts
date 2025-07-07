@@ -19,10 +19,12 @@ import {
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
-  $isNodeSelection,
   $isParagraphNode,
   type TextFormatType,
   type ElementFormatType,
+  type RangeSelection,
+  type LexicalNode,
+  $isElementNode,
 } from 'lexical';
 import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
 import {
@@ -73,54 +75,31 @@ export const useToolbarLogic = (): UseToolbarLogicResult => {
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
+
     if ($isRangeSelection(selection)) {
       const anchorNode = selection.anchor.getNode();
       const element =
         anchorNode.getKey() === 'root' ? anchorNode : anchorNode.getParent();
 
-      // Update text format
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
-      setIsUnderline(selection.hasFormat('underline'));
-      setIsStrikethrough(selection.hasFormat('strikethrough'));
-      setIsCode(selection.hasFormat('code'));
-
-      // Update block type
-      if (element) {
-        if ($isListNode(element)) {
-          const parentList = $getNearestNodeOfType(anchorNode, ListNode);
-          const listType =
-            (parentList as ListNode)?.getTag() ||
-            (element as ListNode).getTag();
-          setBlockType(listType as 'ul' | 'ol');
-          setIsUnorderedList(listType === 'ul');
-          setIsOrderedList(listType === 'ol');
-        } else {
-          const nodeType = element.getType();
-          if ($isHeadingNode(element)) {
-            setBlockType(nodeType as 'h1' | 'h2' | 'h3');
-          } else if ($isQuoteNode(element)) {
-            setBlockType('quote');
-            setIsQuote(true);
-          } else if ($isParagraphNode(element)) {
-            setBlockType('paragraph');
-          } else {
-            setBlockType('paragraph');
-          }
-          setIsUnorderedList(false);
-          setIsOrderedList(false);
-          setIsQuote(false);
-        }
-      }
-
-      // Update element format
-      setElementFormat(
-        ((element?.getFormat() === 0
-          ? ''
-          : element?.getFormat()) as ElementFormatType) || '',
+      updateTextFormats(
+        selection,
+        setIsBold,
+        setIsItalic,
+        setIsUnderline,
+        setIsStrikethrough,
+        setIsCode,
       );
-    } else if ($isNodeSelection(selection)) {
-      // No specific text format for NodeSelection
+
+      updateBlockTypeStates(
+        anchorNode,
+        element,
+        setBlockType,
+        setIsUnorderedList,
+        setIsOrderedList,
+        setIsQuote,
+      );
+
+      updateElementFormatState(element, setElementFormat);
     }
   }, []);
 
@@ -158,98 +137,219 @@ export const useToolbarLogic = (): UseToolbarLogicResult => {
     );
   }, [editor, $updateToolbar]);
 
-  const handleToolbarButtonClick = (btn: ToolbarButton) => {
-    if (btn.custom === 'quote') {
-      editor.update(() => {
-        const node = $createQuoteNode();
-        const selection = editor.getEditorState()._selection;
-        if (selection && 'insertNodes' in selection) {
-          selection.insertNodes([node]);
-        }
-      });
-    } else if (btn.custom === 'heading') {
-      editor.update(() => {
-        const node = $createHeadingNode(btn.value as HeadingTagType);
-        const selection = editor.getEditorState()._selection;
-        if (selection && 'insertNodes' in selection) {
-          selection.insertNodes([node]);
-        }
-      });
-    } else if (btn.command === UNDO_COMMAND) {
-      editor.dispatchCommand(UNDO_COMMAND, undefined);
-    } else if (btn.command === REDO_COMMAND) {
-      editor.dispatchCommand(REDO_COMMAND, undefined);
-    } else if (btn.command === FORMAT_TEXT_COMMAND) {
-      editor.dispatchCommand(FORMAT_TEXT_COMMAND, btn.value as TextFormatType);
-    } else if (btn.command === FORMAT_ELEMENT_COMMAND) {
-      editor.dispatchCommand(
-        FORMAT_ELEMENT_COMMAND,
-        btn.value as ElementFormatType,
-      );
-    } else if (btn.command === INSERT_UNORDERED_LIST_COMMAND) {
-      editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-    } else if (btn.command === INSERT_ORDERED_LIST_COMMAND) {
-      editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-    } else if (btn.command === INSERT_TABLE_COMMAND) {
-      const { rows, columns, includeHeaders } = btn.value as {
-        rows: number;
-        columns: number;
-        includeHeaders: boolean;
-      };
-      editor.dispatchCommand(INSERT_TABLE_COMMAND, {
-        rows: String(rows),
-        columns: String(columns),
-        includeHeaders,
-      });
-    } else if (btn.command) {
-      editor.dispatchCommand(btn.command, btn.value);
+  const handleToolbarButtonClick = (btn: ToolbarButton): void => {
+    // Custom buttons handling
+    if (btn.custom) {
+      handleCustomCommand(btn);
+      return;
+    }
+
+    // Command handling
+    if (btn.command) {
+      handleStandardCommand(btn);
+      return;
     }
   };
 
-  const getIsActive = (btn: ToolbarButton) => {
-    if (btn.command === FORMAT_TEXT_COMMAND) {
-      if (typeof btn.value === 'string') {
-        switch (btn.value as TextFormatType) {
-          case 'bold':
-            return isBold;
-          case 'italic':
-            return isItalic;
-          case 'underline':
-            return isUnderline;
-          case 'strikethrough':
-            return isStrikethrough;
-          case 'code':
-            return isCode;
-          default:
-            return false;
-        }
+  // --- Helper functions ---
+
+  const handleCustomCommand = (btn: ToolbarButton): void => {
+    switch (btn.custom) {
+      case 'quote':
+        insertQuoteNode();
+        break;
+      case 'heading':
+        insertHeadingNode(btn.value as HeadingTagType);
+        break;
+      default:
+        console.warn('Unknown custom command:', btn.custom);
+    }
+  };
+
+  const handleStandardCommand = (btn: ToolbarButton): void => {
+    if (!btn.command) return;
+
+    switch (btn.command) {
+      case UNDO_COMMAND:
+      case REDO_COMMAND:
+      case FORMAT_TEXT_COMMAND:
+      case FORMAT_ELEMENT_COMMAND:
+      case INSERT_UNORDERED_LIST_COMMAND:
+      case INSERT_ORDERED_LIST_COMMAND:
+        editor.dispatchCommand(btn.command, btn.value);
+        break;
+
+      case INSERT_TABLE_COMMAND:
+        handleInsertTableCommand(btn);
+        break;
+
+      default:
+        editor.dispatchCommand(btn.command, btn.value);
+    }
+  };
+
+  const insertQuoteNode = (): void => {
+    editor.update(() => {
+      const node = $createQuoteNode();
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        selection.insertNodes([node]);
       }
-      return false; // If not a string, it's not active for text format commands
-    } else if (btn.command === FORMAT_ELEMENT_COMMAND) {
-      return typeof btn.value === 'string' && elementFormat === btn.value;
-    } else if (btn.custom === 'quote') {
-      return isQuote;
-    } else if (btn.custom === 'heading') {
-      return typeof btn.value === 'string' && blockType === btn.value;
-    } else if (btn.command === INSERT_UNORDERED_LIST_COMMAND) {
-      return isUnorderedList;
-    } else if (btn.command === INSERT_ORDERED_LIST_COMMAND) {
-      return isOrderedList;
-    } else if (btn.command === INSERT_TABLE_COMMAND) {
-      return false; // Table insertion doesn't have an active state
+    });
+  };
+
+  const insertHeadingNode = (tag: HeadingTagType): void => {
+    editor.update(() => {
+      const node = $createHeadingNode(tag);
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        selection.insertNodes([node]);
+      }
+    });
+  };
+
+  const handleInsertTableCommand = (btn: ToolbarButton): void => {
+    const value = btn.value as {
+      rows: number;
+      columns: number;
+      includeHeaders: boolean;
+    };
+    editor.dispatchCommand(INSERT_TABLE_COMMAND, {
+      rows: String(value.rows),
+      columns: String(value.columns),
+      includeHeaders: value.includeHeaders,
+    });
+  };
+
+  const getIsActive = (btn: ToolbarButton): boolean => {
+    // Text format (bold, italic, etc.)
+    if (btn.command === FORMAT_TEXT_COMMAND && typeof btn.value === 'string') {
+      switch (btn.value as TextFormatType) {
+        case 'bold':
+          return isBold;
+        case 'italic':
+          return isItalic;
+        case 'underline':
+          return isUnderline;
+        case 'strikethrough':
+          return isStrikethrough;
+        case 'code':
+          return isCode;
+        default:
+          return false;
+      }
     }
+
+    // Special custom buttons (quote, heading)
+    switch (btn.custom) {
+      case 'quote':
+        return isQuote;
+      case 'heading':
+        return typeof btn.value === 'string' && blockType === btn.value;
+    }
+
+    // Block elements (ordered list, unordered list)
+    switch (btn.command) {
+      case INSERT_UNORDERED_LIST_COMMAND:
+        return isUnorderedList;
+      case INSERT_ORDERED_LIST_COMMAND:
+        return isOrderedList;
+    }
+
+    // Alignment or other formatting of elements (left, center, right, etc.)
+    if (
+      btn.command === FORMAT_ELEMENT_COMMAND &&
+      typeof btn.value === 'string'
+    ) {
+      return elementFormat === btn.value;
+    }
+
     return false;
   };
 
-  const getIsDisabled = (btn: ToolbarButton) => {
-    if (btn.command === UNDO_COMMAND) {
-      return !canUndo;
-    } else if (btn.command === REDO_COMMAND) {
-      return !canRedo;
-    } else if (btn.command === INSERT_TABLE_COMMAND) {
-      return false; // Table insertion is always enabled unless there's a specific reason
+  const getIsDisabled = (btn: ToolbarButton): boolean => {
+    switch (btn.command) {
+      case UNDO_COMMAND:
+        return !canUndo;
+      case REDO_COMMAND:
+        return !canRedo;
+      case INSERT_TABLE_COMMAND:
+        return false; // Table insertion is always enabled
+      default:
+        return false;
     }
-    return false;
+  };
+
+  const updateTextFormats = (
+    selection: RangeSelection,
+    setIsBold: (payload: boolean) => void,
+    setIsItalic: (payload: boolean) => void,
+    setIsUnderline: (payload: boolean) => void,
+    setIsStrikethrough: (payload: boolean) => void,
+    setIsCode: (payload: boolean) => void,
+  ): void => {
+    setIsBold(selection.hasFormat('bold'));
+    setIsItalic(selection.hasFormat('italic'));
+    setIsUnderline(selection.hasFormat('underline'));
+    setIsStrikethrough(selection.hasFormat('strikethrough'));
+    setIsCode(selection.hasFormat('code'));
+  };
+
+  const updateBlockTypeStates = (
+    anchorNode: LexicalNode,
+    element: LexicalNode | null,
+    setBlockType: (
+      payload: 'paragraph' | 'h1' | 'h2' | 'h3' | 'quote' | 'ul' | 'ol',
+    ) => void,
+    setIsUnorderedList: (payload: boolean) => void,
+    setIsOrderedList: (payload: boolean) => void,
+    setIsQuote: (payload: boolean) => void,
+  ): void => {
+    if (!element) {
+      setBlockType('paragraph');
+      setIsUnorderedList(false);
+      setIsOrderedList(false);
+      setIsQuote(false);
+      return;
+    }
+
+    if ($isListNode(element)) {
+      const parentList = $getNearestNodeOfType(anchorNode, ListNode);
+      const listType = (parentList || element).getTag();
+      setBlockType(listType as 'ul' | 'ol');
+      setIsUnorderedList(listType === 'ul');
+      setIsOrderedList(listType === 'ol');
+    } else {
+      const nodeType = element.getType();
+      if ($isHeadingNode(element)) {
+        setBlockType(nodeType as 'h1' | 'h2' | 'h3');
+      } else if ($isQuoteNode(element)) {
+        setBlockType('quote');
+        setIsQuote(true);
+      } else if ($isParagraphNode(element)) {
+        setBlockType('paragraph');
+      } else {
+        setBlockType('paragraph');
+      }
+      setIsUnorderedList(false);
+      setIsOrderedList(false);
+      setIsQuote(false);
+    }
+  };
+
+  const updateElementFormatState = (
+    element: LexicalNode | null,
+    setElementFormat: (payload: ElementFormatType | '') => void,
+  ): void => {
+    if (element && $isElementNode(element)) {
+      setElementFormat(
+        ((element.getFormat() === 0
+          ? ''
+          : element.getFormat()) as ElementFormatType) || '',
+      );
+    } else {
+      setElementFormat('');
+    }
   };
 
   return {
