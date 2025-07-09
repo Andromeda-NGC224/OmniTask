@@ -1,4 +1,5 @@
 import { TaskStatus } from 'types/tasks';
+import type { SerializedEditorState } from 'lexical';
 
 export interface GetTasksParams {
   order?: 'asc' | 'desc';
@@ -24,6 +25,7 @@ export interface CreateTaskPayload {
 export interface UpdateTaskPayload {
   title?: string;
   description?: string;
+  richEditorData?: SerializedEditorState;
   status?: TaskStatus;
 }
 
