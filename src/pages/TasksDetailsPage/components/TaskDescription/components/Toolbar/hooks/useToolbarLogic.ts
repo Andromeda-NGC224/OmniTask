@@ -81,23 +81,9 @@ export const useToolbarLogic = (): UseToolbarLogicResult => {
       const element =
         anchorNode.getKey() === 'root' ? anchorNode : anchorNode.getParent();
 
-      updateTextFormats(
-        selection,
-        setIsBold,
-        setIsItalic,
-        setIsUnderline,
-        setIsStrikethrough,
-        setIsCode,
-      );
+      updateTextFormats(selection);
 
-      updateBlockTypeStates(
-        anchorNode,
-        element,
-        setBlockType,
-        setIsUnorderedList,
-        setIsOrderedList,
-        setIsQuote,
-      );
+      updateBlockTypeStates(anchorNode, element);
 
       updateElementFormatState(element, setElementFormat);
     }
@@ -280,14 +266,7 @@ export const useToolbarLogic = (): UseToolbarLogicResult => {
     }
   };
 
-  const updateTextFormats = (
-    selection: RangeSelection,
-    setIsBold: (payload: boolean) => void,
-    setIsItalic: (payload: boolean) => void,
-    setIsUnderline: (payload: boolean) => void,
-    setIsStrikethrough: (payload: boolean) => void,
-    setIsCode: (payload: boolean) => void,
-  ): void => {
+  const updateTextFormats = (selection: RangeSelection): void => {
     setIsBold(selection.hasFormat('bold'));
     setIsItalic(selection.hasFormat('italic'));
     setIsUnderline(selection.hasFormat('underline'));
@@ -298,20 +277,14 @@ export const useToolbarLogic = (): UseToolbarLogicResult => {
   const updateBlockTypeStates = (
     anchorNode: LexicalNode,
     element: LexicalNode | null,
-    setBlockType: (
-      payload: 'paragraph' | 'h1' | 'h2' | 'h3' | 'quote' | 'ul' | 'ol',
-    ) => void,
-    setIsUnorderedList: (payload: boolean) => void,
-    setIsOrderedList: (payload: boolean) => void,
-    setIsQuote: (payload: boolean) => void,
   ): void => {
-    if (!element) {
-      setBlockType('paragraph');
-      setIsUnorderedList(false);
-      setIsOrderedList(false);
-      setIsQuote(false);
-      return;
-    }
+    // Set default values first
+    setBlockType('paragraph');
+    setIsUnorderedList(false);
+    setIsOrderedList(false);
+    setIsQuote(false);
+
+    if (!element) return;
 
     if ($isListNode(element)) {
       const parentList = $getNearestNodeOfType(anchorNode, ListNode);
@@ -319,21 +292,24 @@ export const useToolbarLogic = (): UseToolbarLogicResult => {
       setBlockType(listType as 'ul' | 'ol');
       setIsUnorderedList(listType === 'ul');
       setIsOrderedList(listType === 'ol');
-    } else {
-      const nodeType = element.getType();
-      if ($isHeadingNode(element)) {
-        setBlockType(nodeType as 'h1' | 'h2' | 'h3');
-      } else if ($isQuoteNode(element)) {
-        setBlockType('quote');
-        setIsQuote(true);
-      } else if ($isParagraphNode(element)) {
-        setBlockType('paragraph');
-      } else {
-        setBlockType('paragraph');
-      }
-      setIsUnorderedList(false);
-      setIsOrderedList(false);
-      setIsQuote(false);
+      return;
+    }
+
+    const nodeType = element.getType();
+
+    if ($isHeadingNode(element)) {
+      setBlockType(nodeType as 'h1' | 'h2' | 'h3');
+      return;
+    }
+
+    if ($isQuoteNode(element)) {
+      setBlockType('quote');
+      setIsQuote(true);
+      return;
+    }
+
+    if ($isParagraphNode(element)) {
+      setBlockType('paragraph');
     }
   };
 
